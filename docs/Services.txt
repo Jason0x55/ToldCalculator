@@ -7,6 +7,17 @@ https://www.aviationweather.gov/dataserver
 https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&stationString=KABQ&hoursBeforeNow=1
 
 
+-Airports
+REST
+JSON
+http://ais-faa.opendata.arcgis.com/datasets/e747ab91a11045e8b3f8a3efd093d3b5_0
+https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/US_Airport/FeatureServer/0
+-Runways
+REST
+JSON
+http://ais-faa.opendata.arcgis.com/datasets/4d8fa46181aa470d809776c57a8ab1f6_0
+https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/Runways/FeatureServer/0
+
 -Airport Data
 28 Day NASR Subscription
 Data Files
@@ -16,3 +27,6 @@ https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/
 https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription_2018-06-21/
 
 https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/Airport_Data/
+
+
+http://ourairports.com/data/
