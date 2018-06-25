@@ -1,0 +1,18 @@
+-Weather
+Service: Aviation Weather Text Data Server (TDS)
+Type: Not sure
+Content type(s) supported: Results are in XML and CSV format and are gzip compressed
+
+https://www.aviationweather.gov/dataserver
+https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&stationString=KABQ&hoursBeforeNow=1
+
+
+-Airport Data
+28 Day NASR Subscription
+Data Files
+AIXM Data
+
+https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/
+https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription_2018-06-21/
+
+https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/Airport_Data/
