@@ -1,39 +1,42 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
   android:gravity="center_vertical|center_horizontal"
-  tools:context="com.toldcalculator.android.tc.NewFlightFragment">
+  tools:context="com.toldcalculator.android.tc.view.WeightFragment">
 
   <TextView
     android:id="@+id/textView1"
-    android:textStyle="bold"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Select Profile"
+    android:text="Select Profile:"
     android:textColor="@android:color/black"
-    android:textSize="24sp"/>
+    android:textSize="22sp"
+    android:textStyle="bold"/>
 
   <Spinner
     android:id="@+id/aircraft_profiles"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="8dp"/>
+    android:layout_toRightOf="@id/textView1"
+    />
 
   <TextView
     android:id="@+id/textView2"
-    android:textStyle="bold"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Enter Airport"
+    android:layout_below="@id/textView1"
+    android:text="Enter Airport:"
     android:textColor="@android:color/black"
-    android:textSize="24sp"/>
+    android:textSize="22sp"
+    android:textStyle="bold"/>
 
   <EditText
     android:id="@+id/airport_text"
-    android:layout_width="60dp"
     android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_below="@id/aircraft_profiles"
+    android:layout_alignRight="@id/aircraft_profiles"
     android:text="KABQ"
     />
 
@@ -41,6 +44,8 @@
     android:id="@+id/next_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_below="@id/airport_text"
+    android:layout_alignRight="@id/aircraft_profiles"
     android:text="Next"/>
 
-</LinearLayout>
+</RelativeLayout>

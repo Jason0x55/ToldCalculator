@@ -1,13 +1,17 @@
-package com.toldcalculator.android.tc;
+package com.toldcalculator.android.tc.view;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import com.toldcalculator.android.tc.R;
 
 
 /**
@@ -36,11 +40,14 @@ public class NewFlightFragment extends Fragment {
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
 
-//    spinner = (Spinner) view.findViewById(R.id.airport_list);
-//    adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, airports);
-//
-//    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//    spinner.setAdapter(adapter);
+    Button nextButton = view.findViewById(R.id.next_button);
+    nextButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_container, new WeightFragment()).commit();
+      }
+    });
 
     return view;
   }

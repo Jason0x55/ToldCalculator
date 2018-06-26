@@ -2,12 +2,14 @@
 Service: Aviation Weather Text Data Server (TDS)
 Type: Not sure
 Content type(s) supported: Results are in XML and CSV format and are gzip compressed
+https://www.aviationweather.gov/docs/dataserver/schema/metar1_2.xsd
 
 https://www.aviationweather.gov/dataserver
 https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&stationString=KABQ&hoursBeforeNow=1
 
 
 -Airports
+Federal Aviation Administration Data Innovation Center (ArcGIS)
 REST
 JSON
 http://ais-faa.opendata.arcgis.com/datasets/e747ab91a11045e8b3f8a3efd093d3b5_0
@@ -18,6 +20,11 @@ JSON
 http://ais-faa.opendata.arcgis.com/datasets/4d8fa46181aa470d809776c57a8ab1f6_0
 https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/Runways/FeatureServer/0
 
+
+
+
+
+**Other options
 -Airport Data
 28 Day NASR Subscription
 Data Files
