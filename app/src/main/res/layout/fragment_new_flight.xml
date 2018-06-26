@@ -3,13 +3,44 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
+  android:gravity="center_vertical|center_horizontal"
   tools:context="com.toldcalculator.android.tc.NewFlightFragment">
+
+  <TextView
+    android:id="@+id/textView1"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Select Profile"
+    android:textColor="@android:color/black"
+    android:textSize="24sp"/>
 
   <Spinner
     android:id="@+id/aircraft_profiles"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
+    android:paddingLeft="8dp"/>
+
+  <TextView
+    android:id="@+id/textView2"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Enter Airport"
+    android:textColor="@android:color/black"
+    android:textSize="24sp"/>
+
+  <EditText
+    android:id="@+id/airport_text"
+    android:layout_width="60dp"
+    android:layout_height="wrap_content"
+    android:text="KABQ"
     />
+
+  <Button
+    android:id="@+id/next_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Next"/>
 
 </LinearLayout>
