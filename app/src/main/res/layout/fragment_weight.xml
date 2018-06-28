@@ -3,7 +3,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:gravity="center_horizontal"
-  tools:context="com.toldcalculator.android.tc.view.WeightFragment">
+  tools:context="com.toldcalculator.android.tc.controller.WeightFragment">
 
   <TextView
     android:id="@+id/weight_data_label"

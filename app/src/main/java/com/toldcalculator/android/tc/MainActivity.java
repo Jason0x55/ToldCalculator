@@ -1,5 +1,7 @@
 package com.toldcalculator.android.tc;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.toldcalculator.android.tc.view.NewFlightFragment;
-import com.toldcalculator.android.tc.view.WeatherFragment;
+import com.toldcalculator.android.tc.model.db.ToldData;
+import com.toldcalculator.android.tc.controller.NewFlightFragment;
+import com.toldcalculator.android.tc.controller.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +25,22 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
+
+    new AsyncTask<Context, Void, Void>() {
+
+      @Override
+
+      protected Void doInBackground(Context... contexts) {
+
+        // Replace Attendance and getStudentDao with the relevant class & method names for your project.
+
+        ToldData.getInstance(contexts[0]).getUserDao().select();
+
+        return null;
+
+      }
+
+    }.execute(this);
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().add(R.id.main_container, new NewFlightFragment()).commit();

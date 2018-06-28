@@ -1,5 +1,6 @@
-package com.toldcalculator.android.tc.db;
+package com.toldcalculator.android.tc.model.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -8,9 +9,10 @@ import android.support.annotation.NonNull;
 public class Aircraft {
 
   @PrimaryKey(autoGenerate = true)
-  private long id;
+  private int id;
 
   @NonNull
+  @ColumnInfo(collate = ColumnInfo.NOCASE)
   private String name;
 
   @NonNull
@@ -19,11 +21,11 @@ public class Aircraft {
   @NonNull
   private int basicEmptyWeight;
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
 

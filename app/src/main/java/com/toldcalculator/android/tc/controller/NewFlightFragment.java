@@ -1,4 +1,4 @@
-package com.toldcalculator.android.tc.view;
+package com.toldcalculator.android.tc.controller;
 
 
 import android.os.Bundle;

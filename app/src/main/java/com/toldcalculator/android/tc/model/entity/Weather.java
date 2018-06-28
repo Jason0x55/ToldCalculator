@@ -1,4 +1,4 @@
-package com.toldcalculator.android.tc.db;
+package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -8,18 +8,18 @@ import android.support.annotation.NonNull;
 public class Weather {
 
   @PrimaryKey(autoGenerate = true)
-  private long id;
+  private int id;
 
   @NonNull
   private String name;
 
-  private int temperature;
+  private Integer temperature;
 
-  private int dewpoint;
+  private Integer dewpoint;
 
   private String winds;
 
-  private int pressure;
+  private Integer pressure;
 
   private String visibility;
 
@@ -27,27 +27,27 @@ public class Weather {
 
   private String weatherType;
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
 
-  public int getTemperature() {
+  public Integer getTemperature() {
     return temperature;
   }
 
-  public void setTemperature(int temperature) {
+  public void setTemperature(Integer temperature) {
     this.temperature = temperature;
   }
 
-  public int getDewpoint() {
+  public Integer getDewpoint() {
     return dewpoint;
   }
 
-  public void setDewpoint(int dewpoint) {
+  public void setDewpoint(Integer dewpoint) {
     this.dewpoint = dewpoint;
   }
 
@@ -59,7 +59,7 @@ public class Weather {
     this.winds = winds;
   }
 
-  public int getPressure() {
+  public Integer getPressure() {
     return pressure;
   }
 
