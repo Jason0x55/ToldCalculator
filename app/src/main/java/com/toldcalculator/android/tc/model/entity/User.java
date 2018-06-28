@@ -2,10 +2,16 @@ package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity
+@Entity(foreignKeys = {@ForeignKey(entity = Airport.class,
+    parentColumns = "id",
+    childColumns = "airportId"),
+    @ForeignKey(entity = Aircraft.class,
+        parentColumns = "id",
+        childColumns = "aircraftId")})
 public class User {
 
   @PrimaryKey(autoGenerate = true)
@@ -15,9 +21,9 @@ public class User {
   @ColumnInfo(collate = ColumnInfo.NOCASE)
   private String name;
 
-  private Long aircraft;
+  private Long aircraftId;
 
-  private Long airport;
+  private Long airportId;
 
   public int getId() {
     return id;
@@ -36,20 +42,20 @@ public class User {
     this.name = name;
   }
 
-  public Long getAircraft() {
-    return aircraft;
+  public Long getAircraftId() {
+    return aircraftId;
   }
 
-  public void setAircraft(Long aircraft) {
-    this.aircraft = aircraft;
+  public void setAircraftId(Long aircraftId) {
+    this.aircraftId = aircraftId;
   }
 
-  public Long getAirport() {
-    return airport;
+  public Long getAirportId() {
+    return airportId;
   }
 
-  public void setAirport(Long airport) {
-    this.airport = airport;
+  public void setAirportId(Long airportId) {
+    this.airportId = airportId;
   }
 
 }

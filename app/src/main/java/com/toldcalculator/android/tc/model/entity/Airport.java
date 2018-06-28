@@ -2,11 +2,16 @@ package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity
-public class Airport {
+@Entity(
+    indices = {
+        @Index(value = {"name"}, unique = true),
+        @Index(value = {"ICAO_ID"}, unique = true)
+    }
+)public class Airport {
 
   @PrimaryKey(autoGenerate = true)
   private int id;
@@ -15,8 +20,8 @@ public class Airport {
   private String name;
 
   @NonNull
-  @ColumnInfo(collate = ColumnInfo.NOCASE)
-  private String ICAO_ID;
+  @ColumnInfo(name = "ICAO_ID", collate = ColumnInfo.NOCASE)
+  private String icaoId;
 
   @NonNull
   private int elevation;
@@ -42,12 +47,12 @@ public class Airport {
   }
 
   @NonNull
-  public String getICAO_ID() {
-    return ICAO_ID;
+  public String getIcaoId() {
+    return icaoId;
   }
 
-  public void setICAO_ID(@NonNull String ICAO_ID) {
-    this.ICAO_ID = ICAO_ID;
+  public void setIcaoId(@NonNull String icaoId) {
+    this.icaoId = icaoId;
   }
 
   @NonNull
@@ -70,6 +75,6 @@ public class Airport {
 
   @Override
   public String toString() {
-    return ICAO_ID + " " + name;
+    return icaoId + " " + name;
   }
 }

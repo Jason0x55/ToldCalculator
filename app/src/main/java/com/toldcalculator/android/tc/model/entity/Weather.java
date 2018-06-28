@@ -1,17 +1,20 @@
 package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = Airport.class,
+    parentColumns = "id",
+    childColumns = "airportId"))
 public class Weather {
 
   @PrimaryKey(autoGenerate = true)
   private int id;
 
   @NonNull
-  private String name;
+  private long airportId;
 
   private Integer temperature;
 
@@ -27,12 +30,23 @@ public class Weather {
 
   private String weatherType;
 
+  //TODO Add timestamp
+
   public int getId() {
     return id;
   }
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  @NonNull
+  public long getAirportId() {
+    return airportId;
+  }
+
+  public void setAirportId(@NonNull long airportId) {
+    this.airportId = airportId;
   }
 
   public Integer getTemperature() {
@@ -63,7 +77,7 @@ public class Weather {
     return pressure;
   }
 
-  public void setPressure(int pressure) {
+  public void setPressure(Integer pressure) {
     this.pressure = pressure;
   }
 
@@ -92,12 +106,12 @@ public class Weather {
   }
 
   @NonNull
-  public String getName() {
-    return name;
+  public long getName() {
+    return airportId;
   }
 
-  public void setName(@NonNull String name) {
-    this.name = name;
+  public void setName(@NonNull long airportKey) {
+    this.airportId = airportKey;
   }
 
   @Override

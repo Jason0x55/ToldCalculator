@@ -1,15 +1,22 @@
 package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(indices = {@Index(value = {"altitude", "weight", "temperature", }, unique = true)})
-public class TakeoffSpeedV1 {
+@Entity(indices = {@Index(value = {"altitude", "weight", "temperature", }, unique = true)},
+    foreignKeys = @ForeignKey(entity = Aircraft.class,
+        parentColumns = "id",
+        childColumns = "aircraftId"))
+public class TakeoffData {
 
   @PrimaryKey(autoGenerate = true)
   private int id;
+
+  @NonNull
+  private int aircraftId;
 
   @NonNull
   private int altitude;
@@ -29,6 +36,15 @@ public class TakeoffSpeedV1 {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  @NonNull
+  public int getAircraftId() {
+    return aircraftId;
+  }
+
+  public void setAircraftId(@NonNull int aircraftId) {
+    this.aircraftId = aircraftId;
   }
 
   @NonNull

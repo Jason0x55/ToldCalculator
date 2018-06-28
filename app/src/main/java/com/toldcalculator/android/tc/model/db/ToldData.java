@@ -10,16 +10,15 @@ import android.support.annotation.NonNull;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffPowerN1Dao;
-import com.toldcalculator.android.tc.model.dao.TakeoffSpeedV1Dao;
 import com.toldcalculator.android.tc.model.dao.UserDao;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 import com.toldcalculator.android.tc.model.entity.Airport;
 import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
-import com.toldcalculator.android.tc.model.entity.TakeoffSpeedV1;
+import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import com.toldcalculator.android.tc.model.entity.User;
 import com.toldcalculator.android.tc.model.entity.Weather;
 
-@Database(entities = {Aircraft.class, Airport.class, User.class, Weather.class, TakeoffPowerN1.class, TakeoffSpeedV1.class }, version = 1, exportSchema = true)
+@Database(entities = {Aircraft.class, Airport.class, User.class, Weather.class, TakeoffPowerN1.class, TakeoffData.class }, version = 1, exportSchema = true)
 public abstract class ToldData extends RoomDatabase {
 
   private static final String DATABASE_NAME = "tc_db";
@@ -30,7 +29,6 @@ public abstract class ToldData extends RoomDatabase {
   public abstract AirportDao getAirportDao();
   public abstract UserDao getUserDao();
   public abstract TakeoffPowerN1Dao getTakeoffPowerN1Dao();
-  public abstract TakeoffSpeedV1Dao getTakeoffSpeedV1Dao();
 
   public static ToldData getInstance(Context context) {
     if (instance == null) {
@@ -77,32 +75,29 @@ public abstract class ToldData extends RoomDatabase {
       aircraft.setName("N12345");
       aircraft.setBasicEmptyWeight(13500);
       long aircraftId = db.getAircraftDao().insert(aircraft);
+      aircraft.setAircraftType("LR35A");
+      aircraft.setName("N54321");
+      aircraft.setBasicEmptyWeight(13300);
+      db.getAircraftDao().insert(aircraft);
       //Airport
       Airport airport = new Airport();
       airport.setName("Sunport");
-      airport.setICAO_ID("KABQ");
+      airport.setIcaoId("KABQ");
       airport.setElevation(5355);
       airport.setRunways("03/21:8/26");
       long airportId = db.getAirportDao().insert(airport);
       //User
       User user = new User();
       user.setName("Jason");
-      user.setAircraft(aircraftId);
-      user.setAirport(airportId);
-      db.getUserDao().insert(user);
+      user.setAircraftId(aircraftId);
+      user.setAirportId(airportId);
       //N1
       TakeoffPowerN1 takeoffPowerN1 = new TakeoffPowerN1();
       takeoffPowerN1.setAltitude(5000);
       takeoffPowerN1.setTemperature(27);
       takeoffPowerN1.setTakeoffPowerN1(96.0f);
+      takeoffPowerN1.setAircraftId(aircraftId);
       db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
-      //V1
-      TakeoffSpeedV1 takeoffSpeedV1 = new TakeoffSpeedV1();
-      takeoffSpeedV1.setAltitude(0);
-      takeoffSpeedV1.setWeight(18300);
-      takeoffSpeedV1.setTemperature(-18);
-      takeoffSpeedV1.setTakeoffSpeedV1(136);
-      db.getTakeoffSpeedV1Dao().insert(takeoffSpeedV1);
 
       forgetInstance(contexts[0]);
       return null;
