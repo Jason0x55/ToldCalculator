@@ -9,16 +9,18 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
+import com.toldcalculator.android.tc.model.dao.RunwayDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffPowerN1Dao;
 import com.toldcalculator.android.tc.model.dao.UserDao;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 import com.toldcalculator.android.tc.model.entity.Airport;
+import com.toldcalculator.android.tc.model.entity.Runway;
 import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import com.toldcalculator.android.tc.model.entity.User;
 import com.toldcalculator.android.tc.model.entity.Weather;
 
-@Database(entities = {Aircraft.class, Airport.class, User.class, Weather.class, TakeoffPowerN1.class, TakeoffData.class }, version = 1, exportSchema = true)
+@Database(entities = {Aircraft.class, Airport.class, Runway.class, User.class, Weather.class, TakeoffPowerN1.class, TakeoffData.class }, version = 1, exportSchema = true)
 public abstract class ToldData extends RoomDatabase {
 
   private static final String DATABASE_NAME = "tc_db";
@@ -27,6 +29,7 @@ public abstract class ToldData extends RoomDatabase {
 
   public abstract AircraftDao getAircraftDao();
   public abstract AirportDao getAirportDao();
+  public abstract RunwayDao getRunwayDao();
   public abstract UserDao getUserDao();
   public abstract TakeoffPowerN1Dao getTakeoffPowerN1Dao();
 
@@ -84,13 +87,24 @@ public abstract class ToldData extends RoomDatabase {
       airport.setName("Sunport");
       airport.setIcaoId("KABQ");
       airport.setElevation(5355);
-      airport.setRunways("03/21:8/26");
       long airportId = db.getAirportDao().insert(airport);
+      //Runway
+      Runway runway = new Runway();
+      runway.setAirportId(airportId);
+      runway.setRunwayId("3/21");
+      runway.setLength(10000);
+      runway.setWidth(150);
+      db.getRunwayDao().insert(runway);
+      runway.setRunwayId("8/26");
+      runway.setLength(12000);
+      runway.setWidth(150);
+      db.getRunwayDao().insert(runway);
       //User
       User user = new User();
       user.setName("Jason");
       user.setAircraftId(aircraftId);
       user.setAirportId(airportId);
+      db.getUserDao().insert(user);
       //N1
       TakeoffPowerN1 takeoffPowerN1 = new TakeoffPowerN1();
       takeoffPowerN1.setAltitude(5000);

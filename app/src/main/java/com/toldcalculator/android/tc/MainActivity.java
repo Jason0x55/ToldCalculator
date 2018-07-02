@@ -10,14 +10,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.WeatherFragment;
+import com.toldcalculator.android.tc.model.entity.User;
+import com.toldcalculator.android.tc.model.pojo.AirportAndRunways;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+
+  private ToldData database;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +32,24 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    new AsyncTask<Context, Void, Void>() {
+//    new AsyncTask<Context, Void, Void>() {
+//
+//      @Override
+//
+//      protected Void doInBackground(Context... contexts) {
+//
+//        // Replace Attendance and getStudentDao with the relevant class & method names for your project.
+//
+//        ToldData.getInstance(contexts[0]).getUserDao().select();
+//
+//        return null;
+//
+//      }
+//
+//    }.execute(this);
 
-      @Override
-
-      protected Void doInBackground(Context... contexts) {
-
-        // Replace Attendance and getStudentDao with the relevant class & method names for your project.
-
-        ToldData.getInstance(contexts[0]).getUserDao().select();
-
-        return null;
-
-      }
-
-    }.execute(this);
+    new SetupTask().execute();
+    new AirportTask().execute();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().add(R.id.main_container, new NewFlightFragment()).commit();
@@ -54,6 +63,21 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    database = ToldData.getInstance(this);
+  }
+
+  @Override
+  protected void onStop() {
+    if (database != null) {
+      database.forgetInstance(this);
+      database = null;
+    }
+    super.onStop();
   }
 
   @Override
@@ -106,5 +130,31 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+  private class SetupTask extends AsyncTask<Void, Void, User> {
+
+    @Override
+    protected User doInBackground(Void... voids) {
+      return ToldData.getInstance(MainActivity.this).getUserDao().select();
+    }
+
+    @Override
+    protected void onPostExecute(User user) {
+      Log.d("Database: ", user.getName());
+    }
+  }
+
+  private class AirportTask extends AsyncTask<Void, Void, AirportAndRunways> {
+
+    @Override
+    protected AirportAndRunways doInBackground(Void... voids) {
+      return ToldData.getInstance(MainActivity.this).getAirportDao().selectWithRunways(1);
+    }
+
+    @Override
+    protected void onPostExecute(AirportAndRunways airportAndRunways) {
+      Log.d("Database: ", airportAndRunways.getRunway().get(0).getRunwayId());
+    }
   }
 }

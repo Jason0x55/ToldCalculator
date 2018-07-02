@@ -26,9 +26,6 @@ import android.support.annotation.NonNull;
   @NonNull
   private int elevation;
 
-  @NonNull
-  private String runways;
-
   public int getId() {
     return id;
   }
@@ -62,15 +59,6 @@ import android.support.annotation.NonNull;
 
   public void setElevation(@NonNull int elevation) {
     this.elevation = elevation;
-  }
-
-  @NonNull
-  public String getRunways() {
-    return runways;
-  }
-
-  public void setRunways(@NonNull String runways) {
-    this.runways = runways;
   }
 
   @Override

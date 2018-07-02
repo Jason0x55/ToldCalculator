@@ -10,19 +10,62 @@ import android.support.annotation.NonNull;
     childColumns = "airportId"))
 public class Runway {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+  @PrimaryKey(autoGenerate = true)
+  private int id;
 
-    @NonNull
-    private long airportId;
+  @NonNull
+  private long airportId;
 
-    @NonNull
-    private String runwayId;
+  @NonNull
+  private String runwayId;
 
-    @NonNull
-    private int length;
+  @NonNull
+  private int length;
 
-    @NonNull
-    private int width;
+  @NonNull
+  private int width;
 
+  public int getId() {
+    return id;
   }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  @NonNull
+  public long getAirportId() {
+    return airportId;
+  }
+
+  public void setAirportId(@NonNull long airportId) {
+    this.airportId = airportId;
+  }
+
+  @NonNull
+  public String getRunwayId() {
+    return runwayId;
+  }
+
+  public void setRunwayId(@NonNull String runwayId) {
+    this.runwayId = runwayId;
+  }
+
+  @NonNull
+  public int getLength() {
+    return length;
+  }
+
+  public void setLength(@NonNull int length) {
+    this.length = length;
+  }
+
+  @NonNull
+  public int getWidth() {
+    return width;
+  }
+
+  public void setWidth(@NonNull int width) {
+    this.width = width;
+  }
+}
