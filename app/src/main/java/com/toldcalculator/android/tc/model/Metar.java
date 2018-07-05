@@ -23,46 +23,46 @@ public class Metar {
   @Element
   private String longitude;
 
-  @Element(name = "temp_c")
+  @Element(name = "temp_c", required = false)
   private String tempC;
 
-  @Element(name = "dewpoint_c")
+  @Element(name = "dewpoint_c", required = false)
   private String dewpointC;
 
-  @Element(name = "wind_dir_degrees")
+  @Element(name = "wind_dir_degrees", required = false)
   private String windDirectionDegrees;
 
-  @Element(name = "wind_speed_kt")
+  @Element(name = "wind_speed_kt", required = false)
   private String windSpeedKt;
 
-  @Element(name = "visibility_statute_mi")
+  @Element(name = "visibility_statute_mi", required = false)
   private String visibilityStatuteMile;
 
-  @Element(name = "altim_in_hg")
+  @Element(name = "altim_in_hg", required = false)
   private String altimeterInHg;
 
-  @Element(name = "sea_level_pressure_mb")
+  @Element(name = "sea_level_pressure_mb", required = false)
   private String seaLevelPressureMb;
 
-  @Element(name = "quality_control_flags")
+  @Element(name = "quality_control_flags", required = false)
   private String qualityControlFlags;
 
-  @Element(name = "auto_station")
+  @Element(name = "auto_station", required = false)
   private boolean autoStation;
 
-  @ElementList(inline = true, name = "sky_condition")
+  @ElementList(inline = true, name = "sky_condition", required = false)
   private ArrayList<SkyCondition> skyCondition;
 
-  @Element(name = "flight_category")
+  @Element(name = "flight_category", required = false)
   private String flightCategory;
 
-  @Element(name = "three_hr_pressure_tendency_mb")
-  private String threeHrPressureTendencyMb;
+  @Element(name = "three_hr_pressure_tendency_mb", required = false)
+  private boolean threeHrPressureTendencyMb;
 
-  @Element(name = "metar_type")
+  @Element(name = "metar_type", required = false)
   private String metarType;
 
-  @Element(name = "elevation_m")
+  @Element(name = "elevation_m", required = false)
   private String elevationMeters;
 
   public String getRawText() {
@@ -181,7 +181,8 @@ public class Metar {
     return skyCondition;
   }
 
-  public void setSkyCondition(ArrayList<SkyCondition> skyCondition) {
+  public void setSkyCondition(
+      ArrayList<SkyCondition> skyCondition) {
     this.skyCondition = skyCondition;
   }
 
@@ -193,12 +194,12 @@ public class Metar {
     this.flightCategory = flightCategory;
   }
 
-  public String getThree_hr_pressure_tendency_mb() {
+  public boolean isThreeHrPressureTendencyMb() {
     return threeHrPressureTendencyMb;
   }
 
-  public void setThree_hr_pressure_tendency_mb(String three_hr_pressure_tendency_mb) {
-    this.threeHrPressureTendencyMb = three_hr_pressure_tendency_mb;
+  public void setThreeHrPressureTendencyMb(boolean threeHrPressureTendencyMb) {
+    this.threeHrPressureTendencyMb = threeHrPressureTendencyMb;
   }
 
   public String getMetarType() {

@@ -92,14 +92,10 @@ public abstract class ToldData extends RoomDatabase {
       aircraft.setName("N12345");
       aircraft.setBasicEmptyWeight(13500);
       long aircraftId = db.getAircraftDao().insert(aircraft);
-      aircraft.setAircraftType("LR35A");
-      aircraft.setName("N54321");
-      aircraft.setBasicEmptyWeight(13300);
-      db.getAircraftDao().insert(aircraft);
       //Airport
       Airport airport = new Airport();
       airport.setName("Sunport");
-      airport.setIcaoId("ZABQ");
+      airport.setIcaoId("KABQ");
       airport.setElevation(5355);
       long airportId = db.getAirportDao().insert(airport);
       //Runway

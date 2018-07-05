@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import com.toldcalculator.android.tc.model.entity.User;
+import com.toldcalculator.android.tc.model.pojo.UserInfo;
 
 @Dao
 public interface UserDao {
@@ -14,4 +15,7 @@ public interface UserDao {
 
   @Query("SELECT * FROM user")
   User select();
+
+  @Query("SELECT * FROM user")
+  UserInfo userInfo();
 }

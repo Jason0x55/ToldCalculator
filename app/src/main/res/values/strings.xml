@@ -6,6 +6,17 @@
 
   <string name="action_settings">Settings</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="select_profile">Select Profile:</string>
+  <string name="enter_airport">Enter Airport:</string>
+  <string name="airport_text">KABQ</string>
+  <string name="next">Next</string>
+  <string name="weight_data">Weight Data</string>
+  <string name="bew_label">BEW</string>
+  <string name="fuel_label">Fuel</string>
+  <string name="pax_label">PAX</string>
+  <string name="bags_label">Bags</string>
+  <string name="total_label">Total</string>
+  <string name="takeoff_data_label">Takeoff data</string>
+  <string name="runway_required_label">Runway required</string>
+  <string name="takeoff_n1_label">Takeoff N1</string>
 </resources>

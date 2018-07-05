@@ -9,7 +9,7 @@
     android:id="@+id/weight_data_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Weight Data"
+    android:text="@string/weight_data"
     android:textColor="@android:color/black"
     android:textSize="24sp"
     android:textStyle="bold"
@@ -20,9 +20,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/weight_data_label"
-    android:paddingRight="16dp"
+    android:paddingEnd="16dp"
     android:paddingBottom="8dp"
-    android:text="BEW"
+    android:text="@string/bew_label"
     android:textColor="@android:color/black"
     android:textStyle="bold"
     android:textSize="20sp"/>
@@ -32,17 +32,17 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_alignBaseline="@id/bew_label"
-    android:layout_toRightOf="@id/bew_label"
-    android:text="11,500"/>
+    android:layout_toEndOf="@id/bew_label"
+    android:text="11500"/>
 
   <TextView
     android:id="@+id/fuel_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/bew_label"
-    android:paddingRight="8dp"
+    android:paddingEnd="8dp"
     android:paddingBottom="8dp"
-    android:text="Fuel"
+    android:text="@string/fuel_label"
     android:textColor="@android:color/black"
     android:textStyle="bold"
     android:textSize="20sp"/>
@@ -52,19 +52,19 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_alignBaseline="@id/fuel_label"
-    android:layout_toRightOf="@id/fuel_label"
-    android:layout_alignRight="@id/bew_input"
+    android:layout_toEndOf="@id/fuel_label"
+    android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
-    android:text="3,000"/>
+    android:text="3000"/>
 
   <TextView
     android:id="@+id/pax_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/fuel_label"
-    android:paddingRight="8dp"
+    android:paddingEnd="8dp"
     android:paddingBottom="8dp"
-    android:text="PAX"
+    android:text="@string/pax_label"
     android:textColor="@android:color/black"
     android:textStyle="bold"
     android:textSize="20sp"/>
@@ -74,8 +74,8 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_alignBaseline="@id/pax_label"
-    android:layout_toRightOf="@id/pax_label"
-    android:layout_alignRight="@id/bew_input"
+    android:layout_toEndOf="@id/pax_label"
+    android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
     android:text="350"/>
 
@@ -84,9 +84,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/pax_label"
-    android:paddingRight="8dp"
+    android:paddingEnd="8dp"
     android:paddingBottom="24dp"
-    android:text="Bags"
+    android:text="@string/bags_label"
     android:textColor="@android:color/black"
     android:textStyle="bold"
     android:textSize="20sp"/>
@@ -96,8 +96,8 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_alignBaseline="@id/bags_label"
-    android:layout_toRightOf="@id/bags_label"
-    android:layout_alignRight="@id/bew_input"
+    android:layout_toEndOf="@id/bags_label"
+    android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
     android:text="250"/>
 
@@ -106,9 +106,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/bags_label"
-    android:paddingRight="8dp"
+    android:paddingEnd="8dp"
     android:paddingBottom="8dp"
-    android:text="Total"
+    android:text="@string/total_label"
     android:textColor="@android:color/black"
     android:textStyle="bold"
     android:textSize="20sp"/>
@@ -118,8 +118,15 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_alignBaseline="@id/total_label"
-    android:layout_toRightOf="@id/total_label"
-    android:layout_alignRight="@id/bew_input"
+    android:layout_toEndOf="@id/total_label"
+    android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
-    android:text="15,100"/>
+    android:text="15100"/>
+  <Button
+    android:id="@+id/next_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignEnd="@+id/total_input"
+    android:layout_below="@+id/total_input"
+    android:text="@string/next"/>
 </RelativeLayout>

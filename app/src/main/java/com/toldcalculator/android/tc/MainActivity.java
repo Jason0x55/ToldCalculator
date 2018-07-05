@@ -10,20 +10,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.WeatherFragment;
-import com.toldcalculator.android.tc.model.MetarResponse;
 import com.toldcalculator.android.tc.model.db.ToldData;
-import com.toldcalculator.android.tc.model.entity.User;
-import com.toldcalculator.android.tc.model.pojo.AirportAndRunways;
-import com.toldcalculator.android.tc.service.MetarService;
-import java.io.IOException;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,10 +45,6 @@ public class MainActivity extends AppCompatActivity
 
     }.execute(this);
 
-    new MetarTask().execute();
-//    new SetupTask().execute();
-//    new AirportTask().execute();
-
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().add(R.id.main_container, new NewFlightFragment()).commit();
 
@@ -68,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
   }
 
   @Override
@@ -97,8 +86,14 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
+    TextView currentAirport;
+    TextView currentAircraft;
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.main, menu);
+    currentAirport = (TextView) findViewById(R.id.current_airport);
+    currentAircraft = (TextView) findViewById(R.id.current_aircraft_profile);
+    currentAirport.setText("KABQ");
+    currentAircraft.setText("N12345");
     return true;
   }
 
@@ -124,14 +119,19 @@ public class MainActivity extends AppCompatActivity
     int id = item.getItemId();
     FragmentManager fragmentManager = getSupportFragmentManager();
 
-    if (id == R.id.nav_new_flight) {
-      fragmentManager.beginTransaction().replace(R.id.main_container, new NewFlightFragment())
-          .commit();
-    } else if (id == R.id.nav_weather) {
-      fragmentManager.beginTransaction().replace(R.id.main_container, new WeatherFragment())
-          .commit();
-    } else if (id == R.id.nav_saved) {
+    switch (id) {
+      case R.id.nav_new_flight:
+        fragmentManager.beginTransaction().replace(R.id.main_container,
+            new NewFlightFragment()).commit();
+        break;
+      case R.id.nav_weather:
+        fragmentManager.beginTransaction().replace(R.id.main_container,
+            new WeatherFragment()).commit();
+        break;
+      case R.id.nav_saved:
+        break;
 
+      default:
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -139,58 +139,4 @@ public class MainActivity extends AppCompatActivity
     return true;
   }
 
-  private class SetupTask extends AsyncTask<Void, Void, User> {
-
-    @Override
-    protected User doInBackground(Void... voids) {
-      return ToldData.getInstance(MainActivity.this).getUserDao().select();
-    }
-
-    @Override
-    protected void onPostExecute(User user) {
-      Log.d("Database: ", user.getName());
-    }
-  }
-
-  private class AirportTask extends AsyncTask<Void, Void, AirportAndRunways> {
-
-    @Override
-    protected AirportAndRunways doInBackground(Void... voids) {
-      return ToldData.getInstance(MainActivity.this).getAirportDao().selectWithRunways(1);
-    }
-
-    @Override
-    protected void onPostExecute(AirportAndRunways airportAndRunways) {
-      Log.d("Database: ", airportAndRunways.getRunway().get(0).getRunwayId());
-    }
-  }
-
-  private class MetarTask extends AsyncTask<Void, Void, MetarResponse> {
-
-    @Override
-    protected MetarResponse doInBackground(Void... voids) {
-      Retrofit retrofit = new Retrofit.Builder()
-          .baseUrl("https://www.aviationweather.gov/adds/dataserver_current/")
-          .addConverterFactory(SimpleXmlConverterFactory.create())
-          .build();
-
-      MetarService client = retrofit.create(MetarService.class);
-      Response<MetarResponse> response = null;
-
-      {
-        try {
-          response = client.response("KABQ", 2).execute();
-          System.out.println(response.body().getData().get(0).getStationId());
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-      return response.body();
-    }
-
-    @Override
-    protected void onPostExecute(MetarResponse metarResponse) {
-      metarResponse.getData().get(0).getStationId();
-    }
-  }
 }

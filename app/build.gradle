@@ -35,7 +35,7 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'org.apache.commons:commons-csv:1.5'
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile ('com.squareup.retrofit2:converter-simplexml:2.2.0')
+    compile('com.squareup.retrofit2:converter-simplexml:2.2.0')
             {
                 exclude group: 'xpp3', module: 'xpp3'
                 exclude group: 'stax', module: 'stax-api'

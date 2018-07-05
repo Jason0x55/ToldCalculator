@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center_horizontal"
+  tools:context="com.toldcalculator.android.tc.controller.PerformanceFragment">
+
+  <TextView
+    android:id="@+id/takeoff_data_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/takeoff_data_label"
+    android:textColor="@android:color/black"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:paddingBottom="24dp"/>
+
+  <TextView
+    android:id="@+id/runway_required_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/takeoff_data_label"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
+    android:text="@string/runway_required_label"
+    android:textColor="@android:color/black"
+    android:textStyle="bold"
+    android:textSize="18sp"/>
+
+  <TextView
+    android:id="@+id/runway_required_text"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_alignBaseline="@id/runway_required_label"
+    android:layout_toEndOf="@id/runway_required_label"
+    android:text="5200"/>
+
+  <TextView
+    android:id="@+id/takeoff_n1_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/runway_required_label"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
+    android:text="@string/takeoff_n1_label"
+    android:textColor="@android:color/black"
+    android:textStyle="bold"
+    android:textSize="18sp"/>
+
+  <TextView
+    android:id="@+id/takeoff_n1_text"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_alignBaseline="@id/takeoff_n1_label"
+    android:layout_toEndOf="@id/runway_required_label"
+    android:text="96.0"/>
+</RelativeLayout>

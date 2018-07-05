@@ -6,10 +6,10 @@
   tools:context="com.toldcalculator.android.tc.controller.WeightFragment">
 
   <TextView
-    android:id="@+id/textView1"
+    android:id="@+id/select_profile_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Select Profile:"
+    android:text="@string/select_profile"
     android:textColor="@android:color/black"
     android:textSize="22sp"
     android:textStyle="bold"/>
@@ -18,15 +18,15 @@
     android:id="@+id/aircraft_profiles"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_toRightOf="@id/textView1"
+    android:layout_toEndOf="@id/select_profile_label"
     />
 
   <TextView
-    android:id="@+id/textView2"
+    android:id="@+id/enter_airport_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@id/textView1"
-    android:text="Enter Airport:"
+    android:layout_below="@id/select_profile_label"
+    android:text="@string/enter_airport"
     android:textColor="@android:color/black"
     android:textSize="22sp"
     android:textStyle="bold"/>
@@ -36,8 +36,8 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:layout_below="@id/aircraft_profiles"
-    android:layout_alignRight="@id/aircraft_profiles"
-    android:text="KABQ"
+    android:layout_alignEnd="@id/aircraft_profiles"
+    android:text="@string/airport_text"
     />
 
   <Button
@@ -45,7 +45,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/airport_text"
-    android:layout_alignRight="@id/aircraft_profiles"
-    android:text="Next"/>
+    android:layout_alignEnd="@id/aircraft_profiles"
+    android:text="@string/next"/>
 
 </RelativeLayout>
