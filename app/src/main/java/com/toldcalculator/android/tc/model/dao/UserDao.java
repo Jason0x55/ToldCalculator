@@ -12,6 +12,6 @@ public interface UserDao {
   @Insert(onConflict = OnConflictStrategy.FAIL)
   long insert(User user);
 
-  @Query("SELECT * FROM user ")
+  @Query("SELECT * FROM user")
   User select();
 }

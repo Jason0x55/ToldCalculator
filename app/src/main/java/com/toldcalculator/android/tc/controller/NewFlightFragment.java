@@ -45,7 +45,8 @@ public class NewFlightFragment extends Fragment {
       @Override
       public void onClick(View v) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_container, new WeightFragment()).commit();
+        fragmentManager.beginTransaction().replace(R.id.main_container, new WeightFragment())
+            .commit();
       }
     });
 

@@ -6,7 +6,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(indices = {@Index(value = {"altitude", "weight", "temperature", }, unique = true)},
+@Entity(indices = {@Index(value = {"altitude", "weight", "temperature",}, unique = true)},
     foreignKeys = @ForeignKey(entity = Aircraft.class,
         parentColumns = "id",
         childColumns = "aircraftId"))

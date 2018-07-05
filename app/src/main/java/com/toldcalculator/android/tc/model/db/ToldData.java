@@ -7,6 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
 import com.toldcalculator.android.tc.model.dao.RunwayDao;
@@ -15,12 +16,20 @@ import com.toldcalculator.android.tc.model.dao.UserDao;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 import com.toldcalculator.android.tc.model.entity.Airport;
 import com.toldcalculator.android.tc.model.entity.Runway;
-import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
+import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import com.toldcalculator.android.tc.model.entity.User;
 import com.toldcalculator.android.tc.model.entity.Weather;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.List;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
-@Database(entities = {Aircraft.class, Airport.class, Runway.class, User.class, Weather.class, TakeoffPowerN1.class, TakeoffData.class }, version = 1, exportSchema = true)
+@Database(entities = {Aircraft.class, Airport.class, Runway.class, User.class, Weather.class,
+    TakeoffPowerN1.class, TakeoffData.class}, version = 1, exportSchema = true)
 public abstract class ToldData extends RoomDatabase {
 
   private static final String DATABASE_NAME = "tc_db";
@@ -28,14 +37,19 @@ public abstract class ToldData extends RoomDatabase {
   private static ToldData instance = null;
 
   public abstract AircraftDao getAircraftDao();
+
   public abstract AirportDao getAirportDao();
+
   public abstract RunwayDao getRunwayDao();
+
   public abstract UserDao getUserDao();
+
   public abstract TakeoffPowerN1Dao getTakeoffPowerN1Dao();
 
   public static ToldData getInstance(Context context) {
     if (instance == null) {
-      instance = Room.databaseBuilder(context.getApplicationContext(), ToldData.class, DATABASE_NAME)
+      instance = Room
+          .databaseBuilder(context.getApplicationContext(), ToldData.class, DATABASE_NAME)
           .addCallback(new Callback(context))
           .build();
     }
@@ -85,7 +99,7 @@ public abstract class ToldData extends RoomDatabase {
       //Airport
       Airport airport = new Airport();
       airport.setName("Sunport");
-      airport.setIcaoId("KABQ");
+      airport.setIcaoId("ZABQ");
       airport.setElevation(5355);
       long airportId = db.getAirportDao().insert(airport);
       //Runway
@@ -113,8 +127,46 @@ public abstract class ToldData extends RoomDatabase {
       takeoffPowerN1.setAircraftId(aircraftId);
       db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
 
+      loadAirports(db, contexts[0]);
+
       forgetInstance(contexts[0]);
       return null;
+    }
+
+    private void loadAirports(ToldData db, Context context) {
+      Airport airport = new Airport();
+      Runway runway = new Runway();
+      Reader airportReader = new InputStreamReader(
+          context.getResources().openRawResource(R.raw.airports));
+      Reader runwayReader = new InputStreamReader(
+          context.getResources().openRawResource(R.raw.runways));
+      Iterable<CSVRecord> airportRecords = null;
+      List<CSVRecord> runwayRecords = null;
+      CSVParser runwayParser = null;
+
+      try {
+        airportRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(airportReader);
+        runwayParser = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(runwayReader);
+        runwayRecords = runwayParser.getRecords();
+        for (CSVRecord airportRecord : airportRecords) {
+          airport.setName(airportRecord.get("NAME"));
+          airport.setIcaoId(airportRecord.get("IDENT"));
+          airport.setElevation((int) Double.parseDouble(airportRecord.get("ELEVATION")));
+          long airportId = db.getAirportDao().insert(airport);
+
+          for (CSVRecord runwayRecord : runwayRecords) {
+            if (airportRecord.get("GLOBAL_ID").equals(runwayRecord.get("AIRPORT_ID"))) {
+              runway.setWidth(Integer.parseInt(runwayRecord.get("WIDTH")));
+              runway.setLength(Integer.parseInt(runwayRecord.get("LENGTH")));
+              runway.setRunwayId(runwayRecord.get("DESIGNATOR"));
+              runway.setAirportId(airportId);
+              db.getRunwayDao().insert(runway);
+            }
+          }
+        }
+      } catch (IOException e) {
+        // Do nothing for now.
+      }
     }
 
   }

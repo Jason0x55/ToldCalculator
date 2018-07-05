@@ -13,12 +13,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.WeatherFragment;
+import com.toldcalculator.android.tc.model.MetarResponse;
+import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.User;
 import com.toldcalculator.android.tc.model.pojo.AirportAndRunways;
-import java.util.List;
+import com.toldcalculator.android.tc.service.MetarService;
+import java.io.IOException;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,28 +37,28 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-//    new AsyncTask<Context, Void, Void>() {
-//
-//      @Override
-//
-//      protected Void doInBackground(Context... contexts) {
-//
-//        // Replace Attendance and getStudentDao with the relevant class & method names for your project.
-//
-//        ToldData.getInstance(contexts[0]).getUserDao().select();
-//
-//        return null;
-//
-//      }
-//
-//    }.execute(this);
+    new AsyncTask<Context, Void, Void>() {
 
-    new SetupTask().execute();
-    new AirportTask().execute();
+      @Override
+
+      protected Void doInBackground(Context... contexts) {
+
+        // Replace Attendance and getStudentDao with the relevant class & method names for your project.
+
+        ToldData.getInstance(contexts[0]).getUserDao().select();
+
+        return null;
+
+      }
+
+    }.execute(this);
+
+    new MetarTask().execute();
+//    new SetupTask().execute();
+//    new AirportTask().execute();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().add(R.id.main_container, new NewFlightFragment()).commit();
-
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -120,10 +125,12 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager = getSupportFragmentManager();
 
     if (id == R.id.nav_new_flight) {
-      fragmentManager.beginTransaction().replace(R.id.main_container, new NewFlightFragment()).commit();
+      fragmentManager.beginTransaction().replace(R.id.main_container, new NewFlightFragment())
+          .commit();
     } else if (id == R.id.nav_weather) {
-      fragmentManager.beginTransaction().replace(R.id.main_container, new WeatherFragment()).commit();
-    } else if (id == R.id.nav_saved){
+      fragmentManager.beginTransaction().replace(R.id.main_container, new WeatherFragment())
+          .commit();
+    } else if (id == R.id.nav_saved) {
 
     }
 
@@ -155,6 +162,35 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPostExecute(AirportAndRunways airportAndRunways) {
       Log.d("Database: ", airportAndRunways.getRunway().get(0).getRunwayId());
+    }
+  }
+
+  private class MetarTask extends AsyncTask<Void, Void, MetarResponse> {
+
+    @Override
+    protected MetarResponse doInBackground(Void... voids) {
+      Retrofit retrofit = new Retrofit.Builder()
+          .baseUrl("https://www.aviationweather.gov/adds/dataserver_current/")
+          .addConverterFactory(SimpleXmlConverterFactory.create())
+          .build();
+
+      MetarService client = retrofit.create(MetarService.class);
+      Response<MetarResponse> response = null;
+
+      {
+        try {
+          response = client.response("KABQ", 2).execute();
+          System.out.println(response.body().getData().get(0).getStationId());
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      return response.body();
+    }
+
+    @Override
+    protected void onPostExecute(MetarResponse metarResponse) {
+      metarResponse.getData().get(0).getStationId();
     }
   }
 }

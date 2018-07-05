@@ -2,16 +2,11 @@ package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(
-    indices = {
-        @Index(value = {"name"}, unique = true),
-        @Index(value = {"ICAO_ID"}, unique = true)
-    }
-)public class Airport {
+@Entity
+public class Airport {
 
   @PrimaryKey(autoGenerate = true)
   private int id;
