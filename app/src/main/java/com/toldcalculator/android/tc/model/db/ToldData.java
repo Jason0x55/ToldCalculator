@@ -7,6 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
@@ -116,13 +117,14 @@ public abstract class ToldData extends RoomDatabase {
       //N1
       TakeoffPowerN1 takeoffPowerN1 = new TakeoffPowerN1();
       takeoffPowerN1.setAltitude(5000);
-      takeoffPowerN1.setTemperature(27);
-      takeoffPowerN1.setTakeoffPowerN1(96.0f);
+      takeoffPowerN1.setTemperature(28);
+      takeoffPowerN1.setTakeoffPowerN1(95.9f);
       takeoffPowerN1.setAircraftId(aircraftId);
       db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
 
       loadAirports(db, contexts[0]);
       loadTakeoffData(db, contexts[0], aircraftId);
+      loadPowerData(db, contexts[0], aircraftId);
 
       forgetInstance(contexts[0]);
       return null;
@@ -143,24 +145,25 @@ public abstract class ToldData extends RoomDatabase {
         airportRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(airportReader);
         runwayParser = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(runwayReader);
         runwayRecords = runwayParser.getRecords();
-        for (CSVRecord airportRecord : airportRecords) {
-          airport.setName(airportRecord.get("NAME"));
-          airport.setIcaoId(airportRecord.get("IDENT"));
-          airport.setElevation((int) Double.parseDouble(airportRecord.get("ELEVATION")));
-          long airportId = db.getAirportDao().insert(airport);
-
-          for (CSVRecord runwayRecord : runwayRecords) {
-            if (airportRecord.get("GLOBAL_ID").equals(runwayRecord.get("AIRPORT_ID"))) {
-              runway.setWidth(Integer.parseInt(runwayRecord.get("WIDTH")));
-              runway.setLength(Integer.parseInt(runwayRecord.get("LENGTH")));
-              runway.setRunwayId(runwayRecord.get("DESIGNATOR"));
-              runway.setAirportId(airportId);
-              db.getRunwayDao().insert(runway);
-            }
-          }
-        }
       } catch (IOException e) {
         // Do nothing for now.
+      }
+
+      for (CSVRecord airportRecord : airportRecords) {
+        airport.setName(airportRecord.get("NAME"));
+        airport.setIcaoId(airportRecord.get("IDENT"));
+        airport.setElevation((int) Double.parseDouble(airportRecord.get("ELEVATION")));
+        long airportId = db.getAirportDao().insert(airport);
+
+        for (CSVRecord runwayRecord : runwayRecords) {
+          if (airportRecord.get("GLOBAL_ID").equals(runwayRecord.get("AIRPORT_ID"))) {
+            runway.setWidth(Integer.parseInt(runwayRecord.get("WIDTH")));
+            runway.setLength(Integer.parseInt(runwayRecord.get("LENGTH")));
+            runway.setRunwayId(runwayRecord.get("DESIGNATOR"));
+            runway.setAirportId(airportId);
+            db.getRunwayDao().insert(runway);
+          }
+        }
       }
     }
 
@@ -171,21 +174,47 @@ public abstract class ToldData extends RoomDatabase {
       Iterable<CSVRecord> takeoffDataRecords = null;
       try {
         takeoffDataRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(takeoffDataReader);
-        for (CSVRecord takeDataRecord : takeoffDataRecords) {
-          takeoffData.setAircraftId(aircraftId);
-          takeoffData.setAltitude(Integer.parseInt(takeDataRecord.get("ALT")));
-          takeoffData.setWeight(Integer.parseInt(takeDataRecord.get("WT")));
-          takeoffData.setTemperature(Integer.parseInt(takeDataRecord.get("C")));
-          takeoffData.setTakeoffSpeedV1(Integer.parseInt("0" + takeDataRecord.get("V1")));
-          takeoffData.setTakeoffDistance(Integer.parseInt("0" + takeDataRecord.get("DIST")));
-          takeoffData.setTakeoffSpeedVR(Integer.parseInt(takeDataRecord.get("VR")));
-          takeoffData.setTakeoofSpeedV2(Integer.parseInt(takeDataRecord.get("V2")));
-          db.getTakeoffDataDao().insert(takeoffData);
-        }
       } catch (IOException e) {
         // Do nothing for now.
       }
 
+      for (CSVRecord takeDataRecord : takeoffDataRecords) {
+        takeoffData.setAircraftId(aircraftId);
+        takeoffData.setAltitude(Integer.parseInt(takeDataRecord.get("ALT")));
+        takeoffData.setWeight(Integer.parseInt(takeDataRecord.get("WT")));
+        takeoffData.setTemperature(Integer.parseInt(takeDataRecord.get("TEMP")));
+        takeoffData.setTakeoffSpeedV1(Integer.parseInt("0" + takeDataRecord.get("V1")));
+        takeoffData.setTakeoffDistance(Integer.parseInt("0" + takeDataRecord.get("DIST")));
+        takeoffData.setTakeoffSpeedVR(Integer.parseInt(takeDataRecord.get("VR")));
+        takeoffData.setTakeoffSpeedV2(Integer.parseInt(takeDataRecord.get("V2")));
+        db.getTakeoffDataDao().insert(takeoffData);
+      }
+
+    }
+
+    private void loadPowerData(ToldData db, Context context, long aircraftId) {
+      TakeoffPowerN1 takeoffPowerN1 = new TakeoffPowerN1();
+      Reader takeoffPowerReader = new InputStreamReader(
+          context.getResources().openRawResource(R.raw.takeoffpowern1));
+      Iterable<CSVRecord> takeoffPowerRecords = null;
+
+      try {
+        takeoffPowerRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(takeoffPowerReader);
+      } catch (IOException e) {
+        // Do nothing for now.
+      }
+
+      for (CSVRecord takePowerRecord : takeoffPowerRecords) {
+        takeoffPowerN1.setAircraftId(aircraftId);
+        int temp = Integer.parseInt(takePowerRecord.get("TEMP"));
+        takeoffPowerN1.setTemperature(temp);
+        for (int i  = 0; i <= 10000; i += 1000) {
+          Log.d("ToldData: loadPower ", String.format("Temp: %d, ALT: %d", temp, i));
+          takeoffPowerN1.setAltitude(i);
+          takeoffPowerN1.setTakeoffPowerN1(Float.parseFloat("0" + takePowerRecord.get(String.valueOf(i))));
+          db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
+        }
+      }
     }
 
   }

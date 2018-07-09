@@ -33,7 +33,7 @@ public class TakeoffData {
 
   private Integer takeoffSpeedVR;
 
-  private Integer takeoofSpeedV2;
+  private Integer takeoffSpeedV2;
 
   public int getId() {
     return id;
@@ -103,11 +103,11 @@ public class TakeoffData {
     this.takeoffSpeedVR = takeoffSpeedVR;
   }
 
-  public Integer getTakeoofSpeedV2() {
-    return takeoofSpeedV2;
+  public Integer getTakeoffSpeedV2() {
+    return takeoffSpeedV2;
   }
 
-  public void setTakeoofSpeedV2(Integer takeoofSpeedV2) {
-    this.takeoofSpeedV2 = takeoofSpeedV2;
+  public void setTakeoffSpeedV2(Integer takeoffSpeedV2) {
+    this.takeoffSpeedV2 = takeoffSpeedV2;
   }
 }

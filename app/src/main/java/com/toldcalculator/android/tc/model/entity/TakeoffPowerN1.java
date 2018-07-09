@@ -25,7 +25,6 @@ public class TakeoffPowerN1 {
   @NonNull
   private int altitude;
 
-  @NonNull
   private float takeoffPowerN1;
 
   public int getId() {
@@ -63,12 +62,11 @@ public class TakeoffPowerN1 {
     this.altitude = altitude;
   }
 
-  @NonNull
   public float getTakeoffPowerN1() {
     return takeoffPowerN1;
   }
 
-  public void setTakeoffPowerN1(@NonNull float takeoffPowerN1) {
+  public void setTakeoffPowerN1( float takeoffPowerN1) {
     this.takeoffPowerN1 = takeoffPowerN1;
   }
 }
