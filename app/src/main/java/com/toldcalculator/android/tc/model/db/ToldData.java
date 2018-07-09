@@ -11,6 +11,7 @@ import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
 import com.toldcalculator.android.tc.model.dao.RunwayDao;
+import com.toldcalculator.android.tc.model.dao.TakeoffDataDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffPowerN1Dao;
 import com.toldcalculator.android.tc.model.dao.UserDao;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
@@ -37,13 +38,10 @@ public abstract class ToldData extends RoomDatabase {
   private static ToldData instance = null;
 
   public abstract AircraftDao getAircraftDao();
-
   public abstract AirportDao getAirportDao();
-
   public abstract RunwayDao getRunwayDao();
-
   public abstract UserDao getUserDao();
-
+  public abstract TakeoffDataDao getTakeoffDataDao();
   public abstract TakeoffPowerN1Dao getTakeoffPowerN1Dao();
 
   public static ToldData getInstance(Context context) {
@@ -124,6 +122,7 @@ public abstract class ToldData extends RoomDatabase {
       db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
 
       loadAirports(db, contexts[0]);
+      loadTakeoffData(db, contexts[0], aircraftId);
 
       forgetInstance(contexts[0]);
       return null;
@@ -163,6 +162,30 @@ public abstract class ToldData extends RoomDatabase {
       } catch (IOException e) {
         // Do nothing for now.
       }
+    }
+
+    private void loadTakeoffData(ToldData db, Context context, long aircraftId) {
+      TakeoffData takeoffData = new TakeoffData();
+      Reader takeoffDataReader = new InputStreamReader(
+          context.getResources().openRawResource(R.raw.takeoffdata));
+      Iterable<CSVRecord> takeoffDataRecords = null;
+      try {
+        takeoffDataRecords = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(takeoffDataReader);
+        for (CSVRecord takeDataRecord : takeoffDataRecords) {
+          takeoffData.setAircraftId(aircraftId);
+          takeoffData.setAltitude(Integer.parseInt(takeDataRecord.get("ALT")));
+          takeoffData.setWeight(Integer.parseInt(takeDataRecord.get("WT")));
+          takeoffData.setTemperature(Integer.parseInt(takeDataRecord.get("C")));
+          takeoffData.setTakeoffSpeedV1(Integer.parseInt("0" + takeDataRecord.get("V1")));
+          takeoffData.setTakeoffDistance(Integer.parseInt("0" + takeDataRecord.get("DIST")));
+          takeoffData.setTakeoffSpeedVR(Integer.parseInt(takeDataRecord.get("VR")));
+          takeoffData.setTakeoofSpeedV2(Integer.parseInt(takeDataRecord.get("V2")));
+          db.getTakeoffDataDao().insert(takeoffData);
+        }
+      } catch (IOException e) {
+        // Do nothing for now.
+      }
+
     }
 
   }

@@ -35,7 +35,9 @@
     android:id="@+id/airport_text"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    android:paddingStart="8dp"
     android:layout_below="@id/aircraft_profiles"
+    android:layout_alignStart="@id/aircraft_profiles"
     android:layout_alignEnd="@id/aircraft_profiles"
     android:text="@string/airport_text"
     />

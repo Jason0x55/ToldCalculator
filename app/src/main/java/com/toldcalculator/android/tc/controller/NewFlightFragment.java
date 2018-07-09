@@ -38,6 +38,7 @@ public class NewFlightFragment extends Fragment {
   private Button nextButton;
 
   private String airportIdent;
+  private int hoursBeforeNow = 1;
 
   public NewFlightFragment() {
     // Required empty public constructor
@@ -49,9 +50,7 @@ public class NewFlightFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_new_flight, container, false);
 
-    aircraftSpinner = (Spinner) view.findViewById(R.id.aircraft_profiles);
-    airportText = (EditText) view.findViewById(R.id.airport_text);
-    nextButton = (Button) view.findViewById(R.id.next_button);
+    setupUI(view);
 
     nextButton.setOnClickListener(new OnClickListener() {
       @Override
@@ -67,6 +66,12 @@ public class NewFlightFragment extends Fragment {
 
     new SetupTask().execute(getActivity());
     return view;
+  }
+
+  private void setupUI(View view) {
+    aircraftSpinner = (Spinner) view.findViewById(R.id.aircraft_profiles);
+    airportText = (EditText) view.findViewById(R.id.airport_text);
+    nextButton = (Button) view.findViewById(R.id.next_button);
   }
 
   private class SetupTask extends AsyncTask<Context, Void, UserInfo> {
@@ -104,7 +109,7 @@ public class NewFlightFragment extends Fragment {
 
       {
         try {
-          response = client.response(airportIdent, 1).execute();
+          response = client.response(airportIdent, hoursBeforeNow).execute();
           System.out.println(response.body().getData().get(0).getStationId());
         } catch (IOException e) {
           e.printStackTrace();

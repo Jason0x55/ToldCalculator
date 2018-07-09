@@ -30,6 +30,8 @@ public class Weather {
 
   private String weatherType;
 
+  private String rawText;
+
   //TODO Add timestamp
 
   public int getId() {
@@ -114,9 +116,16 @@ public class Weather {
     this.airportId = airportKey;
   }
 
+  public String getRawText() {
+    return rawText;
+  }
+
+  public void setRawText(String rawText) {
+    this.rawText = rawText;
+  }
+
   @Override
   public String toString() {
-    // TODO return METAR string.
-    return super.toString();
+    return getRawText();
   }
 }

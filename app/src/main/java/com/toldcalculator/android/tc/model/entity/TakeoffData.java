@@ -16,7 +16,7 @@ public class TakeoffData {
   private int id;
 
   @NonNull
-  private int aircraftId;
+  private long aircraftId;
 
   @NonNull
   private int altitude;
@@ -27,8 +27,13 @@ public class TakeoffData {
   @NonNull
   private int temperature;
 
-  @NonNull
-  private int takeoffSpeedV1;
+  private Integer takeoffSpeedV1;
+
+  private Integer takeoffDistance;
+
+  private Integer takeoffSpeedVR;
+
+  private Integer takeoofSpeedV2;
 
   public int getId() {
     return id;
@@ -39,11 +44,11 @@ public class TakeoffData {
   }
 
   @NonNull
-  public int getAircraftId() {
+  public long getAircraftId() {
     return aircraftId;
   }
 
-  public void setAircraftId(@NonNull int aircraftId) {
+  public void setAircraftId(@NonNull long aircraftId) {
     this.aircraftId = aircraftId;
   }
 
@@ -74,12 +79,35 @@ public class TakeoffData {
     this.temperature = temperature;
   }
 
-  @NonNull
-  public int getTakeoffSpeedV1() {
+  public Integer getTakeoffSpeedV1() {
     return takeoffSpeedV1;
   }
 
-  public void setTakeoffSpeedV1(@NonNull int takeoffSpeedV1) {
+  public void setTakeoffSpeedV1(Integer takeoffSpeedV1) {
     this.takeoffSpeedV1 = takeoffSpeedV1;
+  }
+
+  public Integer getTakeoffDistance() {
+    return takeoffDistance;
+  }
+
+  public void setTakeoffDistance(Integer takeoffDistance) {
+    this.takeoffDistance = takeoffDistance;
+  }
+
+  public Integer getTakeoffSpeedVR() {
+    return takeoffSpeedVR;
+  }
+
+  public void setTakeoffSpeedVR(Integer takeoffSpeedVR) {
+    this.takeoffSpeedVR = takeoffSpeedVR;
+  }
+
+  public Integer getTakeoofSpeedV2() {
+    return takeoofSpeedV2;
+  }
+
+  public void setTakeoofSpeedV2(Integer takeoofSpeedV2) {
+    this.takeoofSpeedV2 = takeoofSpeedV2;
   }
 }

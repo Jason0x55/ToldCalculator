@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,6 +46,9 @@ public class WeightFragment extends Fragment {
       @Override
       public void onClick(View v) {
         totalWeight.setText(String.valueOf(addWeight()));
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_container, new PerformanceFragment())
+            .commit();
       }
     });
 

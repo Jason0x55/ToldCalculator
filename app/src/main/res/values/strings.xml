@@ -19,4 +19,8 @@
   <string name="takeoff_data_label">Takeoff data</string>
   <string name="runway_required_label">Runway required</string>
   <string name="takeoff_n1_label">Takeoff N1</string>
+  <string name="v1">V1</string>
+  <string name="save">Save</string>
+  <string name="v2">V2</string>
+  <string name="vr">VR</string>
 </resources>
