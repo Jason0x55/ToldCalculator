@@ -12,6 +12,6 @@ public interface TakeoffDataDao {
   @Insert(onConflict = OnConflictStrategy.FAIL)
   long insert(TakeoffData takeoffData);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude = :altitude AND weight = :weight AND temperature = :temperature")
+  @Query("SELECT * FROM takeOffData WHERE altitude >= :altitude AND weight >= :weight AND temperature >= :temperature LIMIT 1")
   TakeoffData select(int altitude, int weight, int temperature);
 }

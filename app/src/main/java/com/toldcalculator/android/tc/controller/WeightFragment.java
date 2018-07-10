@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import com.toldcalculator.android.tc.R;
@@ -20,6 +21,8 @@ import com.toldcalculator.android.tc.model.entity.Aircraft;
  * A simple {@link Fragment} subclass.
  */
 public class WeightFragment extends Fragment {
+
+  private String airportIdent;
 
   public WeightFragment() {
     // Required empty public constructor
@@ -40,14 +43,29 @@ public class WeightFragment extends Fragment {
 
     setupUI(view);
 
+    Bundle bundle = this.getArguments();
+    if(bundle != null){
+      airportIdent = bundle.getString("ICAO");
+    }
+
     new SetupTask().execute(getActivity());
 
     nextButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
         totalWeight.setText(String.valueOf(addWeight()));
+
+        Bundle bundle = new Bundle();
+        bundle.putString("ICAO", airportIdent);
+        bundle.putInt("WT", Integer.parseInt(totalWeight.getText().toString()));
+
+        PerformanceFragment performanceFragment = new PerformanceFragment();
+        performanceFragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_container, new PerformanceFragment())
+        fragmentManager.beginTransaction().replace(R.id.main_container, performanceFragment)
             .commit();
       }
     });
@@ -66,10 +84,10 @@ public class WeightFragment extends Fragment {
 
   private int addWeight() {
     int total = 0;
-    total += Integer.parseInt(basicEmptyWeight.getText().toString());
-    total += Integer.parseInt(fuelWeight.getText().toString());
-    total += Integer.parseInt(paxWeight.getText().toString());
-    total += Integer.parseInt(bagsWeight.getText().toString());
+    total += Integer.parseInt("0" + basicEmptyWeight.getText().toString());
+    total += Integer.parseInt("0" + fuelWeight.getText().toString());
+    total += Integer.parseInt("0" + paxWeight.getText().toString());
+    total += Integer.parseInt("0" + bagsWeight.getText().toString());
     return total;
   }
 
@@ -83,6 +101,7 @@ public class WeightFragment extends Fragment {
     @Override
     protected void onPostExecute(Aircraft aircraft) {
       basicEmptyWeight.setText(String.valueOf(aircraft.getBasicEmptyWeight()));
+      totalWeight.setText(String.valueOf(addWeight()));
     }
   }
 

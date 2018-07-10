@@ -29,11 +29,11 @@
 
   <EditText
     android:id="@+id/bew_input"
-    android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_alignBaseline="@id/bew_label"
     android:layout_toEndOf="@id/bew_label"
-    android:text="11500"/>
+    android:inputType="number"/>
 
   <TextView
     android:id="@+id/fuel_label"
@@ -55,6 +55,7 @@
     android:layout_toEndOf="@id/fuel_label"
     android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
+    android:inputType="number"
     android:text="3000"/>
 
   <TextView
@@ -77,6 +78,7 @@
     android:layout_toEndOf="@id/pax_label"
     android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
+    android:inputType="number"
     android:text="350"/>
 
   <TextView
@@ -99,6 +101,7 @@
     android:layout_toEndOf="@id/bags_label"
     android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
+    android:inputType="number"
     android:text="250"/>
 
   <TextView
@@ -121,7 +124,7 @@
     android:layout_toEndOf="@id/total_label"
     android:layout_alignEnd="@id/bew_input"
     android:textAlignment="viewEnd"
-    android:text="15100"/>
+    android:inputType="number"/>
   <Button
     android:id="@+id/next_button"
     android:layout_width="wrap_content"

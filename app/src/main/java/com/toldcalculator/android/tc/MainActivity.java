@@ -20,8 +20,6 @@ import com.toldcalculator.android.tc.model.db.ToldData;
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-  private ToldData database;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -61,17 +59,8 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  protected void onStart() {
-    super.onStart();
-    database = ToldData.getInstance(this);
-  }
-
-  @Override
   protected void onStop() {
-    if (database != null) {
-      database.forgetInstance(this);
-      database = null;
-    }
+    ToldData.forgetInstance(this);
     super.onStop();
   }
 
@@ -91,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     TextView currentAircraft;
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.main, menu);
+
     currentAirport = (TextView) findViewById(R.id.current_airport);
     currentAircraft = (TextView) findViewById(R.id.current_aircraft_profile);
     currentAirport.setText("KABQ");

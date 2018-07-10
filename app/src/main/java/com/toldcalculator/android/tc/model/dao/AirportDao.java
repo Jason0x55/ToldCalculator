@@ -16,6 +16,6 @@ public interface AirportDao {
   @Query("SELECT * FROM airport WHERE id = :id")
   Airport select(long id);
 
-  @Query("SELECT * FROM airport WHERE id = :id")
-  AirportAndRunways selectWithRunways(long id);
+  @Query("SELECT * FROM airport WHERE ICAO_ID = :icaoId")
+  AirportAndRunways selectWithRunways(String icaoId);
 }

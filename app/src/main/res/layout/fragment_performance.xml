@@ -137,7 +137,29 @@
 
   <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/aircraft_info_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Aircraft data"
+      android:textColor="@android:color/black"
+      android:textSize="24sp"
+      android:textStyle="bold"
+      android:paddingBottom="4dp"/>
+
+    <TextView
+      android:id="@+id/aircraft_info_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
       android:id="@+id/weather_data_label"
@@ -147,7 +169,12 @@
       android:textColor="@android:color/black"
       android:textSize="24sp"
       android:textStyle="bold"
-      android:paddingBottom="24dp"/>
+      android:paddingBottom="4dp"/>
+
+    <TextView
+      android:id="@+id/weather_data_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
   </LinearLayout>
 
   <LinearLayout

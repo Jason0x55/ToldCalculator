@@ -12,6 +12,6 @@ public interface TakeoffPowerN1Dao {
   @Insert(onConflict = OnConflictStrategy.FAIL)
   long insert(TakeoffPowerN1 takeoffPowerN1);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude = :altitude AND temperature = :temperature")
+  @Query("SELECT * FROM takeoffPowerN1 WHERE altitude = :altitude AND temperature = :temperature")
   TakeoffPowerN1 select(int altitude, int temperature);
 }
