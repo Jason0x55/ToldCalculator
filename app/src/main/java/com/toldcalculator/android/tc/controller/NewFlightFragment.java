@@ -31,7 +31,6 @@ public class NewFlightFragment extends Fragment {
   private Spinner aircraftSpinner;
   private EditText airportText;
   private Button nextButton;
-
   private String airportIdent;
 
   public NewFlightFragment() {
@@ -43,9 +42,19 @@ public class NewFlightFragment extends Fragment {
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_new_flight, container, false);
-
     setupUI(view);
+    return view;
+  }
 
+  private void setupUI(View view) {
+    aircraftSpinner = (Spinner) view.findViewById(R.id.aircraft_profiles);
+    airportText = (EditText) view.findViewById(R.id.airport_text);
+    nextButton = (Button) view.findViewById(R.id.next_button);
+    nextButtonSetup();
+    new SetupTask().execute(getActivity());
+  }
+
+  private void nextButtonSetup() {
     nextButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -66,15 +75,6 @@ public class NewFlightFragment extends Fragment {
             .commit();
       }
     });
-
-    new SetupTask().execute(getActivity());
-    return view;
-  }
-
-  private void setupUI(View view) {
-    aircraftSpinner = (Spinner) view.findViewById(R.id.aircraft_profiles);
-    airportText = (EditText) view.findViewById(R.id.airport_text);
-    nextButton = (Button) view.findViewById(R.id.next_button);
   }
 
   private class SetupTask extends AsyncTask<Context, Void, UserInfo> {

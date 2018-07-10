@@ -8,6 +8,6 @@ import retrofit2.http.Query;
 public interface MetarService {
 
   @GET("httpparam?datasource=metars&requestType=retrieve&format=xml&mostRecentForEachStation=constraint&=1")
-  Call<MetarResponse> response(@Query("stationString") String icaoId, @Query("hoursBeforeNow") int hour);
+  Call<MetarResponse> response(@Query("stationString") String icaoId, @Query("hoursBeforeNow") double hour);
 
 }

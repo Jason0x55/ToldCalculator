@@ -38,8 +38,7 @@
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:layout_alignBaseline="@id/runway_required_label"
-      android:layout_toEndOf="@id/runway_required_label"
-      android:text="5200"/>
+      android:layout_toEndOf="@id/runway_required_label"/>
 
     <TextView
       android:id="@+id/takeoff_n1_label"
@@ -59,8 +58,7 @@
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:layout_alignBaseline="@id/takeoff_n1_label"
-      android:layout_toEndOf="@id/runway_required_label"
-      android:text="96.0%"/>
+      android:layout_toEndOf="@id/runway_required_label"/>
 
     <TextView
       android:id="@+id/takeoff_v1_label"
@@ -80,8 +78,7 @@
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:layout_alignBaseline="@id/takeoff_v1_label"
-      android:layout_toEndOf="@id/runway_required_label"
-      android:text="122kts"/>
+      android:layout_toEndOf="@id/runway_required_label"/>
 
     <TextView
       android:id="@+id/takeoff_vr_label"
@@ -101,8 +98,7 @@
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:layout_alignBaseline="@id/takeoff_vr_label"
-      android:layout_toEndOf="@id/runway_required_label"
-      android:text="127kts"/>
+      android:layout_toEndOf="@id/runway_required_label"/>
 
     <TextView
       android:id="@+id/takeoff_v2_label"
@@ -122,8 +118,7 @@
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:layout_alignBaseline="@id/takeoff_v2_label"
-      android:layout_toEndOf="@id/runway_required_label"
-      android:text="130kts"/>
+      android:layout_toEndOf="@id/runway_required_label"/>
 
     <Button
       android:id="@+id/save_button"
@@ -131,7 +126,6 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/takeoff_v2_text"
       android:layout_alignEnd="@id/takeoff_v2_text"
-      android:visibility="invisible"
       android:text="@string/save"/>
   </RelativeLayout>
 
@@ -178,6 +172,7 @@
   </LinearLayout>
 
   <LinearLayout
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -190,5 +185,11 @@
       android:textSize="24sp"
       android:textStyle="bold"
       android:paddingBottom="24dp"/>
+
+    <ListView
+      android:id="@+id/runway_listview"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    </ListView>
   </LinearLayout>
 </LinearLayout>

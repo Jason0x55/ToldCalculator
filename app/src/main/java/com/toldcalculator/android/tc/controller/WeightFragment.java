@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,22 +43,101 @@ public class WeightFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_weight, container, false);
 
-    setupUI(view);
-
     Bundle bundle = this.getArguments();
     if(bundle != null){
       airportIdent = bundle.getString("ICAO");
     }
 
-    new SetupTask().execute(getActivity());
+    setupUI(view);
 
+    return view;
+  }
+
+  private void setupUI(View view) {
+    basicEmptyWeight = (EditText) view.findViewById(R.id.bew_input);
+    fuelWeight = (EditText) view.findViewById(R.id.fuel_input);
+    paxWeight = (EditText) view.findViewById(R.id.pax_input);
+    bagsWeight = (EditText) view.findViewById(R.id.bags_input);
+    totalWeight = (EditText) view.findViewById(R.id.total_input);
+    nextButton = (Button) view.findViewById(R.id.next_button);
+    editTextChangedSetup();
+    setupNextButton();
+    new SetupTask().execute(getActivity());
+  }
+
+  private void editTextChangedSetup() {
+    basicEmptyWeight.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        totalWeight.setText(String.valueOf(totalWeight()));
+      }
+    });
+    fuelWeight.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        totalWeight.setText(String.valueOf(totalWeight()));
+      }
+    });
+    paxWeight.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        totalWeight.setText(String.valueOf(totalWeight()));
+      }
+    });
+    bagsWeight.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        totalWeight.setText(String.valueOf(totalWeight()));
+      }
+    });
+  }
+
+  private void setupNextButton() {
     nextButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-
-        totalWeight.setText(String.valueOf(addWeight()));
 
         Bundle bundle = new Bundle();
         bundle.putString("ICAO", airportIdent);
@@ -69,20 +150,9 @@ public class WeightFragment extends Fragment {
             .commit();
       }
     });
-
-    return view;
   }
 
-  private void setupUI(View view) {
-    basicEmptyWeight = (EditText) view.findViewById(R.id.bew_input);
-    fuelWeight = (EditText) view.findViewById(R.id.fuel_input);
-    paxWeight = (EditText) view.findViewById(R.id.pax_input);
-    bagsWeight = (EditText) view.findViewById(R.id.bags_input);
-    totalWeight = (EditText) view.findViewById(R.id.total_input);
-    nextButton = (Button) view.findViewById(R.id.next_button);
-  }
-
-  private int addWeight() {
+  private int totalWeight() {
     int total = 0;
     total += Integer.parseInt("0" + basicEmptyWeight.getText().toString());
     total += Integer.parseInt("0" + fuelWeight.getText().toString());
@@ -101,7 +171,7 @@ public class WeightFragment extends Fragment {
     @Override
     protected void onPostExecute(Aircraft aircraft) {
       basicEmptyWeight.setText(String.valueOf(aircraft.getBasicEmptyWeight()));
-      totalWeight.setText(String.valueOf(addWeight()));
+      totalWeight.setText(String.valueOf(totalWeight()));
     }
   }
 

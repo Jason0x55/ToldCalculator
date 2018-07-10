@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.MetarResponse;
@@ -35,13 +39,15 @@ public class PerformanceFragment extends Fragment {
   private TextView takeoffV2;
   private TextView aircraftInfo;
   private TextView weatherInfo;
+  private Button saveButton;
+  private ListView runwayList;
 
   private String airportIdent;
   private int temperature;
   private int elevation;
   private int aircraftWeight;
 
-  private static final int hoursBeforeNow = 1;
+  private static final double hoursBeforeNow = 1.25;
 
   public PerformanceFragment() {
     // Required empty public constructor
@@ -54,30 +60,38 @@ public class PerformanceFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_performance, container, false);
 
-    SetupUI(view);
-
     Bundle bundle = this.getArguments();
     if(bundle != null){
       airportIdent = bundle.getString("ICAO");
       aircraftWeight = bundle.getInt("WT");
+      // TODO move and add more aircraft info
     }
 
-    new MetarTask().execute();
-    new RunwayTask().execute(getActivity());
-    new GetTakeoffData().execute(getActivity());
+    SetupUI(view);
+
+    // TODO Implement save function and move MetarTask.execute()
+    saveButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        new MetarTask().execute();
+      }
+    });
 
     return view;
   }
 
   private void SetupUI(View view) {
-    runwayRequired = view.findViewById(R.id.runway_required_text);
-    takeoffN1 = view.findViewById(R.id.takeoff_n1_text);
-    takeoffV1 = view.findViewById(R.id.takeoff_v1_text);
-    takeoffVR = view.findViewById(R.id.takeoff_vr_text);
-    takeoffV2 = view.findViewById(R.id.takeoff_v2_text);
+    runwayRequired = (TextView) view.findViewById(R.id.runway_required_text);
+    takeoffN1 = (TextView) view.findViewById(R.id.takeoff_n1_text);
+    takeoffV1 = (TextView) view.findViewById(R.id.takeoff_v1_text);
+    takeoffVR = (TextView) view.findViewById(R.id.takeoff_vr_text);
+    takeoffV2 = (TextView) view.findViewById(R.id.takeoff_v2_text);
+    aircraftInfo = (TextView) view.findViewById(R.id.aircraft_info_text);
+    weatherInfo = (TextView) view.findViewById(R.id.weather_data_text);
+    saveButton = (Button) view.findViewById(R.id.save_button);
+    runwayList = (ListView) view.findViewById(R.id.runway_listview);
 
-    aircraftInfo = view.findViewById(R.id.aircraft_info_text);
-    weatherInfo = view.findViewById(R.id.weather_data_text);
+    aircraftInfo.setText(String.valueOf(aircraftWeight));
   }
 
   private class GetTakeoffData extends AsyncTask<Context, Void, TakeoffData> {
@@ -103,8 +117,20 @@ public class PerformanceFragment extends Fragment {
     @Override
     protected void onPostExecute(AirportAndRunways airportAndRunways) {
       elevation = airportAndRunways.getAirport().getElevation();
-      airportAndRunways.getRunway();
-
+      // TODO Maybe change to RecyclerView
+      List<Runway> runwaysList = airportAndRunways.getRunway();
+      String[] runways = new String[runwaysList.size()];
+      for (int i = 0; i < runwaysList.size(); i++) {
+        // This is a mess
+        int runwayIdent = Integer.parseInt(airportAndRunways.getRunway().get(i).getRunwayId().substring(0,2) + "0");
+        runwayIdent = ((runwayIdent + 180) > 360) ? (runwayIdent + 180) % 360 / 10 : (runwayIdent + 180) / 10;
+        runways[i] = airportAndRunways.getRunway().get(i).getRunwayId() + "/" + runwayIdent + " "
+            + airportAndRunways.getRunway().get(i).getLength() + " "
+            + airportAndRunways.getRunway().get(i).getWidth();
+      }
+      ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, runways);
+      runwayList.setAdapter(adapter);
+      new GetTakeoffData().execute(getActivity());
     }
 
     @Override
@@ -138,7 +164,8 @@ public class PerformanceFragment extends Fragment {
     @Override
     protected void onPostExecute(MetarResponse metarResponse) {
       weatherInfo.setText(metarResponse.getData().get(0).getRawText());
-      temperature = (int) Double.parseDouble(metarResponse.getData().get(0).getTempC());
+      temperature = (int) Math.round(Double.parseDouble(metarResponse.getData().get(0).getTempC()));
+      new RunwayTask().execute(getActivity());
     }
   }
 }
