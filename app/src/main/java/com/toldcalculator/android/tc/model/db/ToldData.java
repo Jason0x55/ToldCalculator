@@ -89,24 +89,28 @@ public abstract class ToldData extends RoomDatabase {
       Aircraft aircraft = new Aircraft();
       aircraft.setAircraftType("LR35A");
       aircraft.setName("N12345");
-      aircraft.setBasicEmptyWeight(13500);
+      aircraft.setBasicEmptyWeight(10500);
       long aircraftId = db.getAircraftDao().insert(aircraft);
       //Airport
       Airport airport = new Airport();
-      airport.setName("Sunport");
-      airport.setIcaoId("KABQ");
-      airport.setElevation(5355);
+      airport.setName("Jason Airpark");
+      airport.setIcaoId("KRAF");
+      airport.setElevation(4444);
       long airportId = db.getAirportDao().insert(airport);
       //Runway
       Runway runway = new Runway();
       runway.setAirportId(airportId);
-      runway.setRunwayId("3/21");
+      runway.setRunwayId("05");
       runway.setLength(10000);
       runway.setWidth(150);
       db.getRunwayDao().insert(runway);
-      runway.setRunwayId("8/26");
+      runway.setRunwayId("08");
       runway.setLength(12000);
       runway.setWidth(150);
+      db.getRunwayDao().insert(runway);
+      runway.setRunwayId("10");
+      runway.setLength(6000);
+      runway.setWidth(75);
       db.getRunwayDao().insert(runway);
       //User
       User user = new User();
@@ -124,7 +128,7 @@ public abstract class ToldData extends RoomDatabase {
 
       loadAirports(db, contexts[0]);
       loadTakeoffData(db, contexts[0], aircraftId);
-      loadPowerData(db, contexts[0], aircraftId);
+      loadTakeoffDataN1(db, contexts[0], aircraftId);
 
       forgetInstance(contexts[0]);
       return null;
@@ -170,6 +174,7 @@ public abstract class ToldData extends RoomDatabase {
           }
         }
       }
+
     }
 
     private void loadTakeoffData(ToldData db, Context context, long aircraftId) {
@@ -197,7 +202,7 @@ public abstract class ToldData extends RoomDatabase {
 
     }
 
-    private void loadPowerData(ToldData db, Context context, long aircraftId) {
+    private void loadTakeoffDataN1(ToldData db, Context context, long aircraftId) {
       TakeoffPowerN1 takeoffPowerN1 = new TakeoffPowerN1();
       Reader takeoffPowerReader = new InputStreamReader(
           context.getResources().openRawResource(R.raw.takeoffpowern1));
@@ -214,7 +219,6 @@ public abstract class ToldData extends RoomDatabase {
         int temp = Integer.parseInt(takePowerRecord.get("TEMP"));
         takeoffPowerN1.setTemperature(temp);
         for (int i  = 0; i <= 10000; i += 1000) {
-          Log.d("ToldData: loadPower ", String.format("Temp: %d, ALT: %d", temp, i));
           takeoffPowerN1.setAltitude(i);
           takeoffPowerN1.setTakeoffPowerN1(Float.parseFloat("0" + takePowerRecord.get(String.valueOf(i))));
           db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);

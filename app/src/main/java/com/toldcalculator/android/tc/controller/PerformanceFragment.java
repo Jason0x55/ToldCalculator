@@ -18,6 +18,7 @@ import com.toldcalculator.android.tc.model.MetarResponse;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Runway;
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
+import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import com.toldcalculator.android.tc.model.pojo.AirportAndRunways;
 import com.toldcalculator.android.tc.service.MetarService;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class PerformanceFragment extends Fragment {
 
   private String airportIdent;
   private int temperature;
-  private int elevation;
+  private int altitude;
   private int aircraftWeight;
 
   private static final double hoursBeforeNow = 1.25;
@@ -94,48 +95,32 @@ public class PerformanceFragment extends Fragment {
     aircraftInfo.setText(String.valueOf(aircraftWeight));
   }
 
-  private class GetTakeoffData extends AsyncTask<Context, Void, TakeoffData> {
+  private class GetTakeoffDataTask extends AsyncTask<Context, Void, TakeoffData> {
 
     @Override
     protected void onPostExecute(TakeoffData takeoffData) {
       runwayRequired.setText(String.valueOf(takeoffData.getTakeoffDistance()));
-      //TODO add N1 data
-      takeoffN1.setText("95.3");
       takeoffV1.setText(String.valueOf(takeoffData.getTakeoffSpeedV1()));
       takeoffVR.setText(String.valueOf(takeoffData.getTakeoffSpeedVR()));
       takeoffV2.setText(String.valueOf(takeoffData.getTakeoffSpeedV2()));
+      new GetTakeoffPowerN1Task().execute(getActivity());
     }
 
     @Override
     protected TakeoffData doInBackground(Context... contexts) {
-      return ToldData.getInstance(contexts[0]).getTakeoffDataDao().select(elevation, aircraftWeight, temperature);
+      return ToldData.getInstance(contexts[0]).getTakeoffDataDao().select(altitude, aircraftWeight, temperature);
     }
   }
-
-  private class RunwayTask extends AsyncTask<Context, Void, AirportAndRunways> {
+  private class GetTakeoffPowerN1Task extends AsyncTask<Context, Void, TakeoffPowerN1> {
 
     @Override
-    protected void onPostExecute(AirportAndRunways airportAndRunways) {
-      elevation = airportAndRunways.getAirport().getElevation();
-      // TODO Maybe change to RecyclerView
-      List<Runway> runwaysList = airportAndRunways.getRunway();
-      String[] runways = new String[runwaysList.size()];
-      for (int i = 0; i < runwaysList.size(); i++) {
-        // This is a mess
-        int runwayIdent = Integer.parseInt(airportAndRunways.getRunway().get(i).getRunwayId().substring(0,2) + "0");
-        runwayIdent = ((runwayIdent + 180) > 360) ? (runwayIdent + 180) % 360 / 10 : (runwayIdent + 180) / 10;
-        runways[i] = airportAndRunways.getRunway().get(i).getRunwayId() + "/" + runwayIdent + " "
-            + airportAndRunways.getRunway().get(i).getLength() + " "
-            + airportAndRunways.getRunway().get(i).getWidth();
-      }
-      ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, runways);
-      runwayList.setAdapter(adapter);
-      new GetTakeoffData().execute(getActivity());
+    protected void onPostExecute(TakeoffPowerN1 takeoffPowerN1) {
+      takeoffN1.setText(String.valueOf(takeoffPowerN1.getTakeoffPowerN1()));
     }
 
     @Override
-    protected AirportAndRunways doInBackground(Context... contexts) {
-      return ToldData.getInstance(contexts[0]).getAirportDao().selectWithRunways(airportIdent);
+    protected TakeoffPowerN1 doInBackground(Context... contexts) {
+      return ToldData.getInstance(contexts[0]).getTakeoffPowerN1Dao().select(altitude, temperature);
     }
   }
 
@@ -168,4 +153,32 @@ public class PerformanceFragment extends Fragment {
       new RunwayTask().execute(getActivity());
     }
   }
+
+  private class RunwayTask extends AsyncTask<Context, Void, AirportAndRunways> {
+
+    @Override
+    protected void onPostExecute(AirportAndRunways airportAndRunways) {
+      altitude = airportAndRunways.getAirport().getElevation();
+      // TODO Maybe change to RecyclerView
+      List<Runway> runwaysList = airportAndRunways.getRunway();
+      String[] runways = new String[runwaysList.size()];
+      for (int i = 0; i < runwaysList.size(); i++) {
+        // This is a mess
+        int runwayIdent = Integer.parseInt(airportAndRunways.getRunway().get(i).getRunwayId().substring(0,2) + "0");
+        runwayIdent = ((runwayIdent + 180) > 360) ? (runwayIdent + 180) % 360 / 10 : (runwayIdent + 180) / 10;
+        runways[i] = airportAndRunways.getRunway().get(i).getRunwayId() + "/" + runwayIdent + " "
+            + airportAndRunways.getRunway().get(i).getLength() + " "
+            + airportAndRunways.getRunway().get(i).getWidth();
+      }
+      ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, runways);
+      runwayList.setAdapter(adapter);
+      new GetTakeoffDataTask().execute(getActivity());
+    }
+
+    @Override
+    protected AirportAndRunways doInBackground(Context... contexts) {
+      return ToldData.getInstance(contexts[0]).getAirportDao().selectWithRunways(airportIdent);
+    }
+  }
+
 }

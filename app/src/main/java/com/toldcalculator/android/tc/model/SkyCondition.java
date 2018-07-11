@@ -9,7 +9,7 @@ public class SkyCondition {
   @Attribute(name = "sky_cover")
   private String skyCover;
 
-  @Attribute(name = "cloud_base_ft_agl")
+  @Attribute(name = "cloud_base_ft_agl", required = false)
   private String cloudBase;
 
   public String getSkyCover() {
