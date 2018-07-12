@@ -78,11 +78,11 @@ public class PerformanceFragment extends Fragment {
     saveButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-//        new MetarTask().execute();
-        altitude = 3500;
-        temperature = 21;
-        aircraftWeight = 14500;
-        new GetTakeoffDataTask().execute(getActivity());
+        new MetarTask().execute();
+//        altitude = 3000;
+//        temperature = 23;
+//        aircraftWeight = 14000;
+//        new GetTakeoffDataTask().execute(getActivity());
       }
     });
 
@@ -142,17 +142,34 @@ public class PerformanceFragment extends Fragment {
       // temperature = 21;
       // aircraftWeight = 14500;
 
+      // This turned into a giant mess but it works for now.
+
+      double altFactor;
       int highAltitude = takeoffData.get(0).getAltitude();
       int lowAltitude = takeoffData.get(7).getAltitude();
-      double altFactor = (highAltitude - altitude) / (double) (highAltitude - lowAltitude);
+      if (lowAltitude == highAltitude) {
+        altFactor = 1;
+      } else {
+       altFactor = (altitude - lowAltitude) / (double) (highAltitude - lowAltitude);
+      }
 
+      double tempFactor;
       int highTemp = takeoffData.get(0).getTemperature();
       int lowTemp = takeoffData.get(7).getTemperature();
-      double tempFactor = (highTemp - temperature) / (double) (highTemp - lowTemp);
+      if (highTemp == lowTemp) {
+        tempFactor = 1;
+      } else {
+        tempFactor = (temperature - lowTemp) / (double) (highTemp - lowTemp);
+      }
 
+      double weightFactor;
       int highWeight = takeoffData.get(0).getWeight();
       int lowWeight = takeoffData.get(7).getWeight();
-      double weightFactor = (highWeight - aircraftWeight) / (double) (highWeight - lowWeight);
+      if (highWeight == lowWeight) {
+        weightFactor = 1;
+      } else {
+        weightFactor = (aircraftWeight - lowWeight) / (double) (highWeight - lowWeight);
+      }
 
       double highV2 = takeoffData.get(0).getTakeoffSpeedV2();
       double lowV2 = takeoffData.get(7).getTakeoffSpeedV2();
@@ -164,7 +181,7 @@ public class PerformanceFragment extends Fragment {
       double lowV1;
       double highDistance;
       double lowDistance;
-      //High Alt - High/Low weight -High Temp
+      //High Alt - High/Low weight - High Temp
       // 123 - 117
       highV1 = (takeoffData.get(0).getTakeoffSpeedV1() - takeoffData.get(1).getTakeoffSpeedV1())
           * weightFactor + takeoffData.get(1).getTakeoffSpeedV1();
@@ -213,16 +230,46 @@ public class PerformanceFragment extends Fragment {
     }
   }
 
-  private class GetTakeoffPowerN1Task extends AsyncTask<Void, Void, TakeoffPowerN1> {
+  private class GetTakeoffPowerN1Task extends AsyncTask<Void, Void, List<TakeoffPowerN1>> {
 
     @Override
-    protected TakeoffPowerN1 doInBackground(Void... voids) {
-      return database.getTakeoffPowerN1Dao().select(altitude, temperature);
+    protected List<TakeoffPowerN1> doInBackground(Void... voids) {
+      List<TakeoffPowerN1> takeoffPowerN1= new ArrayList<>();
+      takeoffPowerN1.add(database.getTakeoffPowerN1Dao().selectHighAltHighTemp(altitude, temperature));
+      takeoffPowerN1.add(database.getTakeoffPowerN1Dao().selectLowAltHighTemp(altitude, temperature));
+      takeoffPowerN1.add(database.getTakeoffPowerN1Dao().selectHighAltLowTemp(altitude, temperature));
+      takeoffPowerN1.add(database.getTakeoffPowerN1Dao().selectLowAltLowTemp(altitude, temperature));
+      return takeoffPowerN1;
     }
 
     @Override
-    protected void onPostExecute(TakeoffPowerN1 takeoffPowerN1) {
-      takeoffN1.setText(String.valueOf(takeoffPowerN1.getTakeoffPowerN1()));
+    protected void onPostExecute(List<TakeoffPowerN1> takeoffPowerN1) {
+      double altFactor;
+      int highAltitude = takeoffPowerN1.get(0).getAltitude();
+      int lowAltitude = takeoffPowerN1.get(3).getAltitude();
+      if (highAltitude == lowAltitude) {
+        altFactor = 1;
+      } else {
+       altFactor = (altitude - lowAltitude) / (double) (highAltitude - lowAltitude);
+      }
+
+      double tempFactor;
+      int highTemp = takeoffPowerN1.get(0).getTemperature();
+      int lowTemp = takeoffPowerN1.get(3).getTemperature();
+      if (highTemp == lowTemp) {
+        tempFactor = 1;
+      } else {
+        tempFactor = (temperature - lowTemp) / (double) (highTemp - lowTemp);
+      }
+
+      double highTempN1 = (takeoffPowerN1.get(1).getTakeoffPowerN1() - takeoffPowerN1.get(0).getTakeoffPowerN1())
+          * altFactor + takeoffPowerN1.get(0).getTakeoffPowerN1();
+      double lowTempN1 = (takeoffPowerN1.get(3).getTakeoffPowerN1() - takeoffPowerN1.get(2).getTakeoffPowerN1())
+          * altFactor + takeoffPowerN1.get(2).getTakeoffPowerN1();
+
+      double powerN1 = (lowTempN1 - highTempN1) * tempFactor + highTempN1;
+
+      takeoffN1.setText(String.format("%.1f", powerN1));
     }
   }
 
