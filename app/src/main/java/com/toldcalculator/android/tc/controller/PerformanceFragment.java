@@ -68,7 +68,7 @@ public class PerformanceFragment extends Fragment {
     if(bundle != null){
       airportIdent = bundle.getString("ICAO");
       aircraftWeight = bundle.getInt("WT");
-      // TODO move and add more aircraft info
+      // TODO move/add more aircraft info and add more Runway info
     }
     database = ToldData.getInstance(getActivity());
 
