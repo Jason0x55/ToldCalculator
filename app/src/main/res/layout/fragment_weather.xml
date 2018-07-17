@@ -1,14 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
   android:layout_height="match_parent"
-  tools:context="com.toldcalculator.android.tc.controller.WeatherFragment">
+  android:layout_width="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <TextView
+  <android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weather_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="Weather"/>
+    android:layout_height="wrap_content"/>
 
-  <!-- TODO: Update blank fragment layout -->
+  <android.support.design.widget.FloatingActionButton
+    android:id="@+id/add_airport"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="8dp"
+    app:backgroundTint="#ff1da1f2"
+    android:src="@drawable/ic_add_black_24dp"
+    app:layout_anchor="@id/weather_recycler_view"
+    app:layout_anchorGravity="bottom|right|end" />
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+

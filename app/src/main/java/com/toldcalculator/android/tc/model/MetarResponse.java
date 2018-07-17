@@ -10,10 +10,18 @@ public class MetarResponse {
   @ElementList
   private List<Metar> data;
 
+  /**
+   *
+   * @return
+   */
   public List<Metar> getData() {
     return data;
   }
 
+  /**
+   *
+   * @param data
+   */
   public void setData(List<Metar> data) {
     this.data = data;
   }

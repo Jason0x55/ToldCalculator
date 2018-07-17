@@ -25,6 +25,7 @@ import com.toldcalculator.android.tc.model.entity.Aircraft;
 public class WeightFragment extends Fragment {
 
   private String airportIdent;
+  private String aircraftID;
 
   public WeightFragment() {
     // Required empty public constructor
@@ -46,6 +47,7 @@ public class WeightFragment extends Fragment {
     Bundle bundle = this.getArguments();
     if(bundle != null){
       airportIdent = bundle.getString("ICAO");
+      aircraftID = bundle.getString("NAME");
     }
 
     setupUI(view);
@@ -141,7 +143,8 @@ public class WeightFragment extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putString("ICAO", airportIdent);
-        bundle.putInt("WT", Integer.parseInt(totalWeight.getText().toString()));
+        bundle.putInt("WT", Integer.parseInt("0" + totalWeight.getText().toString()));
+        bundle.putString("NAME", aircraftID);
 
         PerformanceFragment performanceFragment = new PerformanceFragment();
         performanceFragment.setArguments(bundle);

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
@@ -58,6 +60,10 @@ public class NewFlightFragment extends Fragment {
     nextButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+        if (aircraftSpinner.getSelectedItem() == null) {
+          Toast.makeText(getActivity(), "No profile selected.", Toast.LENGTH_SHORT).show();
+          return;
+        }
         airportIdent = airportText.getText().toString();
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -65,6 +71,7 @@ public class NewFlightFragment extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putString("ICAO", airportIdent);
+        bundle.putString("NAME", (String) aircraftSpinner.getSelectedItem());
 
         WeightFragment weightFragment = new WeightFragment();
         weightFragment.setArguments(bundle);
@@ -86,15 +93,19 @@ public class NewFlightFragment extends Fragment {
 
     @Override
     protected void onPostExecute(UserInfo userInfo) {
-      List<String> profiles = new ArrayList<>();
-      for (Aircraft aircraft : userInfo.getAircraft()) {
-        profiles.add(aircraft.getName());
-      }
+      if (userInfo != null) {
+        List<String> profiles = new ArrayList<>();
+        for (Aircraft aircraft : userInfo.getAircraft()) {
+          profiles.add(aircraft.getName());
+        }
 
-      ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, profiles);
-      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-      aircraftSpinner.setAdapter(adapter);
-      airportText.setText(userInfo.getAirport().get(0).getIcaoId());
+        if (getActivity() != null) {
+          ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, profiles);
+          adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+          aircraftSpinner.setAdapter(adapter);
+        }
+        airportText.setText(userInfo.getAirport().get(0).getIcaoId());
+      }
     }
   }
 }

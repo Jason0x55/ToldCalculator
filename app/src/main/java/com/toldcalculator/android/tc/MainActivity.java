@@ -17,6 +17,9 @@ import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.WeatherFragment;
 import com.toldcalculator.android.tc.model.db.ToldData;
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    // TODO Change/move
     new AsyncTask<Context, Void, Void>() {
 
       @Override
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     currentAirport = (TextView) findViewById(R.id.current_airport);
     currentAircraft = (TextView) findViewById(R.id.current_aircraft_profile);
+    // TODO Remove strings and get from database.
     currentAirport.setText("KABQ");
     currentAircraft.setText("N12345");
     return true;

@@ -85,6 +85,7 @@ public abstract class ToldData extends RoomDatabase {
     @Override
     protected Void doInBackground(Context... contexts) {
       ToldData db = getInstance(contexts[0]);
+      // TODO Remove test data
       //Aircraft
       Aircraft aircraft = new Aircraft();
       aircraft.setAircraftType("LR35A");

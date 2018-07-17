@@ -192,11 +192,10 @@
         android:id="@+id/airport_data_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Airport data"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:paddingBottom="24dp"/>
+        android:paddingBottom="4dp"/>
 
       <ListView
         android:id="@+id/runway_listview"
