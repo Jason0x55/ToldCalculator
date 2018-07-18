@@ -5,6 +5,8 @@
 #### Current state
 
 #### Testing
+Emulator Android API 27
+Orientation locked to portrait
 
 #### 3rd party libraries
 Room?

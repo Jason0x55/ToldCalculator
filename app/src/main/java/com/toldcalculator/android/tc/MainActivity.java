@@ -18,7 +18,8 @@ import com.toldcalculator.android.tc.controller.WeatherFragment;
 import com.toldcalculator.android.tc.model.db.ToldData;
 
 /**
- *
+ * This is the main activity that holds the fragments. Launches the landing page fragment
+ * and contains navigation draw
  */
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
