@@ -1,7 +1,5 @@
 package com.toldcalculator.android.tc;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -24,28 +22,10 @@ import com.toldcalculator.android.tc.model.db.ToldData;
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    // TODO Change/move
-    new AsyncTask<Context, Void, Void>() {
-
-      @Override
-
-      protected Void doInBackground(Context... contexts) {
-
-        // Replace Attendance and getStudentDao with the relevant class & method names for your project.
-
-        ToldData.getInstance(contexts[0]).getUserDao().select();
-
-        return null;
-
-      }
-
-    }.execute(this);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);

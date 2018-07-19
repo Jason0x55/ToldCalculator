@@ -4,6 +4,8 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -15,9 +17,12 @@ import com.toldcalculator.android.tc.model.dao.RunwayDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffDataDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffPowerN1Dao;
 import com.toldcalculator.android.tc.model.dao.UserDao;
+import com.toldcalculator.android.tc.model.dao.WeatherDao;
+import com.toldcalculator.android.tc.model.db.ToldData.DateTimeConverter;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 import com.toldcalculator.android.tc.model.entity.Airport;
 import com.toldcalculator.android.tc.model.entity.Runway;
+import com.toldcalculator.android.tc.model.entity.SavedTakeoffData;
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import com.toldcalculator.android.tc.model.entity.User;
@@ -25,13 +30,15 @@ import com.toldcalculator.android.tc.model.entity.Weather;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+@TypeConverters({DateTimeConverter.class})
 @Database(entities = {Aircraft.class, Airport.class, Runway.class, User.class, Weather.class,
-    TakeoffPowerN1.class, TakeoffData.class}, version = 1, exportSchema = true)
+    TakeoffPowerN1.class, TakeoffData.class, SavedTakeoffData.class}, version = 1, exportSchema = true)
 public abstract class ToldData extends RoomDatabase {
 
   private static final String DATABASE_NAME = "tc_db";
@@ -44,6 +51,7 @@ public abstract class ToldData extends RoomDatabase {
   public abstract UserDao getUserDao();
   public abstract TakeoffDataDao getTakeoffDataDao();
   public abstract TakeoffPowerN1Dao getTakeoffPowerN1Dao();
+  public abstract WeatherDao getWeatherDao();
 
   public static ToldData getInstance(Context context) {
     if (instance == null) {
@@ -81,6 +89,11 @@ public abstract class ToldData extends RoomDatabase {
   }
 
   private static class PrepopulateTask extends AsyncTask<Context, Void, Void> {
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+      super.onPostExecute(aVoid);
+    }
 
     @Override
     protected Void doInBackground(Context... contexts) {
@@ -131,6 +144,7 @@ public abstract class ToldData extends RoomDatabase {
       loadTakeoffData(db, contexts[0], aircraftId);
       loadTakeoffDataN1(db, contexts[0], aircraftId);
 
+      Log.d("ToldData: ", "Database complete.");
       forgetInstance(contexts[0]);
       return null;
     }
@@ -225,6 +239,20 @@ public abstract class ToldData extends RoomDatabase {
           db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
         }
       }
+    }
+
+  }
+
+  public static class DateTimeConverter {
+
+    @TypeConverter
+    public static Date getDateTime(Long time) {
+      return (time != null) ? new Date(time) : null;
+    }
+
+    @TypeConverter
+    public static Long setDateTime(Date date) {
+      return (date != null) ? date.getTime() : null;
     }
 
   }

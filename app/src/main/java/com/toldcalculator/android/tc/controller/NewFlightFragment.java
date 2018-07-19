@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
+import com.toldcalculator.android.tc.model.entity.User;
 import com.toldcalculator.android.tc.model.pojo.UserInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class NewFlightFragment extends Fragment {
   private EditText airportText;
   private Button nextButton;
   private String airportIdent;
+  private View view;
 
   public NewFlightFragment() {
     // Required empty public constructor
@@ -43,7 +45,7 @@ public class NewFlightFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_new_flight, container, false);
+    view = inflater.inflate(R.layout.fragment_new_flight, container, false);
     setupUI(view);
     return view;
   }
@@ -53,7 +55,7 @@ public class NewFlightFragment extends Fragment {
     airportText = (EditText) view.findViewById(R.id.airport_text);
     nextButton = (Button) view.findViewById(R.id.next_button);
     nextButtonSetup();
-    new SetupTask().execute(getActivity());
+    new SetupTask().execute();
   }
 
   private void nextButtonSetup() {
@@ -84,11 +86,11 @@ public class NewFlightFragment extends Fragment {
     });
   }
 
-  private class SetupTask extends AsyncTask<Context, Void, UserInfo> {
+  private class SetupTask extends AsyncTask<Void, Void, UserInfo> {
 
     @Override
-    protected UserInfo doInBackground(Context... contexts) {
-      return ToldData.getInstance(contexts[0]).getUserDao().userInfo();
+    protected UserInfo doInBackground(Void... voids) {
+      return ToldData.getInstance(getContext()).getUserDao().userInfo();
     }
 
     @Override
@@ -105,6 +107,8 @@ public class NewFlightFragment extends Fragment {
           aircraftSpinner.setAdapter(adapter);
         }
         airportText.setText(userInfo.getAirport().get(0).getIcaoId());
+      } else {
+        new SetupTask().execute();
       }
     }
   }

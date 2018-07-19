@@ -15,11 +15,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.toldcalculator.android.tc.R;
+import com.toldcalculator.android.tc.model.Metar;
 import com.toldcalculator.android.tc.model.MetarResponse;
 import com.toldcalculator.android.tc.model.db.ToldData;
+import com.toldcalculator.android.tc.model.entity.Airport;
 import com.toldcalculator.android.tc.model.entity.Runway;
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
+import com.toldcalculator.android.tc.model.entity.Weather;
 import com.toldcalculator.android.tc.model.pojo.AirportAndRunways;
 import com.toldcalculator.android.tc.service.MetarService;
 import java.io.IOException;
@@ -47,10 +50,12 @@ public class PerformanceFragment extends Fragment {
   private TextView airportData;
 
   private String airportIdent;
+  private Long airportId;
   private int temperature;
   private int altitude = -111;
   private int aircraftWeight;
   private String aircraftID;
+  private Metar metar;
 
   private ToldData database;
 
@@ -229,7 +234,6 @@ public class PerformanceFragment extends Fragment {
       takeoffV1.setText(String.valueOf(Math.round(takeoffSpeedV1)));
       takeoffVR.setText(String.valueOf(Math.round(takeoffSpeedVR)));
       takeoffV2.setText(String.valueOf(Math.round(takeoffSpeedV2)));
-      new GetTakeoffPowerN1Task().execute();
     }
   }
 
@@ -304,8 +308,9 @@ public class PerformanceFragment extends Fragment {
     @Override
     protected void onPostExecute(MetarResponse metarResponse) {
       if (metarResponse.getData().size() > 0) {
-        weatherInfo.setText(metarResponse.getData().get(0).getRawText());
-        temperature = (int) Math.round(Double.parseDouble(metarResponse.getData().get(0).getTempC()));
+        metar = metarResponse.getData().get(0);
+        weatherInfo.setText(metar.getRawText());
+        temperature = (int) Math.round(Double.parseDouble(metar.getTempC()));
         new RunwayTask().execute();
       } else {
         Toast.makeText(getActivity(), "Failed to retrieve weather!", Toast.LENGTH_LONG).show();
@@ -326,9 +331,12 @@ public class PerformanceFragment extends Fragment {
       String[] runways = createRunwayList(airportAndRunways);
       ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, runways);
       runwayList.setAdapter(adapter);
-
-      altitude = airportAndRunways.getAirport().getElevation();
+      Airport airport = airportAndRunways.getAirport();
+      airportId = airport.getId();
+      altitude = airport.getElevation();
+      new GetTakeoffPowerN1Task().execute();
       new GetTakeoffDataTask().execute(getActivity());
+      new SaveDataTask().execute();
     }
 
     private String[] createRunwayList(AirportAndRunways airportAndRunways) {
@@ -359,6 +367,19 @@ public class PerformanceFragment extends Fragment {
       return runways;
     }
 
+  }
+
+  private class SaveDataTask extends AsyncTask<Void, Void, Void> {
+
+    @Override
+    protected Void doInBackground(Void... voids) {
+      // TODO save more fields.
+      Weather weather = new Weather();
+      weather.setRawText(metar.getRawText());
+      weather.setAirportId(airportId);
+      database.getWeatherDao().insert(weather);
+      return null;
+    }
   }
 
 }
