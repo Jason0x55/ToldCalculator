@@ -12,12 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
+import com.toldcalculator.android.tc.controller.SavedDataFragment;
 import com.toldcalculator.android.tc.controller.WeatherFragment;
 import com.toldcalculator.android.tc.model.db.ToldData;
 
 /**
- * This is the main activity that holds the fragments. Launches the landing page fragment
- * and contains navigation draw
+ * This is the main activity that holds all fragments. Starts out by launching the landing page {@link NewFlightFragment}
+ * Also contains navigation draw code.
  */
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity
             new WeatherFragment()).commit();
         break;
       case R.id.nav_saved:
+        fragmentManager.beginTransaction().replace(R.id.main_container,
+            new SavedDataFragment()).commit();
         break;
 
       default:

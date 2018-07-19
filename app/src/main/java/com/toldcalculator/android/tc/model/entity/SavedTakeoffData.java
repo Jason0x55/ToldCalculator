@@ -10,17 +10,17 @@ public class SavedTakeoffData {
   @PrimaryKey
   private Long id;
 
-  private Date timestamp;
+  private Date timestamp = new Date();
 
   private String aircraftName;
 
   private String airportId;
-  private int RunwayRequired;
-  private float TakeoffN1;
-  private int TakeoffV1;
-  private int TakeoffVR;
-  private int TakeoffV2;
-  private int TakeoffWeight;
+  private int runwayRequired;
+  private float takeoffN1;
+  private int takeoffV1;
+  private int takeoffVR;
+  private int takeoffV2;
+  private int takeoffWeight;
   private String weatherRawText;
 
   public Long getId() {
@@ -56,51 +56,51 @@ public class SavedTakeoffData {
   }
 
   public int getRunwayRequired() {
-    return RunwayRequired;
+    return runwayRequired;
   }
 
   public void setRunwayRequired(int runwayRequired) {
-    RunwayRequired = runwayRequired;
+    this.runwayRequired = runwayRequired;
   }
 
   public float getTakeoffN1() {
-    return TakeoffN1;
+    return takeoffN1;
   }
 
   public void setTakeoffN1(float takeoffN1) {
-    TakeoffN1 = takeoffN1;
+    this.takeoffN1 = takeoffN1;
   }
 
   public int getTakeoffV1() {
-    return TakeoffV1;
+    return takeoffV1;
   }
 
   public void setTakeoffV1(int takeoffV1) {
-    TakeoffV1 = takeoffV1;
+    this.takeoffV1 = takeoffV1;
   }
 
   public int getTakeoffVR() {
-    return TakeoffVR;
+    return takeoffVR;
   }
 
   public void setTakeoffVR(int takeoffVR) {
-    TakeoffVR = takeoffVR;
+    this.takeoffVR = takeoffVR;
   }
 
   public int getTakeoffV2() {
-    return TakeoffV2;
+    return takeoffV2;
   }
 
   public void setTakeoffV2(int takeoffV2) {
-    TakeoffV2 = takeoffV2;
+    this.takeoffV2 = takeoffV2;
   }
 
   public int getTakeoffWeight() {
-    return TakeoffWeight;
+    return takeoffWeight;
   }
 
   public void setTakeoffWeight(int takeoffWeight) {
-    TakeoffWeight = takeoffWeight;
+    this.takeoffWeight = takeoffWeight;
   }
 
   public String getWeatherRawText() {
@@ -109,5 +109,11 @@ public class SavedTakeoffData {
 
   public void setWeatherRawText(String weatherRawText) {
     this.weatherRawText = weatherRawText;
+  }
+
+  @Override
+  public String toString() {
+    String string = airportId + " " + aircraftName + " " + takeoffWeight;
+    return string;
   }
 }

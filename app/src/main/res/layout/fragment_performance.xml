@@ -126,12 +126,12 @@
         android:layout_toEndOf="@id/runway_required_label"/>
 
       <Button
-        android:id="@+id/save_button"
+        android:id="@+id/get_numbers_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/takeoff_v2_text"
         android:layout_alignEnd="@id/takeoff_v2_text"
-        android:text="Get Numbers"/>
+        android:text="@string/get_numbers"/>
 
     </RelativeLayout>
   </LinearLayout>
@@ -150,7 +150,7 @@
         android:id="@+id/aircraft_info_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aircraft data"
+        android:text="@string/aircraft_label"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -171,7 +171,7 @@
         android:id="@+id/weather_data_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weather data"
+        android:text="@string/weather_label"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"

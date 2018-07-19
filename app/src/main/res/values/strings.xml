@@ -23,4 +23,10 @@
   <string name="save">Save</string>
   <string name="v2">V2</string>
   <string name="vr">VR</string>
+  <string name="aircraft_label">Aircraft</string>
+  <string name="get_numbers">Get Numbers</string>
+  <string name="weather_label">Weather</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

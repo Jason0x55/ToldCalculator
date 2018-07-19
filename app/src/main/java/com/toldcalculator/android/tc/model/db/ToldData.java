@@ -14,6 +14,7 @@ import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
 import com.toldcalculator.android.tc.model.dao.RunwayDao;
+import com.toldcalculator.android.tc.model.dao.SavedTakeoffDataDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffDataDao;
 import com.toldcalculator.android.tc.model.dao.TakeoffPowerN1Dao;
 import com.toldcalculator.android.tc.model.dao.UserDao;
@@ -52,6 +53,7 @@ public abstract class ToldData extends RoomDatabase {
   public abstract TakeoffDataDao getTakeoffDataDao();
   public abstract TakeoffPowerN1Dao getTakeoffPowerN1Dao();
   public abstract WeatherDao getWeatherDao();
+  public abstract SavedTakeoffDataDao getSavedTakeoffDataDao();
 
   public static ToldData getInstance(Context context) {
     if (instance == null) {

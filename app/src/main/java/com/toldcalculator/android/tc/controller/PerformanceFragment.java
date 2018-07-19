@@ -1,7 +1,6 @@
 package com.toldcalculator.android.tc.controller;
 
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +19,7 @@ import com.toldcalculator.android.tc.model.MetarResponse;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Airport;
 import com.toldcalculator.android.tc.model.entity.Runway;
+import com.toldcalculator.android.tc.model.entity.SavedTakeoffData;
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import com.toldcalculator.android.tc.model.entity.Weather;
@@ -45,7 +45,7 @@ public class PerformanceFragment extends Fragment {
   private TextView takeoffV2;
   private TextView aircraftInfo;
   private TextView weatherInfo;
-  private Button saveButton;
+  private Button getNumbersButton;
   private ListView runwayList;
   private TextView airportData;
 
@@ -54,7 +54,7 @@ public class PerformanceFragment extends Fragment {
   private int temperature;
   private int altitude = -111;
   private int aircraftWeight;
-  private String aircraftID;
+  private String aircraftId;
   private Metar metar;
 
   private ToldData database;
@@ -73,7 +73,7 @@ public class PerformanceFragment extends Fragment {
     if(bundle != null){
       airportIdent = bundle.getString("ICAO");
       aircraftWeight = bundle.getInt("WT");
-      aircraftID = bundle.getString("NAME");
+      aircraftId = bundle.getString("NAME");
       // TODO move/add more aircraft info and add more Runway info
     }
     database = ToldData.getInstance(getActivity());
@@ -81,7 +81,7 @@ public class PerformanceFragment extends Fragment {
     SetupUI(view);
 
     // TODO Implement save function and move MetarTask.execute()
-    saveButton.setOnClickListener(new OnClickListener() {
+    getNumbersButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         new MetarTask().execute();
@@ -103,18 +103,18 @@ public class PerformanceFragment extends Fragment {
     takeoffV2 = (TextView) view.findViewById(R.id.takeoff_v2_text);
     aircraftInfo = (TextView) view.findViewById(R.id.aircraft_info_text);
     weatherInfo = (TextView) view.findViewById(R.id.weather_data_text);
-    saveButton = (Button) view.findViewById(R.id.save_button);
+    getNumbersButton = (Button) view.findViewById(R.id.get_numbers_button);
     runwayList = (ListView) view.findViewById(R.id.runway_listview);
     airportData = (TextView) view.findViewById(R.id.airport_data_label);
 
-    airportData.setText("Airport data: Elevation: " + altitude);
-    aircraftInfo.setText(String.valueOf("Aircraft: " + aircraftID + " Weight: " + aircraftWeight));
+    airportData.setText("Airport");
+    aircraftInfo.setText(aircraftId + " Weight: " + String.valueOf(aircraftWeight));
   }
 
-  private class GetTakeoffDataTask extends AsyncTask<Context, Void, List<TakeoffData>> {
+  private class GetTakeoffDataTask extends AsyncTask<Void, Void, List<TakeoffData>> {
 
     @Override
-    protected List<TakeoffData> doInBackground(Context... contexts) {
+    protected List<TakeoffData> doInBackground(Void... voids) {
       List<TakeoffData> takeoffData = new ArrayList<>();
 
       // High Alt - High/Low weight - High temp
@@ -234,6 +234,7 @@ public class PerformanceFragment extends Fragment {
       takeoffV1.setText(String.valueOf(Math.round(takeoffSpeedV1)));
       takeoffVR.setText(String.valueOf(Math.round(takeoffSpeedVR)));
       takeoffV2.setText(String.valueOf(Math.round(takeoffSpeedV2)));
+      new SaveDataTask().execute();
     }
   }
 
@@ -327,40 +328,39 @@ public class PerformanceFragment extends Fragment {
 
     @Override
     protected void onPostExecute(AirportAndRunways airportAndRunways) {
-      // TODO Maybe change to RecyclerView
       String[] runways = createRunwayList(airportAndRunways);
       ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, runways);
       runwayList.setAdapter(adapter);
       Airport airport = airportAndRunways.getAirport();
       airportId = airport.getId();
       altitude = airport.getElevation();
+      airportData.setText(airportIdent+ " - Elevation: " + altitude);
       new GetTakeoffPowerN1Task().execute();
-      new GetTakeoffDataTask().execute(getActivity());
-      new SaveDataTask().execute();
+      new GetTakeoffDataTask().execute();
     }
 
     private String[] createRunwayList(AirportAndRunways airportAndRunways) {
       List<Runway> runwaysList = airportAndRunways.getRunway();
       String[] runways = new String[runwaysList.size()];
       for (int i = 0; i < runwaysList.size(); i++) {
-        // TODO Clean this up
-        char parallel = ' ';
+        char parallelIdentifier = ' ';
         String runway = airportAndRunways.getRunway().get(i).getRunwayId();
         int runwayIdent = Integer.parseInt(runway.substring(0,2) + "0");
         runwayIdent = ((runwayIdent + 180) > 360) ? (runwayIdent + 180) % 360 / 10 : (runwayIdent + 180) / 10;
         if (runway.length() > 2) {
+          // Add the left right identifier for parallel runways
           switch (runway.charAt(2)) {
             case 'R':
-              parallel = 'L';
+              parallelIdentifier = 'L';
               break;
             case 'L':
-              parallel = 'R';
+              parallelIdentifier = 'R';
               break;
             default:
-              parallel = runway.charAt(2);
+              parallelIdentifier = runway.charAt(2);
           }
         }
-        runways[i] = "Runway: " + runway + "/" + runwayIdent + parallel
+        runways[i] = "Runway: " + runway + "/" + runwayIdent + parallelIdentifier
             + " - Length: " + airportAndRunways.getRunway().get(i).getLength()
             + " - Width: " + airportAndRunways.getRunway().get(i).getWidth();
       }
@@ -378,6 +378,17 @@ public class PerformanceFragment extends Fragment {
       weather.setRawText(metar.getRawText());
       weather.setAirportId(airportId);
       database.getWeatherDao().insert(weather);
+      SavedTakeoffData savedTakeoffData = new SavedTakeoffData();
+      savedTakeoffData.setAircraftName(aircraftId);
+      savedTakeoffData.setAirportId(airportIdent);
+      savedTakeoffData.setRunwayRequired(Integer.parseInt(runwayRequired.getText().toString()));
+      savedTakeoffData.setTakeoffV1(Integer.parseInt(takeoffV1.getText().toString()));
+      savedTakeoffData.setTakeoffVR(Integer.parseInt(takeoffVR.getText().toString()));
+      savedTakeoffData.setTakeoffV2(Integer.parseInt(takeoffV2.getText().toString()));
+      savedTakeoffData.setTakeoffN1(Float.parseFloat(takeoffN1.getText().toString()));
+      savedTakeoffData.setTakeoffWeight(aircraftWeight);
+      savedTakeoffData.setWeatherRawText(metar.getRawText());
+      database.getSavedTakeoffDataDao().insert(savedTakeoffData);
       return null;
     }
   }
