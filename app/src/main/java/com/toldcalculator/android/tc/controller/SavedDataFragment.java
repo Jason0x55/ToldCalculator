@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.SavedTakeoffData;
@@ -73,13 +74,15 @@ public class SavedDataFragment extends Fragment {
 
     @Override
     public void onClick(View v) {
-      Toast.makeText(getActivity(), savedTakeoffData.getAirportId(), Toast.LENGTH_LONG).show();
       Bundle bundle = new Bundle();
-      bundle.putLong("SAVEDID", savedTakeoffData.getId());
-      LoadSavedDataFragment loadSavedDataFragment = new LoadSavedDataFragment();
-      loadSavedDataFragment.setArguments(bundle);
+      bundle.putLong(MainActivity.SAVED_ID_KEY, savedTakeoffData.getId());
+      bundle.putString(MainActivity.AIRPORT_IDENT_KEY, savedTakeoffData.getAirportId());
+      bundle.putInt(MainActivity.AIRCRAFT_WEIGHT_KEY, savedTakeoffData.getTakeoffWeight());
+      bundle.putString(MainActivity.AIRCRAFT_NAME_KEY, savedTakeoffData.getAircraftName());
+      PerformanceFragment performanceFragment = new PerformanceFragment();
+      performanceFragment.setArguments(bundle);
       FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-      fragmentManager.beginTransaction().replace(R.id.main_container, loadSavedDataFragment)
+      fragmentManager.beginTransaction().replace(R.id.main_container, performanceFragment)
           .commit();
     }
   }

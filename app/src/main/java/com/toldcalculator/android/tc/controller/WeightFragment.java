@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
@@ -46,12 +47,10 @@ public class WeightFragment extends Fragment {
 
     Bundle bundle = this.getArguments();
     if(bundle != null){
-      airportIdent = bundle.getString("ICAO");
-      aircraftID = bundle.getString("NAME");
+      airportIdent = bundle.getString(MainActivity.AIRPORT_IDENT_KEY);
+      aircraftID = bundle.getString(MainActivity.AIRCRAFT_NAME_KEY);
     }
-
     setupUI(view);
-
     return view;
   }
 
@@ -142,9 +141,9 @@ public class WeightFragment extends Fragment {
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
         Bundle bundle = new Bundle();
-        bundle.putString("ICAO", airportIdent);
-        bundle.putInt("WT", Integer.parseInt("0" + totalWeight.getText().toString()));
-        bundle.putString("NAME", aircraftID);
+        bundle.putString(MainActivity.AIRPORT_IDENT_KEY, airportIdent);
+        bundle.putInt(MainActivity.AIRCRAFT_WEIGHT_KEY, Integer.parseInt("0" + totalWeight.getText().toString()));
+        bundle.putString(MainActivity.AIRCRAFT_NAME_KEY, aircraftID);
 
         PerformanceFragment performanceFragment = new PerformanceFragment();
         performanceFragment.setArguments(bundle);
@@ -157,6 +156,7 @@ public class WeightFragment extends Fragment {
 
   private int totalWeight() {
     int total = 0;
+    // Leading zero used in case TextView is empty.
     total += Integer.parseInt("0" + basicEmptyWeight.getText().toString());
     total += Integer.parseInt("0" + fuelWeight.getText().toString());
     total += Integer.parseInt("0" + paxWeight.getText().toString());

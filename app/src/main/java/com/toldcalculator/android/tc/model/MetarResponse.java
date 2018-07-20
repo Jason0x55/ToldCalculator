@@ -12,7 +12,7 @@ public class MetarResponse {
 
   /**
    *
-   * @return
+   * @return returns a list of {@link Metar} objects.
    */
   public List<Metar> getData() {
     return data;
@@ -20,7 +20,7 @@ public class MetarResponse {
 
   /**
    *
-   * @param data
+   * @param data setter
    */
   public void setData(List<Metar> data) {
     this.data = data;

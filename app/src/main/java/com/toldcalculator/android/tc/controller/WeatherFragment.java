@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.Metar;
 import com.toldcalculator.android.tc.model.MetarResponse;
+import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Weather;
 import com.toldcalculator.android.tc.service.MetarService;
 import java.io.IOException;
@@ -58,6 +59,8 @@ public class WeatherFragment extends Fragment {
         Toast.makeText(getActivity(), "Add airport", Toast.LENGTH_SHORT).show();
       }
     });
+
+    new GetWeatherTask().execute();
 
     return view;
   }
@@ -106,6 +109,7 @@ public class WeatherFragment extends Fragment {
   private class MetarTask extends AsyncTask<Void, Void, MetarResponse> {
 
     private static final String BASE_URL = "https://www.aviationweather.gov/adds/dataserver_current/";
+    public static final String FAILED_TEXT = "Failed to retrieve weather!";
     private static final double hoursBeforeNow = 1.25;
 
     @Override
@@ -148,8 +152,24 @@ public class WeatherFragment extends Fragment {
         adapter = new WeatherAdapter(exampleWeather);
         recyclerView.setAdapter(adapter);
       } else {
-        Toast.makeText(getActivity(), "Failed to retrieve weather!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), FAILED_TEXT, Toast.LENGTH_LONG).show();
       }
+    }
+  }
+
+  private class GetWeatherTask extends AsyncTask<Void, Void, List<Weather>> {
+
+    @Override
+    protected void onPostExecute(List<Weather> weatherList) {
+      if (weatherList.size() > 0) {
+        adapter = new WeatherAdapter(weatherList);
+        recyclerView.setAdapter(adapter);
+      }
+    }
+
+    @Override
+    protected List<Weather> doInBackground(Void... voids) {
+      return ToldData.getInstance(getContext()).getWeatherDao().selectAll();
     }
   }
 }

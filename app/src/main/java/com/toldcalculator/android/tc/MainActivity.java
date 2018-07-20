@@ -17,11 +17,16 @@ import com.toldcalculator.android.tc.controller.WeatherFragment;
 import com.toldcalculator.android.tc.model.db.ToldData;
 
 /**
- * This is the main activity that holds all fragments. Starts out by launching the landing page {@link NewFlightFragment}
+ * This is the main activity that holds all fragments. Starts by launching the landing page {@link NewFlightFragment}.
  * Also contains navigation draw code.
  */
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+
+  public static final String AIRPORT_IDENT_KEY = "ICAO";
+  public static final String AIRCRAFT_NAME_KEY = "NAME";
+  public static final String AIRCRAFT_WEIGHT_KEY = "WT";
+  public static final String SAVED_ID_KEY = "SAVEDID";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
