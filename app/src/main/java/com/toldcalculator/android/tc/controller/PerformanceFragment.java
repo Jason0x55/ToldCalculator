@@ -4,6 +4,7 @@ package com.toldcalculator.android.tc.controller;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -384,17 +385,30 @@ public class PerformanceFragment extends Fragment {
 
     @Override
     protected void onPostExecute(AirportAndRunways airportAndRunways) {
-      String[] runways = createRunwayList(airportAndRunways);
-      ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-          android.R.layout.simple_list_item_1, runways);
-      runwayList.setAdapter(adapter);
-      Airport airport = airportAndRunways.getAirport();
-      airportId = airport.getId();
-      altitude = airport.getElevation();
-      airportData.setText(getContext().getString(R.string.airport_string, airportIdent, altitude));
-      if (!loadSavedData) {
-        new GetTakeoffPowerN1Task().execute();
-        new GetTakeoffDataTask().execute();
+      if (airportAndRunways != null) {
+        String[] runways = createRunwayList(airportAndRunways);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+            android.R.layout.simple_list_item_1, runways);
+        runwayList.setAdapter(adapter);
+        Airport airport = airportAndRunways.getAirport();
+        airportId = airport.getId();
+        altitude = airport.getElevation();
+        if (altitude < 0) {
+          altitude = 0;
+        }
+        airportData.setText(getContext().getString(R.string.airport_string, airportIdent, altitude));
+        if (!loadSavedData) {
+          if (temperature > 38 || temperature < -18) {
+            Toast toast = Toast.makeText(getActivity(), "Temperature off the charts: Refer to AFM", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+          } else {
+            new GetTakeoffPowerN1Task().execute();
+            new GetTakeoffDataTask().execute();
+          }
+        }
+      } else {
+        Toast.makeText(getActivity(), "Failed to locate airport record.", Toast.LENGTH_LONG).show();
       }
     }
 
@@ -404,6 +418,11 @@ public class PerformanceFragment extends Fragment {
       for (int i = 0; i < runwaysList.size(); i++) {
         char parallelIdentifier = ' ';
         String runway = airportAndRunways.getRunway().get(i).getRunwayId();
+        // No runway identifier. Maybe handle this differently.
+        if (runway.length() < 2) {
+          runways[i] = runway;
+          break;
+        }
         int runwayIdent = Integer.parseInt(runway.substring(0, 2) + "0");
         runwayIdent =
             ((runwayIdent + 180) > 360) ? (runwayIdent + 180) % 360 / 10 : (runwayIdent + 180) / 10;

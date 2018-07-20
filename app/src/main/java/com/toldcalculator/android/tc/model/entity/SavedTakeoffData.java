@@ -10,7 +10,7 @@ import java.util.Date;
     parentColumns = "id",
     childColumns = "userId"),
     indices = {
-        @Index(value = {"userId"}, unique = true)
+        @Index(value = {"userId"})
     })
 public class SavedTakeoffData {
 

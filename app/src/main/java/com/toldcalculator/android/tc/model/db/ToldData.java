@@ -173,11 +173,11 @@ public abstract class ToldData extends RoomDatabase {
       for (CSVRecord airportRecord : airportRecords) {
         airport.setName(airportRecord.get("NAME"));
         if (airportRecord.get("ICAO_ID").equals("")) {
-          airport.setIcaoId(airportRecord.get("IDENT"));
+          airport.setIcaoId("K" + airportRecord.get("IDENT"));
         } else {
           airport.setIcaoId(airportRecord.get("ICAO_ID"));
         }
-
+        airport.setIdent(airportRecord.get("IDENT"));
         airport.setElevation((int) Double.parseDouble(airportRecord.get("ELEVATION")));
         long airportId = db.getAirportDao().insert(airport);
 

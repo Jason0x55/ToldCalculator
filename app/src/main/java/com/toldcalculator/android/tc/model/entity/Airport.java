@@ -14,9 +14,10 @@ public class Airport {
   @NonNull
   private String name;
 
-  @NonNull
   @ColumnInfo(name = "ICAO_ID", collate = ColumnInfo.NOCASE)
   private String icaoId;
+
+  private String ident;
 
   @NonNull
   private int elevation;
@@ -45,6 +46,14 @@ public class Airport {
 
   public void setIcaoId(@NonNull String icaoId) {
     this.icaoId = icaoId;
+  }
+
+  public String getIdent() {
+    return ident;
+  }
+
+  public void setIdent(String ident) {
+    this.ident = ident;
   }
 
   @NonNull

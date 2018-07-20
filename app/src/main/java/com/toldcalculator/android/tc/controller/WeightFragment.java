@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
@@ -145,17 +146,22 @@ public class WeightFragment extends Fragment {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
-        bundle.putInt(BundleConstants.AIRCRAFT_WEIGHT_KEY, Integer.parseInt("0" + totalWeight.getText().toString()));
-        bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, aircraftID);
-        bundle.putLong(BundleConstants.USER_ID_KEY, userId);
+        int aircraftWeight = Integer.parseInt("0" + totalWeight.getText().toString());
+        if (aircraftWeight > 18300 || aircraftWeight < 10000) {
+          Toast.makeText(getActivity(), "Not a vaild weight", Toast.LENGTH_LONG).show();
+        } else {
+          Bundle bundle = new Bundle();
+          bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
+          bundle.putInt(BundleConstants.AIRCRAFT_WEIGHT_KEY, aircraftWeight);
+          bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, aircraftID);
+          bundle.putLong(BundleConstants.USER_ID_KEY, userId);
 
-        PerformanceFragment performanceFragment = new PerformanceFragment();
-        performanceFragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_container, performanceFragment)
-            .commit();
+          PerformanceFragment performanceFragment = new PerformanceFragment();
+          performanceFragment.setArguments(bundle);
+          FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+          fragmentManager.beginTransaction().replace(R.id.main_container, performanceFragment)
+              .commit();
+        }
       }
     });
   }

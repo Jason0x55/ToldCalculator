@@ -74,23 +74,26 @@ public class NewFlightFragment extends Fragment {
           return;
         }
         airportIdent = airportText.getText().toString();
+        if (airportIdent.length() < 3 || airportIdent.length() > 4) {
+          Toast.makeText(getActivity(), "Identifer must be 3 or 4 characters. (KABQ, E95)", Toast.LENGTH_LONG).show();
+        } else {
+          // Close/hide soft keyboard.
+          InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+          imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
-        // Close/hide soft keyboard.
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+          Bundle bundle = new Bundle();
+          bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
+          bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
+          bundle.putLong(BundleConstants.USER_ID_KEY, userId);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
-        bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
-        bundle.putLong(BundleConstants.USER_ID_KEY, userId);
+          WeightFragment weightFragment = new WeightFragment();
+          weightFragment.setArguments(bundle);
 
-        WeightFragment weightFragment = new WeightFragment();
-        weightFragment.setArguments(bundle);
+          FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-        fragmentManager.beginTransaction().replace(R.id.main_container, weightFragment)
-            .commit();
+          fragmentManager.beginTransaction().replace(R.id.main_container, weightFragment)
+              .commit();
+        }
       }
     });
   }
