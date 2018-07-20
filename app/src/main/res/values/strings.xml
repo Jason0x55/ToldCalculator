@@ -29,4 +29,9 @@
 
   <string name="airport_string">%1$s - Elevation: %2$d</string>
   <string name="aircraft_string">%1$s - Weight: %2$d</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="default_airport_label">Default Airport</string>
+  <string name="default_aircraft_label">Default Aircraft</string>
 </resources>

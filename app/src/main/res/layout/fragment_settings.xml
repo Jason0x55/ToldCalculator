@@ -1,0 +1,75 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context="com.toldcalculator.android.tc.controller.SettingsFragment">
+
+  <android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:id="@+id/airport_layout"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/aircraft_layout"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_airport_label"/>
+
+      <EditText
+        android:id="@+id/default_airport_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minEms="3"
+        android:maxEms="3"/>
+
+    </LinearLayout>
+    <LinearLayout
+      android:id="@+id/aircraft_layout"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/save_defaults_button"
+      app:layout_constraintTop_toBottomOf="@id/airport_layout"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_aircraft_label"/>
+
+      <!--Should be changed to spinner and load options from database -->
+      <EditText
+        android:id="@+id/default_aircraft_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minEms="3"
+        android:maxEms="3"/>
+
+    </LinearLayout>
+    <Button
+      android:id="@+id/save_defaults_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/aircraft_layout"
+      android:text="@string/save"/>
+
+  </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

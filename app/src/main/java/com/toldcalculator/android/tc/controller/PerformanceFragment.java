@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.Metar;
@@ -76,13 +77,13 @@ public class PerformanceFragment extends Fragment {
 
     Bundle bundle = this.getArguments();
     if (bundle != null) {
-      savedAirportId = bundle.getLong(MainActivity.SAVED_ID_KEY, -1l);
+      savedAirportId = bundle.getLong(BundleConstants.SAVED_ID_KEY, -1l);
       if (savedAirportId != -1l) {
         loadSavedData = true;
       }
-      airportIdent = bundle.getString(MainActivity.AIRPORT_IDENT_KEY);
-      aircraftWeight = bundle.getInt(MainActivity.AIRCRAFT_WEIGHT_KEY);
-      aircraftId = bundle.getString(MainActivity.AIRCRAFT_NAME_KEY);
+      airportIdent = bundle.getString(BundleConstants.AIRPORT_IDENT_KEY);
+      aircraftWeight = bundle.getInt(BundleConstants.AIRCRAFT_WEIGHT_KEY);
+      aircraftId = bundle.getString(BundleConstants.AIRCRAFT_NAME_KEY);
     }
     database = ToldData.getInstance(getActivity());
 

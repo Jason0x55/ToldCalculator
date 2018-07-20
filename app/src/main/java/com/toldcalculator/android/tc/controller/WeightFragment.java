@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
@@ -48,8 +49,8 @@ public class WeightFragment extends Fragment {
 
     Bundle bundle = this.getArguments();
     if(bundle != null){
-      airportIdent = bundle.getString(MainActivity.AIRPORT_IDENT_KEY);
-      aircraftID = bundle.getString(MainActivity.AIRCRAFT_NAME_KEY);
+      airportIdent = bundle.getString(BundleConstants.AIRPORT_IDENT_KEY);
+      aircraftID = bundle.getString(BundleConstants.AIRCRAFT_NAME_KEY);
     }
     setupUI(view);
     return view;
@@ -143,9 +144,9 @@ public class WeightFragment extends Fragment {
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.AIRPORT_IDENT_KEY, airportIdent);
-        bundle.putInt(MainActivity.AIRCRAFT_WEIGHT_KEY, Integer.parseInt("0" + totalWeight.getText().toString()));
-        bundle.putString(MainActivity.AIRCRAFT_NAME_KEY, aircraftID);
+        bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
+        bundle.putInt(BundleConstants.AIRCRAFT_WEIGHT_KEY, Integer.parseInt("0" + totalWeight.getText().toString()));
+        bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, aircraftID);
 
         PerformanceFragment performanceFragment = new PerformanceFragment();
         performanceFragment.setArguments(bundle);

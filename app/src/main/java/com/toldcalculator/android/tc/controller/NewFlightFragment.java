@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
@@ -77,8 +78,8 @@ public class NewFlightFragment extends Fragment {
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.AIRPORT_IDENT_KEY, airportIdent);
-        bundle.putString(MainActivity.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
+        bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
+        bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
 
         WeightFragment weightFragment = new WeightFragment();
         weightFragment.setArguments(bundle);

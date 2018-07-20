@@ -1,5 +1,7 @@
 package com.toldcalculator.android.tc;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.SavedDataFragment;
+import com.toldcalculator.android.tc.controller.SettingsFragment;
 import com.toldcalculator.android.tc.controller.WeatherFragment;
 import com.toldcalculator.android.tc.model.db.ToldData;
 
@@ -23,15 +26,30 @@ import com.toldcalculator.android.tc.model.db.ToldData;
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-  public static final String AIRPORT_IDENT_KEY = "ICAO";
-  public static final String AIRCRAFT_NAME_KEY = "NAME";
-  public static final String AIRCRAFT_WEIGHT_KEY = "WT";
-  public static final String SAVED_ID_KEY = "SAVEDID";
+  private static final String DEFAULT_AIRPORT = "KBTV";
+  private static final String DEFAULT_AIRCRAFT = "N123AB";
+  private static final String SHARED_PREF_NAME = "ToldCalculator";
+
+  private String airportIdent;
+  private String aircraftName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+    Editor editor = sharedPreferences.edit();
+
+    airportIdent = sharedPreferences.getString(BundleConstants.AIRPORT_IDENT_KEY, null);
+    aircraftName = sharedPreferences.getString(BundleConstants.AIRCRAFT_NAME_KEY, null);
+    if (airportIdent == null) {
+      airportIdent = DEFAULT_AIRPORT;
+    }
+    if (aircraftName == null) {
+      aircraftName = DEFAULT_AIRCRAFT;
+    }
+
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -75,9 +93,8 @@ public class MainActivity extends AppCompatActivity
 
     currentAirport = (TextView) findViewById(R.id.current_airport);
     currentAircraft = (TextView) findViewById(R.id.current_aircraft_profile);
-    // TODO Remove strings and get from database.
-    currentAirport.setText("KABQ");
-    currentAircraft.setText("N12345");
+    currentAirport.setText(airportIdent);
+    currentAircraft.setText(aircraftName);
     return true;
   }
 
@@ -90,6 +107,9 @@ public class MainActivity extends AppCompatActivity
 
     //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
+      FragmentManager fragmentManager = getSupportFragmentManager();
+      fragmentManager.beginTransaction().replace(R.id.main_container,
+          new SettingsFragment()).commit();
       return true;
     }
 
