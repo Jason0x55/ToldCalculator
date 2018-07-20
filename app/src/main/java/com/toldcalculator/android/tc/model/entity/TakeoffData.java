@@ -28,9 +28,9 @@ public class TakeoffData {
   @NonNull
   private int temperature;
 
-  private Integer takeoffSpeedV1;
-
   private Integer takeoffDistance;
+
+  private Integer takeoffSpeedV1;
 
   private Integer takeoffSpeedVR;
 
