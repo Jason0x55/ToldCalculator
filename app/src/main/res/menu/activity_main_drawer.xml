@@ -7,28 +7,15 @@
     <item
       android:id="@+id/nav_new_flight"
       android:icon="@drawable/ic_flight_takeoff_black_24dp"
-      android:title="New Flight"/>
+      android:title="@string/new_flight"/>
     <item
       android:id="@+id/nav_weather"
       android:icon="@drawable/ic_cloud_black_24dp"
-      android:title="Weather"/>
+      android:title="@string/weather"/>
     <item
       android:id="@+id/nav_saved"
       android:icon="@drawable/ic_save_black_24dp"
-      android:title="Saved TOLD Data"/>
+      android:title="@string/saved_told_data"/>
   </group>
-
-  <item android:title="Communicate">
-    <menu>
-      <item
-        android:id="@+id/nav_share"
-        android:icon="@drawable/ic_menu_share"
-        android:title="Share"/>
-      <item
-        android:id="@+id/nav_send"
-        android:icon="@drawable/ic_menu_send"
-        android:title="Send"/>
-    </menu>
-  </item>
 
 </menu>

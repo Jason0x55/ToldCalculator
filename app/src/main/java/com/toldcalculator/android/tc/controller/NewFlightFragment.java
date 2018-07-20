@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,11 +17,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.toldcalculator.android.tc.BundleConstants;
-import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
-import com.toldcalculator.android.tc.model.entity.User;
 import com.toldcalculator.android.tc.model.pojo.UserInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +32,15 @@ import java.util.List;
  */
 public class NewFlightFragment extends Fragment {
 
-  public static final String NO_PROFILE_SELECTED = "No profile selected.";
   private Spinner aircraftSpinner;
   private EditText airportText;
   private Button nextButton;
-  private View view;
 
   private String airportIdent;
-  private Long userId;
+  private long userId;
 
+  private static final String NO_PROFILE_SELECTED = "No profile selected.";
+  private static final String INVALID_IDENTIFIER = "Identifer must be 3 or 4 characters. (KABQ, E95)";
   public NewFlightFragment() {
     // Required empty public constructor
   }
@@ -52,7 +49,7 @@ public class NewFlightFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    view = inflater.inflate(R.layout.fragment_new_flight, container, false);
+    View view = inflater.inflate(R.layout.fragment_new_flight, container, false);
     setupUI(view);
     return view;
   }
@@ -75,7 +72,7 @@ public class NewFlightFragment extends Fragment {
         }
         airportIdent = airportText.getText().toString();
         if (airportIdent.length() < 3 || airportIdent.length() > 4) {
-          Toast.makeText(getActivity(), "Identifer must be 3 or 4 characters. (KABQ, E95)", Toast.LENGTH_LONG).show();
+          Toast.makeText(getActivity(), INVALID_IDENTIFIER, Toast.LENGTH_LONG).show();
         } else {
           // Close/hide soft keyboard.
           InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

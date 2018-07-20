@@ -1,6 +1,5 @@
 package com.toldcalculator.android.tc.controller;
 
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

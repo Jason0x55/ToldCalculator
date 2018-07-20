@@ -9,7 +9,6 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.dao.AircraftDao;
 import com.toldcalculator.android.tc.model.dao.AirportDao;
@@ -146,7 +145,6 @@ public abstract class ToldData extends RoomDatabase {
       loadTakeoffData(db, contexts[0], aircraftId);
       loadTakeoffDataN1(db, contexts[0], aircraftId);
 
-      Log.d("ToldData: ", "Database complete.");
       forgetInstance(contexts[0]);
       return null;
     }

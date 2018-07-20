@@ -11,14 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.EditText;
 import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This {@link Fragment} subclass is used to allow the user to set some settings using shared
+ * preferences. Right now only setting the default airport works.
  */
 public class SettingsFragment extends Fragment {
 

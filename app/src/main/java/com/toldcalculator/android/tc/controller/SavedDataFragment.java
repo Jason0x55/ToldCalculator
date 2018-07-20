@@ -11,16 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.toldcalculator.android.tc.BundleConstants;
-import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.SavedTakeoffData;
-import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import java.util.ArrayList;
 import java.util.List;
 
