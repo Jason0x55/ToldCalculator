@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 public class Aircraft {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @NonNull
   @ColumnInfo(collate = ColumnInfo.NOCASE)
@@ -21,11 +21,11 @@ public class Aircraft {
   @NonNull
   private int basicEmptyWeight;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 

@@ -2,16 +2,19 @@ package com.toldcalculator.android.tc.model.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import java.util.Date;
 
 @Entity(foreignKeys = @ForeignKey(entity = Airport.class,
     parentColumns = "id",
-    childColumns = "airportId"))
+    childColumns = "airportId"),
+    indices = {@Index(value = {"airportId"})})
 public class Weather {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @NonNull
   private long airportId;
@@ -32,13 +35,13 @@ public class Weather {
 
   private String rawText;
 
-  //TODO Add timestamp
+  private Date timestamp = new Date();
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -122,6 +125,14 @@ public class Weather {
 
   public void setRawText(String rawText) {
     this.rawText = rawText;
+  }
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
   }
 
   @Override

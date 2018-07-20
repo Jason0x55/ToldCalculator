@@ -29,6 +29,7 @@ public class WeightFragment extends Fragment {
 
   private String airportIdent;
   private String aircraftID;
+  private long userId;
 
   public WeightFragment() {
     // Required empty public constructor
@@ -51,6 +52,7 @@ public class WeightFragment extends Fragment {
     if(bundle != null){
       airportIdent = bundle.getString(BundleConstants.AIRPORT_IDENT_KEY);
       aircraftID = bundle.getString(BundleConstants.AIRCRAFT_NAME_KEY);
+      userId = bundle.getLong(BundleConstants.USER_ID_KEY);
     }
     setupUI(view);
     return view;
@@ -147,6 +149,7 @@ public class WeightFragment extends Fragment {
         bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
         bundle.putInt(BundleConstants.AIRCRAFT_WEIGHT_KEY, Integer.parseInt("0" + totalWeight.getText().toString()));
         bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, aircraftID);
+        bundle.putLong(BundleConstants.USER_ID_KEY, userId);
 
         PerformanceFragment performanceFragment = new PerformanceFragment();
         performanceFragment.setArguments(bundle);

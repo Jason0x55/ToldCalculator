@@ -62,6 +62,7 @@ public class PerformanceFragment extends Fragment {
 
   private boolean loadSavedData = false;
   private long savedAirportId;
+  private long userId;
 
   private ToldData database;
 
@@ -84,6 +85,7 @@ public class PerformanceFragment extends Fragment {
       airportIdent = bundle.getString(BundleConstants.AIRPORT_IDENT_KEY);
       aircraftWeight = bundle.getInt(BundleConstants.AIRCRAFT_WEIGHT_KEY);
       aircraftId = bundle.getString(BundleConstants.AIRCRAFT_NAME_KEY);
+      userId = bundle.getLong(BundleConstants.USER_ID_KEY);
     }
     database = ToldData.getInstance(getActivity());
 
@@ -437,6 +439,7 @@ public class PerformanceFragment extends Fragment {
       weather.setAirportId(airportId);
       database.getWeatherDao().insert(weather);
       SavedTakeoffData savedTakeoffData = new SavedTakeoffData();
+      savedTakeoffData.setUserId(userId);
       savedTakeoffData.setAircraftName(aircraftId);
       savedTakeoffData.setAirportId(airportIdent);
       savedTakeoffData.setRunwayRequired(Integer.parseInt(runwayRequired.getText().toString()));

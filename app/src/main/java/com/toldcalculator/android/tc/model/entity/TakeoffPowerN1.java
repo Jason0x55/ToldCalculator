@@ -7,14 +7,15 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 //Add foreign key to aircraft
-@Entity(indices = {@Index(value = {"temperature", "altitude"}, unique = true)},
+@Entity(indices = {@Index(value = {"temperature", "altitude"}, unique = true),
+    @Index(value = {"aircraftId"})},
     foreignKeys = @ForeignKey(entity = Aircraft.class,
         parentColumns = "id",
         childColumns = "aircraftId"))
 public class TakeoffPowerN1 {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @NonNull
   private long aircraftId;
@@ -27,11 +28,11 @@ public class TakeoffPowerN1 {
 
   private float takeoffPowerN1;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 

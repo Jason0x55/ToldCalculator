@@ -39,8 +39,10 @@ public class NewFlightFragment extends Fragment {
   private Spinner aircraftSpinner;
   private EditText airportText;
   private Button nextButton;
-  private String airportIdent;
   private View view;
+
+  private String airportIdent;
+  private Long userId;
 
   public NewFlightFragment() {
     // Required empty public constructor
@@ -80,6 +82,7 @@ public class NewFlightFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
         bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
+        bundle.putLong(BundleConstants.USER_ID_KEY, userId);
 
         WeightFragment weightFragment = new WeightFragment();
         weightFragment.setArguments(bundle);
@@ -113,6 +116,7 @@ public class NewFlightFragment extends Fragment {
           aircraftSpinner.setAdapter(adapter);
         }
         airportText.setText(userInfo.getAirport().get(0).getIcaoId());
+        userId = userInfo.getUser().getId();
       } else {
         new SetupTask().execute();
       }

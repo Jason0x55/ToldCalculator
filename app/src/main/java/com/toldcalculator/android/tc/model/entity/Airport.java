@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 public class Airport {
 
   @PrimaryKey(autoGenerate = true)
-  private Long id;
+  private long id;
 
   @NonNull
   private String name;
@@ -21,11 +21,11 @@ public class Airport {
   @NonNull
   private int elevation;
 
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(long id) {
     this.id = id;
   }
 

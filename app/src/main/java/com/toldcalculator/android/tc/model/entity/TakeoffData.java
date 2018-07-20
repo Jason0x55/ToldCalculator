@@ -6,14 +6,15 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(indices = {@Index(value = {"altitude", "weight", "temperature",}, unique = true)},
+@Entity(indices = {@Index(value = {"altitude", "weight", "temperature",}, unique = true),
+    @Index(value = {"aircraftId"})},
     foreignKeys = @ForeignKey(entity = Aircraft.class,
         parentColumns = "id",
         childColumns = "aircraftId"))
 public class TakeoffData {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @NonNull
   private long aircraftId;
@@ -35,11 +36,11 @@ public class TakeoffData {
 
   private Integer takeoffSpeedV2;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 

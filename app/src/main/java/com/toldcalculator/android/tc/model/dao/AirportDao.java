@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 import com.toldcalculator.android.tc.model.entity.Airport;
 import com.toldcalculator.android.tc.model.pojo.AirportAndRunways;
 
@@ -16,6 +17,7 @@ public interface AirportDao {
   @Query("SELECT * FROM airport WHERE id = :id")
   Airport select(long id);
 
+  @Transaction
   @Query("SELECT * FROM airport WHERE ICAO_ID = :icaoId")
   AirportAndRunways selectWithRunways(String icaoId);
 }
