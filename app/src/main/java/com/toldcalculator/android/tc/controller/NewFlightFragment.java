@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.toldcalculator.android.tc.MainActivity;
 import com.toldcalculator.android.tc.R;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
@@ -27,10 +28,13 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * This {@link Fragment} subclass is the landing page for Told Calculator. This is were the user
+ * can select a aircraft profile and airport. When the user presses the next button they move to
+ * the {@link WeightFragment}.
  */
 public class NewFlightFragment extends Fragment {
 
+  public static final String NO_PROFILE_SELECTED = "No profile selected.";
   private Spinner aircraftSpinner;
   private EditText airportText;
   private Button nextButton;
@@ -63,17 +67,18 @@ public class NewFlightFragment extends Fragment {
       @Override
       public void onClick(View v) {
         if (aircraftSpinner.getSelectedItem() == null) {
-          Toast.makeText(getActivity(), "No profile selected.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(getActivity(), NO_PROFILE_SELECTED, Toast.LENGTH_SHORT).show();
           return;
         }
         airportIdent = airportText.getText().toString();
 
+        // Close/hide soft keyboard.
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
         Bundle bundle = new Bundle();
-        bundle.putString("ICAO", airportIdent);
-        bundle.putString("NAME", (String) aircraftSpinner.getSelectedItem());
+        bundle.putString(MainActivity.AIRPORT_IDENT_KEY, airportIdent);
+        bundle.putString(MainActivity.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
 
         WeightFragment weightFragment = new WeightFragment();
         weightFragment.setArguments(bundle);

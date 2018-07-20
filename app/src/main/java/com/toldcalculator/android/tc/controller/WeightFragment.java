@@ -21,7 +21,8 @@ import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This {@link Fragment} subclass allows the user to input weight information for the flight. The
+ * next button moves the user to the {@link PerformanceFragment}.
  */
 public class WeightFragment extends Fragment {
 
@@ -137,6 +138,7 @@ public class WeightFragment extends Fragment {
     nextButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+        // Close/hide soft keyboard.
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 

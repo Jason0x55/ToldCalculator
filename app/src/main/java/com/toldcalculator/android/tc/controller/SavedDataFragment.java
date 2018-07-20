@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This {@link Fragment} subclass displays all the saved takeoff data and allows the user to
+ * select from the list and display the takeoff data on the {@link PerformanceFragment} page.
  */
 public class SavedDataFragment extends Fragment {
 

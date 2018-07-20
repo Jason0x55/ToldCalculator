@@ -12,35 +12,27 @@ public interface TakeoffDataDao {
   @Insert(onConflict = OnConflictStrategy.FAIL)
   long insert(TakeoffData takeoffData);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude >= :altitude AND weight >= :weight "
-      + "AND temperature >= :temperature LIMIT 1")
+  @Query(Queries.HIGHALT_HIGHWEIGHT_HIGHTEMP)
   TakeoffData selectHighAll(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude >= :altitude AND weight >= :weight "
-      + "AND temperature <= :temperature ORDER BY temperature DESC LIMIT 1")
+  @Query(Queries.HIGHALT_HIGHWEIGHT_LOWTEMP)
   TakeoffData selectHighAltHighWTLowTemp(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude >= :altitude AND weight <= :weight "
-      + "AND temperature >= :temperature ORDER BY weight DESC LIMIT 1")
+  @Query(Queries.HIGHALT_LOWWEIGHT_HIGHTEMP)
   TakeoffData selectHighAltLowWTHighTemp(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude >= :altitude AND weight <= :weight "
-      + "AND temperature <= :temperature ORDER BY weight DESC, temperature DESC LIMIT 1")
+  @Query(Queries.HIGHALT_LOWWEIGHT_LOWTEMP)
   TakeoffData selectHighAltLowWtLowTemp(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude <= :altitude AND weight >= :weight "
-      + "AND temperature >= :temperature ORDER BY altitude DESC, weight, temperature LIMIT 1")
+  @Query(Queries.LOWALT_HIGHWEIGHT_HIGHTEMP)
   TakeoffData selectLowAltHighWTHighTemp(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude <= :altitude AND weight >= :weight "
-      + "AND temperature <= :temperature ORDER BY temperature DESC, altitude DESC LIMIT 1")
+  @Query(Queries.LOWALT_HIGHWEIGHT_LOWTEMP)
   TakeoffData selectLowAltHighWTLowTemp(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude <= :altitude AND weight <= :weight "
-      + "AND temperature >= :temperature ORDER BY altitude DESC, temperature LIMIT 1")
+  @Query(Queries.LOWALT_LOWWEIGHT_HIGHTEMP)
   TakeoffData selectLowAltLowWTHighTemp(int altitude, int weight, int temperature);
 
-  @Query("SELECT * FROM takeOffData WHERE altitude <= :altitude AND weight <= :weight "
-      + "AND temperature <= :temperature ORDER BY altitude DESC, temperature DESC LIMIT 1")
+  @Query(Queries.LOWALT_LOWWEIGHT_LOWTEMP)
   TakeoffData selectLowAll(int altitude, int weight, int temperature);
 }

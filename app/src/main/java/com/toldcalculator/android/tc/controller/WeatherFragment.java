@@ -28,7 +28,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass that displays weather.
  */
 public class WeatherFragment extends Fragment {
 
