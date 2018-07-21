@@ -14,8 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.R;
+import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
+import com.toldcalculator.android.tc.controller.helpers.PerformanceCalculations;
 import com.toldcalculator.android.tc.model.Metar;
 import com.toldcalculator.android.tc.model.MetarResponse;
 import com.toldcalculator.android.tc.model.db.ToldData;
@@ -69,14 +70,9 @@ public class PerformanceFragment extends Fragment {
 
   private static final long DEFAULT_VALUE = -1L;
 
-  public PerformanceFragment() {
-    // Required empty public constructor
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_performance, container, false);
 
     Bundle bundle = this.getArguments();
@@ -102,10 +98,6 @@ public class PerformanceFragment extends Fragment {
         @Override
         public void onClick(View v) {
           new MetarTask().execute();
-//        altitude = 3000;
-//        temperature = 23;
-//        aircraftWeight = 14000;
-//        new GetTakeoffDataTask().execute(getActivity());
         }
       });
     }
@@ -131,9 +123,9 @@ public class PerformanceFragment extends Fragment {
   }
 
 
-  /**
+  /*
    * This AsyncTask queries the database for all high/low values based on aircraft weight, temperature,
-   * and airport elevation and calls {@link PerformanceCalculations}  to calculates takeoff numbers.
+   * and airport elevation and calls {@link PerformanceCalculations} to calculates takeoff numbers.
    */
   private class GetTakeoffDataTask extends AsyncTask<Void, Void, List<TakeoffData>> {
 
@@ -172,13 +164,10 @@ public class PerformanceFragment extends Fragment {
 
     @Override
     protected void onPostExecute(List<TakeoffData> takeoffData) {
-      // Test case
-      // altitude = 3500;
-      // temperature = 21;
-      // aircraftWeight = 14500;
 
       PerformanceCalculations performanceCalculations =
-          new PerformanceCalculations(takeoffData, null, altitude, aircraftWeight, temperature);
+          new PerformanceCalculations(takeoffData,
+              null, altitude, aircraftWeight, temperature);
 
       runwayRequired.setText(performanceCalculations.getTakeoffDistance());
       takeoffV1.setText(performanceCalculations.getTakeoffSpeedV1());
@@ -188,6 +177,11 @@ public class PerformanceFragment extends Fragment {
     }
   }
 
+  /*
+   * This AsyncTask queries the database for all high/low values based on temperature and
+   * airport elevation then calls {@link PerformanceCalculations} to calculates takeoff power N1
+   * numbers.
+   */
   private class GetTakeoffPowerN1Task extends AsyncTask<Void, Void, List<TakeoffPowerN1>> {
 
     @Override
@@ -213,6 +207,9 @@ public class PerformanceFragment extends Fragment {
     }
   }
 
+  /*
+   * This AsyncTask sends a request to the FAA Text Data Service to get weather information.
+   */
   private class MetarTask extends AsyncTask<Void, Void, MetarResponse> {
 
     private static final String BASE_URL = "https://www.aviationweather.gov/adds/dataserver_current/";
@@ -254,10 +251,15 @@ public class PerformanceFragment extends Fragment {
     }
   }
 
+  /*
+   * This AsyncTask queries the database to get airport and runway information.
+   */
   private class RunwayTask extends AsyncTask<Void, Void, AirportAndRunways> {
 
     private static final String TEMPERATURE_NOT_USABLE = "Temperature off the charts: Refer to AFM";
     private static final String AIRPORT_QUERY_FAILED = "Failed to locate airport record.";
+    private static final int MAX_TEMP = 38;
+    private static final int MIN_TEMP = -18;
 
     @Override
     protected AirportAndRunways doInBackground(Void... voids) {
@@ -267,10 +269,7 @@ public class PerformanceFragment extends Fragment {
     @Override
     protected void onPostExecute(AirportAndRunways airportAndRunways) {
       if (airportAndRunways != null) {
-        String[] runways = createRunwayList(airportAndRunways);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-            android.R.layout.simple_list_item_1, runways);
-        runwayList.setAdapter(adapter);
+        createRunwayList(airportAndRunways);
         Airport airport = airportAndRunways.getAirport();
         airportId = airport.getId();
         altitude = airport.getElevation();
@@ -279,7 +278,7 @@ public class PerformanceFragment extends Fragment {
         }
         airportData.setText(getContext().getString(R.string.airport_string, airportIdent, altitude));
         if (!loadSavedData) {
-          if (temperature > 38 || temperature < -18) {
+          if (temperature > MAX_TEMP || temperature < MIN_TEMP) {
             Toast toast = Toast.makeText(getActivity(), TEMPERATURE_NOT_USABLE, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER,0,0);
             toast.show();
@@ -293,7 +292,7 @@ public class PerformanceFragment extends Fragment {
       }
     }
 
-    private String[] createRunwayList(AirportAndRunways airportAndRunways) {
+    private void createRunwayList(AirportAndRunways airportAndRunways) {
       List<Runway> runwaysList = airportAndRunways.getRunway();
       String[] runways = new String[runwaysList.size()];
       for (int i = 0; i < runwaysList.size(); i++) {
@@ -305,6 +304,7 @@ public class PerformanceFragment extends Fragment {
           break;
         }
         int runwayIdent = Integer.parseInt(runway.substring(0, 2) + "0");
+        // TODO Constants...
         runwayIdent =
             ((runwayIdent + 180) > 360) ? (runwayIdent + 180) % 360 / 10 : (runwayIdent + 180) / 10;
         if (runway.length() > 2) {
@@ -324,11 +324,16 @@ public class PerformanceFragment extends Fragment {
             + " - Length: " + airportAndRunways.getRunway().get(i).getLength()
             + " - Width: " + airportAndRunways.getRunway().get(i).getWidth();
       }
-      return runways;
+      ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+          android.R.layout.simple_list_item_1, runways);
+      runwayList.setAdapter(adapter);
     }
 
   }
 
+  /*
+   * This AsyncTask saves the weather data and takeoff information to the database.
+   */
   private class SaveDataTask extends AsyncTask<Void, Void, Void> {
 
     @Override
@@ -354,6 +359,9 @@ public class PerformanceFragment extends Fragment {
     }
   }
 
+  /*
+   * This AsyncTask is used to query the database for saved TOLD and display it to the user.
+   */
   private class GetSavedDataTask extends AsyncTask<Void, Void, SavedTakeoffData> {
 
     @Override

@@ -1,7 +1,6 @@
 package com.toldcalculator.android.tc;
 
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.SavedDataFragment;
 import com.toldcalculator.android.tc.controller.SettingsFragment;
@@ -20,8 +20,8 @@ import com.toldcalculator.android.tc.controller.WeatherFragment;
 import com.toldcalculator.android.tc.model.db.ToldData;
 
 /**
- * This is the main activity that holds all fragments. Starts by launching the landing page {@link NewFlightFragment}.
- * Also contains navigation draw code.
+ * This is the main activity that holds all fragments. Starts by launching the landing page
+ * {@link NewFlightFragment}. Also contains navigation draw code.
  */
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
 
     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-    Editor editor = sharedPreferences.edit();
 
     airportIdent = sharedPreferences.getString(BundleConstants.AIRPORT_IDENT_KEY, null);
     aircraftName = sharedPreferences.getString(BundleConstants.AIRCRAFT_NAME_KEY, null);

@@ -1,7 +1,10 @@
 package com.toldcalculator.android.tc.controller;
 
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,8 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.R;
+import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 import com.toldcalculator.android.tc.model.pojo.UserInfo;
@@ -39,25 +42,31 @@ public class NewFlightFragment extends Fragment {
   private String airportIdent;
   private long userId;
 
+  private static final String DEFAULT_AIRPORT = "KABQ";
+  private static final String SHARED_PREF_NAME = "ToldCalculator";
   private static final String NO_PROFILE_SELECTED = "No profile selected.";
   private static final String INVALID_IDENTIFIER = "Identifer must be 3 or 4 characters. (KABQ, E95)";
-  public NewFlightFragment() {
-    // Required empty public constructor
-  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_new_flight, container, false);
     setupUI(view);
     return view;
   }
 
   private void setupUI(View view) {
-    aircraftSpinner = (Spinner) view.findViewById(R.id.aircraft_profiles);
-    airportText = (EditText) view.findViewById(R.id.airport_text);
-    nextButton = (Button) view.findViewById(R.id.next_button);
+    aircraftSpinner = view.findViewById(R.id.aircraft_profiles);
+    airportText = view.findViewById(R.id.airport_text);
+    nextButton = view.findViewById(R.id.next_button);
+    SharedPreferences sharedPreferences = getContext().getApplicationContext()
+        .getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+    String airportIdent = sharedPreferences.getString(BundleConstants.AIRPORT_IDENT_KEY, null);
+    if (airportIdent == null) {
+      airportIdent = DEFAULT_AIRPORT;
+    }
+    airportText.setText(airportIdent);
+
     nextButtonSetup();
     new SetupTask().execute();
   }
@@ -95,6 +104,9 @@ public class NewFlightFragment extends Fragment {
     });
   }
 
+  /*
+   * This AsyncTask queries the database to get the current users information and populate the spinner.
+   */
   private class SetupTask extends AsyncTask<Void, Void, UserInfo> {
 
     @Override
@@ -115,7 +127,6 @@ public class NewFlightFragment extends Fragment {
           adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
           aircraftSpinner.setAdapter(adapter);
         }
-        airportText.setText(userInfo.getAirport().get(0).getIcaoId());
         userId = userInfo.getUser().getId();
       } else {
         new SetupTask().execute();

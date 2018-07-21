@@ -36,19 +36,11 @@ public class WeatherFragment extends Fragment {
   private FloatingActionButton addButton;
   private String weather;
 
-  public WeatherFragment() {
-    // Required empty public constructor
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-
-    //new MetarTask().execute();
-
     View view = inflater.inflate(R.layout.fragment_weather, container, false);
-    recyclerView = (RecyclerView) view.findViewById(R.id.weather_recycler_view);
+    recyclerView = view.findViewById(R.id.weather_recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     addButton = view.findViewById(R.id.add_airport);
@@ -102,57 +94,6 @@ public class WeatherFragment extends Fragment {
     @Override
     public int getItemCount() {
       return weatherList.size();
-    }
-  }
-
-  private class MetarTask extends AsyncTask<Void, Void, MetarResponse> {
-
-    private static final String BASE_URL = "https://www.aviationweather.gov/adds/dataserver_current/";
-    public static final String FAILED_TEXT = "Failed to retrieve weather!";
-    private static final double hoursBeforeNow = 1.25;
-
-    @Override
-    protected MetarResponse doInBackground(Void... voids) {
-      Retrofit retrofit = new Retrofit.Builder()
-          .baseUrl(BASE_URL)
-          .addConverterFactory(SimpleXmlConverterFactory.create())
-          .build();
-
-      MetarService client = retrofit.create(MetarService.class);
-      Response<MetarResponse> response = null;
-
-      {
-        try {
-          response = client.response("KABQ,KDEN,KPHX,KTUS", hoursBeforeNow).execute();
-        } catch (IOException e) {
-          // Do nothing for now.
-        }
-      }
-      return response.body();
-    }
-
-    @Override
-    protected void onPostExecute(MetarResponse metarResponse) {
-      if (metarResponse.getData().size() > 0) {
-        weather = metarResponse.getData().get(1).getRawText();
-        List<Weather> exampleWeather = new ArrayList<>();
-        List<Metar> metars = metarResponse.getData();
-
-        for (Metar metar : metars) {
-          Weather w = new Weather();
-          w.setRawText(metar.getRawText());
-          exampleWeather.add(w);
-        }
-//        for (int i = 0; i < 51; i++) {
-//          Weather w = new Weather();
-//          w.setRawText(weather);
-//          exampleWeather.add(w);
-//        }
-        adapter = new WeatherAdapter(exampleWeather);
-        recyclerView.setAdapter(adapter);
-      } else {
-        Toast.makeText(getActivity(), FAILED_TEXT, Toast.LENGTH_LONG).show();
-      }
     }
   }
 

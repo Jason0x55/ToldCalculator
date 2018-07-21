@@ -6,6 +6,9 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import java.util.Date;
 
+/**
+ * This entity class holds takeoff data, aircraft information, and weather information.
+ */
 @Entity(foreignKeys = @ForeignKey(entity = User.class,
     parentColumns = "id",
     childColumns = "userId"),
@@ -16,13 +19,9 @@ public class SavedTakeoffData {
 
   @PrimaryKey(autoGenerate = true)
   private long id;
-
   private long userId;
-
   private Date timestamp = new Date();
-
   private String aircraftName;
-
   private String airportId;
   private int runwayRequired;
   private float takeoffN1;

@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.R;
+import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.SavedTakeoffData;
 import java.util.ArrayList;
@@ -29,15 +29,9 @@ public class SavedDataFragment extends Fragment {
   private RecyclerView recyclerView;
   private SavedTakeoffDataAdapter adapter;
 
-  public SavedDataFragment() {
-    // Required empty public constructor
-  }
-
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_saved_data, container, false);
     recyclerView = (RecyclerView) view.findViewById(R.id.saved_recycler_view);
     DividerItemDecoration itemDecor = new DividerItemDecoration(getActivity(), LinearLayout.HORIZONTAL);

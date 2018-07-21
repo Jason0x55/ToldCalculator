@@ -13,8 +13,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.R;
+import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 
 /**
  * This {@link Fragment} subclass is used to allow the user to set some settings using shared

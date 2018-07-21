@@ -7,6 +7,10 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * This entity class is used to store user information such as the user name,
+ * default aircraft and airport.
+ */
 @Entity(foreignKeys = {@ForeignKey(entity = Airport.class,
     parentColumns = "id",
     childColumns = "airportId"),

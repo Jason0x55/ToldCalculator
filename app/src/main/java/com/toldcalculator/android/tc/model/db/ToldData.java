@@ -36,6 +36,10 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+/**
+ * This is the database class for Room. It contains methods to get an instance of the database and
+ * a callback to pre populate the database as well.
+ */
 @TypeConverters({DateTimeConverter.class})
 @Database(entities = {Aircraft.class, Airport.class, Runway.class, User.class, Weather.class,
     TakeoffPowerN1.class, TakeoffData.class, SavedTakeoffData.class}, version = 1, exportSchema = true)
@@ -54,6 +58,13 @@ public abstract class ToldData extends RoomDatabase {
   public abstract WeatherDao getWeatherDao();
   public abstract SavedTakeoffDataDao getSavedTakeoffDataDao();
 
+  /**
+   * This static method is used to get a instance of the database, ToldData.
+   * If the instance is null it will create one and calls the callback to pre populate the database
+   * if necessary.
+   * @param context takes the current context.
+   * @return an instance to the database.
+   */
   public static ToldData getInstance(Context context) {
     if (instance == null) {
       instance = Room
@@ -64,6 +75,10 @@ public abstract class ToldData extends RoomDatabase {
     return instance;
   }
 
+  /**
+   * Sets the instance field to null for garbage collection.
+   * @param context takes the current context.
+   */
   public static void forgetInstance(Context context) {
     instance = null;
   }
@@ -84,12 +99,29 @@ public abstract class ToldData extends RoomDatabase {
     @Override
     public void onCreate(@NonNull SupportSQLiteDatabase db) {
       super.onCreate(db);
-      new PrepopulateTask().execute(context); // Call a task to pre-populate database.
+      new PrepopulateTask().execute(context);
     }
 
   }
 
   private static class PrepopulateTask extends AsyncTask<Context, Void, Void> {
+
+    private static final String AIRPORT_NAME_KEY = "NAME";
+    private static final String AIRPORT_ICAO_ID_KEY = "ICAO_ID";
+    private static final String AIRPORT_IDENT_KEY = "IDENT";
+    private static final String AIRPORT_ELEVATION_KEY = "ELEVATION";
+    private static final String AIRPORT_GLOBAL_ID_KEY = "GLOBAL_ID";
+    private static final String AIRPORT_ID_KEY = "AIRPORT_ID";
+    private static final String RUNWAY_WIDTH_KEY = "WIDTH";
+    private static final String RUNWAY_LENGTH_KEY = "LENGTH";
+    private static final String RUNWAY_DESIGNATOR_KEY = "DESIGNATOR";
+    private static final String TAKEOFF_DATA_ALT_KEY = "ALT";
+    private static final String TAKEOFF_DATA_WT_KEY = "WT";
+    private static final String TAKEOFF_DATA_TEMP_KEY = "TEMP";
+    private static final String TAKEOFF_DATA_V1_KEY = "V1";
+    private static final String TAKEOFF_DATA_DIST_KEY = "DIST";
+    private static final String TAKEOFF_DATA_VR_KEY = "VR";
+    private static final String TAKEOFF_DATA_V2_KEY = "V2";
 
     @Override
     protected void onPostExecute(Void aVoid) {
@@ -100,6 +132,7 @@ public abstract class ToldData extends RoomDatabase {
     protected Void doInBackground(Context... contexts) {
       ToldData db = getInstance(contexts[0]);
       // TODO Remove test data / create default user.
+      // Setup a default user, and aircraft.
       //Aircraft
       Aircraft aircraft = new Aircraft();
       aircraft.setAircraftType("LR35A");
@@ -169,21 +202,21 @@ public abstract class ToldData extends RoomDatabase {
       }
 
       for (CSVRecord airportRecord : airportRecords) {
-        airport.setName(airportRecord.get("NAME"));
-        if (airportRecord.get("ICAO_ID").equals("")) {
-          airport.setIcaoId("K" + airportRecord.get("IDENT"));
+        airport.setName(airportRecord.get(AIRPORT_NAME_KEY));
+        if (airportRecord.get(AIRPORT_ICAO_ID_KEY).equals("")) {
+          airport.setIcaoId("K" + airportRecord.get(AIRPORT_IDENT_KEY));
         } else {
-          airport.setIcaoId(airportRecord.get("ICAO_ID"));
+          airport.setIcaoId(airportRecord.get(AIRPORT_ICAO_ID_KEY));
         }
-        airport.setIdent(airportRecord.get("IDENT"));
-        airport.setElevation((int) Double.parseDouble(airportRecord.get("ELEVATION")));
+        airport.setIdent(airportRecord.get(AIRPORT_IDENT_KEY));
+        airport.setElevation((int) Double.parseDouble(airportRecord.get(AIRPORT_ELEVATION_KEY)));
         long airportId = db.getAirportDao().insert(airport);
 
         for (CSVRecord runwayRecord : runwayRecords) {
-          if (airportRecord.get("GLOBAL_ID").equals(runwayRecord.get("AIRPORT_ID"))) {
-            runway.setWidth(Integer.parseInt(runwayRecord.get("WIDTH")));
-            runway.setLength(Integer.parseInt(runwayRecord.get("LENGTH")));
-            runway.setRunwayId(runwayRecord.get("DESIGNATOR"));
+          if (airportRecord.get(AIRPORT_GLOBAL_ID_KEY).equals(runwayRecord.get(AIRPORT_ID_KEY))) {
+            runway.setWidth(Integer.parseInt(runwayRecord.get(RUNWAY_WIDTH_KEY)));
+            runway.setLength(Integer.parseInt(runwayRecord.get(RUNWAY_LENGTH_KEY)));
+            runway.setRunwayId(runwayRecord.get(RUNWAY_DESIGNATOR_KEY));
             runway.setAirportId(airportId);
             db.getRunwayDao().insert(runway);
           }
@@ -205,13 +238,13 @@ public abstract class ToldData extends RoomDatabase {
 
       for (CSVRecord takeDataRecord : takeoffDataRecords) {
         takeoffData.setAircraftId(aircraftId);
-        takeoffData.setAltitude(Integer.parseInt(takeDataRecord.get("ALT")));
-        takeoffData.setWeight(Integer.parseInt(takeDataRecord.get("WT")));
-        takeoffData.setTemperature(Integer.parseInt(takeDataRecord.get("TEMP")));
-        takeoffData.setTakeoffSpeedV1(Integer.parseInt("0" + takeDataRecord.get("V1")));
-        takeoffData.setTakeoffDistance(Integer.parseInt("0" + takeDataRecord.get("DIST")));
-        takeoffData.setTakeoffSpeedVR(Integer.parseInt(takeDataRecord.get("VR")));
-        takeoffData.setTakeoffSpeedV2(Integer.parseInt(takeDataRecord.get("V2")));
+        takeoffData.setAltitude(Integer.parseInt(takeDataRecord.get(TAKEOFF_DATA_ALT_KEY)));
+        takeoffData.setWeight(Integer.parseInt(takeDataRecord.get(TAKEOFF_DATA_WT_KEY)));
+        takeoffData.setTemperature(Integer.parseInt(takeDataRecord.get(TAKEOFF_DATA_TEMP_KEY)));
+        takeoffData.setTakeoffSpeedV1(Integer.parseInt("0" + takeDataRecord.get(TAKEOFF_DATA_V1_KEY)));
+        takeoffData.setTakeoffDistance(Integer.parseInt("0" + takeDataRecord.get(TAKEOFF_DATA_DIST_KEY)));
+        takeoffData.setTakeoffSpeedVR(Integer.parseInt(takeDataRecord.get(TAKEOFF_DATA_VR_KEY)));
+        takeoffData.setTakeoffSpeedV2(Integer.parseInt(takeDataRecord.get(TAKEOFF_DATA_V2_KEY)));
         db.getTakeoffDataDao().insert(takeoffData);
       }
 
@@ -231,7 +264,7 @@ public abstract class ToldData extends RoomDatabase {
 
       for (CSVRecord takePowerRecord : takeoffPowerRecords) {
         takeoffPowerN1.setAircraftId(aircraftId);
-        int temp = Integer.parseInt(takePowerRecord.get("TEMP"));
+        int temp = Integer.parseInt(takePowerRecord.get(TAKEOFF_DATA_TEMP_KEY));
         takeoffPowerN1.setTemperature(temp);
         for (int i  = 0; i <= 10000; i += 1000) {
           takeoffPowerN1.setAltitude(i);
@@ -243,6 +276,10 @@ public abstract class ToldData extends RoomDatabase {
 
   }
 
+  /**
+   * This class is used to convert Date class to a long to be placed in database
+   * and converts long back to Date.
+   */
   public static class DateTimeConverter {
 
     @TypeConverter

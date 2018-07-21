@@ -1,9 +1,16 @@
-package com.toldcalculator.android.tc.controller;
+package com.toldcalculator.android.tc.controller.helpers;
 
 import com.toldcalculator.android.tc.model.entity.TakeoffData;
 import com.toldcalculator.android.tc.model.entity.TakeoffPowerN1;
 import java.util.List;
 
+/**
+ * This class performs all the necessary interpolations to get the takeoff numbers.
+ * Based on aircraft weight, temperature, and elevation it can be necessary to interpolate
+ * between eight different values to get the takeoff distance, V1, VR, V2 speeds.
+ * The takeoff power N1 setting is based off elevation and temperature and it can be
+ * necessary to interpolate between four different values.
+ */
 public class PerformanceCalculations {
   private List<TakeoffData> takeoffDataList;
   private List<TakeoffPowerN1> takeoffPowerN1List;
@@ -32,11 +39,10 @@ public class PerformanceCalculations {
   private static final int LOWALT_LOWTEMP = 3;
 
   /**
-   * This class performs all the necessary interpolations to get the takeoff numbers.
-   * Based on aircraft weight, temperature, and elevation it can be necessary to interpolate
-   * between eight different values to get the takeoff distance, V1, VR, V2 speeds.
-   * The takeoff power N1 setting is based off elevation and temperature and it can be
-   * necessary to interpolate between four different values.
+   * This constructor sets up PerformanceCalculations class and calculates takeoff data
+   * or takeoff power N1 based on the parameters passed. If takeoffPowerN1List is null then
+   * takeoff data calculations are performed. If takeoffDataList is null takeoff power N1 calculations
+   * are performed.
    * @param takeoffDataList list of {@link TakeoffData} results from query.
    * @param takeoffPowerN1List list of {@link TakeoffPowerN1} results from query.
    * @param altitude current airport elevation.
@@ -95,11 +101,16 @@ public class PerformanceCalculations {
     double lowV1;
     double highDistance;
     double lowDistance;
-    //High Alt - High/Low weight - High Temp : Test case values - 123 - 117
+
+    // Initial test values.
+    // altitude = 3500;
+    // temperature = 21;
+    // aircraftWeight = 14500;
+    // High Alt - High/Low weight - High Temp : Test case values - 123 - 117
     highV1 = (takeoffDataList.get(HIGHALT_HIGHWEIGHT_HIGHTEMP).getTakeoffSpeedV1()
         - takeoffDataList.get(HIGHALT_HIGHWEIGHT_LOWTEMP).getTakeoffSpeedV1())
         * weightFactor + takeoffDataList.get(HIGHALT_HIGHWEIGHT_LOWTEMP).getTakeoffSpeedV1();
-    //High Alt - High/Low weight - Low Temp : Test case values - 119 - 113
+    // High Alt - High/Low weight - Low Temp : Test case values - 119 - 113
     lowV1 = (takeoffDataList.get(HIGHALT_LOWWEIGHT_HIGHTEMP).getTakeoffSpeedV1()
         - takeoffDataList.get(HIGHALT_LOWWEIGHT_LOWTEMP).getTakeoffSpeedV1())
         * weightFactor + takeoffDataList.get(HIGHALT_LOWWEIGHT_LOWTEMP).getTakeoffSpeedV1();
@@ -177,7 +188,7 @@ public class PerformanceCalculations {
   }
 
   /**
-   * Simple getter.
+   * Getter that returns the calculated takeoff distance as a string.
    * @return the calculated takeoff distance.
    */
   public String getTakeoffDistance() {
@@ -185,7 +196,7 @@ public class PerformanceCalculations {
   }
 
   /**
-   * Simple getter.
+   * Getter that returns the calculated takeoff speed V1 as a string.
    * @return the calculated takeoff V1 speed.
    */
   public String getTakeoffSpeedV1() {
@@ -193,7 +204,7 @@ public class PerformanceCalculations {
   }
 
   /**
-   * Simple getter.
+   * Getter that returns the calculated takeoff speed V2 as a string.
    * @return the calculated takeoff V2 speed.
    */
   public String getTakeoffSpeedV2() {
@@ -201,7 +212,7 @@ public class PerformanceCalculations {
   }
 
   /**
-   * Simple getter.
+   * Getter that returns the calculated takeoff speed VR as a string.
    * @return the calculated takeoff VR speed.
    */
   public String getTakeoffSpeedVR() {
@@ -209,7 +220,7 @@ public class PerformanceCalculations {
   }
 
   /**
-   * Simple getter.
+   * Getter that returns the calculated takeoff power N1 setting as a string.
    * @return the calculated takeoff power N1 setting.
    */
   public double getTakeoffPowerN1() {

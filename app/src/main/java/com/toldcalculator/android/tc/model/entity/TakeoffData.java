@@ -6,6 +6,9 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * This entity class is used to hold takeoff data based on altitude, weight, and temperature.
+ */
 @Entity(indices = {@Index(value = {"altitude", "weight", "temperature",}, unique = true),
     @Index(value = {"aircraftId"})},
     foreignKeys = @ForeignKey(entity = Aircraft.class,

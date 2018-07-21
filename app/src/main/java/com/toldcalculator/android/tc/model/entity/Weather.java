@@ -7,6 +7,9 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import java.util.Date;
 
+/**
+ * This entity class is used to hold basic metar weather information.
+ */
 @Entity(foreignKeys = @ForeignKey(entity = Airport.class,
     parentColumns = "id",
     childColumns = "airportId"),

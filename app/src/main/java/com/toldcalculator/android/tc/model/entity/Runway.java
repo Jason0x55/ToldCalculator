@@ -6,6 +6,10 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * This entity class holds information about a runway for a specific airport such as the airport id,
+ * runway identifier, length, and width.
+ */
 @Entity(foreignKeys = {@ForeignKey(entity = Airport.class,
     parentColumns = "id",
     childColumns = "airportId")},

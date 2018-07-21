@@ -16,8 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.toldcalculator.android.tc.BundleConstants;
 import com.toldcalculator.android.tc.R;
+import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 
@@ -27,13 +27,13 @@ import com.toldcalculator.android.tc.model.entity.Aircraft;
  */
 public class WeightFragment extends Fragment {
 
+  private static final int MAX_AIRCRAFT_WEIGHT = 18300;
+  private static final int MIN_AIRCRAFT_WEIGHT = 10000;
+  private static final String NOT_A_VAILD_WEIGHT = "Not a vaild weight";
+
   private String airportIdent;
   private String aircraftID;
   private long userId;
-
-  public WeightFragment() {
-    // Required empty public constructor
-  }
 
   private EditText basicEmptyWeight;
   private EditText fuelWeight;
@@ -45,7 +45,6 @@ public class WeightFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_weight, container, false);
 
     Bundle bundle = this.getArguments();
@@ -59,17 +58,18 @@ public class WeightFragment extends Fragment {
   }
 
   private void setupUI(View view) {
-    basicEmptyWeight = (EditText) view.findViewById(R.id.bew_input);
-    fuelWeight = (EditText) view.findViewById(R.id.fuel_input);
-    paxWeight = (EditText) view.findViewById(R.id.pax_input);
-    bagsWeight = (EditText) view.findViewById(R.id.bags_input);
-    totalWeight = (EditText) view.findViewById(R.id.total_input);
-    nextButton = (Button) view.findViewById(R.id.next_button);
+    basicEmptyWeight = view.findViewById(R.id.bew_input);
+    fuelWeight = view.findViewById(R.id.fuel_input);
+    paxWeight = view.findViewById(R.id.pax_input);
+    bagsWeight = view.findViewById(R.id.bags_input);
+    totalWeight = view.findViewById(R.id.total_input);
+    nextButton = view.findViewById(R.id.next_button);
     editTextChangedSetup();
     setupNextButton();
     new SetupTask().execute(getActivity());
   }
 
+  //Setup listeners on the EditTexts to automatically update total.
   private void editTextChangedSetup() {
     basicEmptyWeight.addTextChangedListener(new TextWatcher() {
       @Override
@@ -146,8 +146,8 @@ public class WeightFragment extends Fragment {
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
         int aircraftWeight = Integer.parseInt("0" + totalWeight.getText().toString());
-        if (aircraftWeight > 18300 || aircraftWeight < 10000) {
-          Toast.makeText(getActivity(), "Not a vaild weight", Toast.LENGTH_LONG).show();
+        if (aircraftWeight > MAX_AIRCRAFT_WEIGHT || aircraftWeight < MIN_AIRCRAFT_WEIGHT) {
+          Toast.makeText(getActivity(), NOT_A_VAILD_WEIGHT, Toast.LENGTH_LONG).show();
         } else {
           Bundle bundle = new Bundle();
           bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);

@@ -5,6 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * This entity class holds the basic information about the aircraft such as the name, the
+ * aircraft type, and the aircraft's basic empty weight.
+ */
 @Entity
 public class Aircraft {
 

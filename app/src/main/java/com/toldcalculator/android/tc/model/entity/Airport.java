@@ -5,6 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * This entity class is used to hold basic airport information such as the airport name,
+ * ICAO identifier, and elevation.
+ */
 @Entity
 public class Airport {
 

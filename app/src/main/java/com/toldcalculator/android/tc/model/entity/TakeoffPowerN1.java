@@ -6,7 +6,9 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-//Add foreign key to aircraft
+/**
+ * This entity class hold a single N1 power setting based off temperature and altitude.
+ */
 @Entity(indices = {@Index(value = {"temperature", "altitude"}, unique = true),
     @Index(value = {"aircraftId"})},
     foreignKeys = @ForeignKey(entity = Aircraft.class,
