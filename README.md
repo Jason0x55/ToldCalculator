@@ -1,23 +1,22 @@
-# ToldCalculator
+## ToldCalculator
 
-#### Aims or motivations
+#### Motivation for creating this app.
 
 #### Current state
 
 #### Testing
-Emulator Android API 27
+Emulator Android API 27  
 Orientation locked to portrait
 
 #### 3rd party libraries
-Room?
-Apache commons-csv 1.5
-Retrofit 2.4.0
-Retrofit-SimpleXML 2.2.0
+Retrofit 2.4.0  
+Retrofit-SimpleXML 2.2.0  
+Apache commons-csv 1.5  
 
 #### External services
-Aviation Weather Center Text Data Server (TDS) ver 1.3
-Federal Aviation Administration - AIS Open Data
--csv files (airports/runways)
+Aviation Weather Center Text Data Server (TDS) ver 1.3  
+Federal Aviation Administration - AIS Open Data  
+*csv files (airports/runways)
 
 #### Aesthetic/cosmetic improvements
 
@@ -30,7 +29,7 @@ Federal Aviation Administration - AIS Open Data
 #### Link to Javadoc
 
 #### Links to licenses
-
+[Licenses](docs/markdown/LICENSE.md)
 #### Instructions for building the app
 
 #### Instructions for using the app
