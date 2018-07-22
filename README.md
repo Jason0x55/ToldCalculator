@@ -29,7 +29,7 @@ Federal Aviation Administration - AIS Open Data
 #### Link to Javadoc
 [Javadoc](docs/api/index.html)
 #### Links to licenses
-[Licenses](docs/markdown/LICENSE.md)
+[Licenses](docs/markdown/LICENSES.md)
 #### Instructions for building the app
 [Build Instructions](docs/markdown/BUILD.md)
 #### Instructions for using the app
