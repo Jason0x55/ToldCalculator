@@ -23,13 +23,14 @@ Federal Aviation Administration - AIS Open Data
 #### Functional stretch goals
 
 #### Links to wireframes and user stories
-
+[Wireframe/User stories](docs/Wireframe.pdf)
 #### Links to ERD and DDL
-
+[ERD](docs/ERD.pdf)
 #### Link to Javadoc
-
+[Javadoc](docs/api/index.html)
 #### Links to licenses
 [Licenses](docs/markdown/LICENSE.md)
 #### Instructions for building the app
-
+[Build Instructions](docs/markdown/BUILD.md)
 #### Instructions for using the app
+[User Instructions](docs/markdown/INSTRUCTIONS.md)
