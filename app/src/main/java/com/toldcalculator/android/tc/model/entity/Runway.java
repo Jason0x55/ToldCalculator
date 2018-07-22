@@ -17,61 +17,92 @@ import android.support.annotation.NonNull;
 public class Runway {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @NonNull
-  private long airportId;
+  private Long airportId;
 
   @NonNull
   private String runwayId;
 
   @NonNull
-  private int length;
+  private Integer length;
 
   @NonNull
-  private int width;
+  private Integer width;
 
-  public int getId() {
+  /**
+   * Returns the id of Runway table entry.
+   * @return the id of Runway table entry.
+   */
+  public long getId() {
     return id;
   }
-
-  public void setId(int id) {
+  /**
+   * Sets the id of Runway table entry.
+   * @param id the id of Runway table entry.
+   */
+  public void setId(long id) {
     this.id = id;
   }
-
+  /**
+   * Returns the airport id associated with the runway.
+   * @return the airport id associated with the runway.
+   */
   @NonNull
-  public long getAirportId() {
+  public Long getAirportId() {
     return airportId;
   }
-
-  public void setAirportId(@NonNull long airportId) {
+  /**
+   * Sets the airport id associated with the runway.
+   * @param airportId the airport id associated with the runway.
+   */
+  public void setAirportId(@NonNull Long airportId) {
     this.airportId = airportId;
   }
-
+  /**
+   * Returns the runway identifier.
+   * @return the runway identifier.
+   */
   @NonNull
   public String getRunwayId() {
     return runwayId;
   }
-
+  /**
+   * Sets the runway identifier.
+   * @param runwayId the runway identifier.
+   */
   public void setRunwayId(@NonNull String runwayId) {
     this.runwayId = runwayId;
   }
-
+  /**
+   * Returns the length of the runway in feet.
+   * @return the length of the runway in feet.
+   */
   @NonNull
-  public int getLength() {
+  public Integer getLength() {
     return length;
   }
-
-  public void setLength(@NonNull int length) {
+  /**
+   * Sets the length of the runway. Should be in feet.
+   * @param length the length of the runway in feet.
+   */
+  public void setLength(@NonNull Integer length) {
     this.length = length;
   }
-
+  /**
+   * Returns the width of the runway in feet.
+   * @return the width of the runway in feet.
+   */
   @NonNull
-  public int getWidth() {
+  public Integer getWidth() {
     return width;
   }
-
-  public void setWidth(@NonNull int width) {
+  /**
+   * Sets the width of the runway. Should be in feet.
+   * @param width the width of the runway in feet.
+   */
+  public void setWidth(@NonNull Integer width) {
     this.width = width;
   }
 }

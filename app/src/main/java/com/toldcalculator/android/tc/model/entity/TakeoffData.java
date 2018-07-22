@@ -20,16 +20,16 @@ public class TakeoffData {
   private long id;
 
   @NonNull
-  private long aircraftId;
+  private Long aircraftId;
 
   @NonNull
-  private int altitude;
+  private Integer altitude;
 
   @NonNull
-  private int weight;
+  private Integer weight;
 
   @NonNull
-  private int temperature;
+  private Integer temperature;
 
   private Integer takeoffDistance;
 
@@ -39,78 +39,133 @@ public class TakeoffData {
 
   private Integer takeoffSpeedV2;
 
+  /**
+   * Returns the id of the TakeoffData table entry.
+   * @return the id of the TakeoffData table entry.
+   */
   public long getId() {
     return id;
   }
-
+  /**
+   * Sets the id of the TakeoffData table entry.
+   * @param id the id of the TakeoffData table entry.
+   */
   public void setId(long id) {
     this.id = id;
   }
-
+  /**
+   * Returns the aircraftId associated with the takeoff data.
+   * @return the aircraftId associated with the takeoff data.
+   */
   @NonNull
-  public long getAircraftId() {
+  public Long getAircraftId() {
     return aircraftId;
   }
-
-  public void setAircraftId(@NonNull long aircraftId) {
+  /**
+   * Sets the aircraftId associated with the takeoff data.
+   * @param aircraftId the aircraftId associated with the takeoff data.
+   */
+  public void setAircraftId(@NonNull Long aircraftId) {
     this.aircraftId = aircraftId;
   }
-
+  /**
+   * Returns the altitude in feet.
+   * @return the altitude in feet.
+   */
   @NonNull
-  public int getAltitude() {
+  public Integer getAltitude() {
     return altitude;
   }
-
-  public void setAltitude(@NonNull int altitude) {
+  /**
+   * Sets the altitude in feet.
+   * @param altitude the altitude in feet.
+   */
+  public void setAltitude(@NonNull Integer altitude) {
     this.altitude = altitude;
   }
-
+  /**
+   * Returns the weight in pounds.
+   * @return the weight in pounds.
+   */
   @NonNull
-  public int getWeight() {
+  public Integer getWeight() {
     return weight;
   }
-
-  public void setWeight(@NonNull int weight) {
+  /**
+   * Sets the weight in pounds.
+   * @param weight the weight in pounds.
+   */
+  public void setWeight(@NonNull Integer weight) {
     this.weight = weight;
   }
-
+  /**
+   * Returns the temperature in celsius.
+   * @return the temperature in celsius.
+   */
   @NonNull
-  public int getTemperature() {
+  public Integer getTemperature() {
     return temperature;
   }
-
-  public void setTemperature(@NonNull int temperature) {
+  /**
+   * Sets the temperature in celsius.
+   * @param temperature the temperature in celsius.
+   */
+  public void setTemperature(@NonNull Integer temperature) {
     this.temperature = temperature;
   }
-
+  /**
+   * Returns the takeoff speed V1 in knots.
+   * @return the takeoff speed V1 in knots.
+   */
   public Integer getTakeoffSpeedV1() {
     return takeoffSpeedV1;
   }
-
+  /**
+   * Sets the takeoff speed V1 in knots.
+   * @param takeoffSpeedV1 the takeoff speed V1 in knots.
+   */
   public void setTakeoffSpeedV1(Integer takeoffSpeedV1) {
     this.takeoffSpeedV1 = takeoffSpeedV1;
   }
-
+  /**
+   * Returns the required takeoff distance in feet.
+   * @return the required takeoff distance in feet.
+   */
   public Integer getTakeoffDistance() {
     return takeoffDistance;
   }
-
+  /**
+   * Sets the required takeoff distance. Should be in feet.
+   * @param takeoffDistance the required takeoff distance in feet.
+   */
   public void setTakeoffDistance(Integer takeoffDistance) {
     this.takeoffDistance = takeoffDistance;
   }
-
+  /**
+   * Returns the takeoff speed VR in knots.
+   * @return the takeoff speed VR in knots.
+   */
   public Integer getTakeoffSpeedVR() {
     return takeoffSpeedVR;
   }
-
+  /**
+   * Sets the takeoff speed VR in knots.
+   * @param takeoffSpeedVR the takeoff speed VR in knots.
+   */
   public void setTakeoffSpeedVR(Integer takeoffSpeedVR) {
     this.takeoffSpeedVR = takeoffSpeedVR;
   }
-
+  /**
+   * Returns the takeoff speed V2 in knots.
+   * @return the takeoff speed V2 in knots.
+   */
   public Integer getTakeoffSpeedV2() {
     return takeoffSpeedV2;
   }
-
+  /**
+   * Sets the takeoff speed V2 in knots.
+   * @param takeoffSpeedV2 the takeoff speed V2 in knots.
+   */
   public void setTakeoffSpeedV2(Integer takeoffSpeedV2) {
     this.takeoffSpeedV2 = takeoffSpeedV2;
   }

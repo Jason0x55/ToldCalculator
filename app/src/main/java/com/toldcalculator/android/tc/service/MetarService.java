@@ -5,6 +5,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Interface used by retrofit to retrieve METAR information.
+ */
 public interface MetarService {
 
   @GET("httpparam?datasource=metars&requestType=retrieve&format=xml&mostRecentForEachStation=constraint&=1")

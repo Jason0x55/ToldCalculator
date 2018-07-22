@@ -24,48 +24,79 @@ public class Airport {
   private String ident;
 
   @NonNull
-  private int elevation;
+  private Integer elevation;
 
+  /**
+   * Returns the id to the airport table entry.
+   * @return the id to the airport table entry.
+   */
   public long getId() {
     return id;
   }
-
+  /**
+   *  Sets id of the airport table entry.
+   * @param id id of the airport table entry.
+   */
   public void setId(long id) {
     this.id = id;
   }
-
+  /**
+   * Returns the name of the airport.
+   * @return the name of the airport.
+   */
   @NonNull
   public String getName() {
     return name;
   }
-
+  /**
+   * Sets the name of the airport.
+   * @param name name of the airport.
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
-
+  /**
+   * Returns the ICAO identifier of the airport.
+   * @return the ICAO identifier of the airport.
+   */
   @NonNull
   public String getIcaoId() {
     return icaoId;
   }
-
+  /**
+   * Sets the ICAO identifier of the airport.
+   * @param icaoId the ICAO identifier of the airport.
+   */
   public void setIcaoId(@NonNull String icaoId) {
     this.icaoId = icaoId;
   }
-
+  /**
+   * Returns the identifier of the airport.
+   * @return the identifier of the airport.
+   */
   public String getIdent() {
     return ident;
   }
-
+  /**
+   * Set the identifier of the airport.
+   * @param ident the identifier of the airport.
+   */
   public void setIdent(String ident) {
     this.ident = ident;
   }
-
+  /**
+   * Returns the elevation of the airport in feet.
+   * @return the elevation of the airport in feet.
+   */
   @NonNull
-  public int getElevation() {
+  public Integer getElevation() {
     return elevation;
   }
-
-  public void setElevation(@NonNull int elevation) {
+  /**
+   * Sets the elevation of the airport. Should be in feet.
+   * @param elevation the elevation of the airport in feet.
+   */
+  public void setElevation(@NonNull Integer elevation) {
     this.elevation = elevation;
   }
 
