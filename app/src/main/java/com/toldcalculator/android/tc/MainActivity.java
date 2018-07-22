@@ -26,8 +26,8 @@ import com.toldcalculator.android.tc.model.db.ToldData;
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-  private static final String DEFAULT_AIRPORT = "KBTV";
-  private static final String DEFAULT_AIRCRAFT = "N123AB";
+  private static final String DEFAULT_AIRPORT = "KABQ";
+  private static final String DEFAULT_AIRCRAFT = "N12345";
   private static final String SHARED_PREF_NAME = "ToldCalculator";
 
   private String airportIdent;
