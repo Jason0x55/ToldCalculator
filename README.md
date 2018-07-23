@@ -18,10 +18,10 @@ Orientation locked to portrait mode.
 * [Retrofit 2.4.0](http://square.github.io/retrofit/)  
 * [Retrofit-SimpleXML 2.2.0](http://simple.sourceforge.net/)  
 * [Apache commons-csv 1.5](https://commons.apache.org/proper/commons-csv/)  
-
+* [Stetho](https://facebook.github.io/stetho/)
 #### External services
-* Aviation Weather Center Text Data Server (TDS) ver 1.3  
-* Federal Aviation Administration - AIS Open Data  
+* [Aviation Weather Center Text Data Server (TDS) ver 1.3](https://www.aviationweather.gov/dataserver)    
+* [Federal Aviation Administration - AIS Open Data](https://ais-faa.opendata.arcgis.com/)    
 **csv files (airports/runways)
 
 #### Aesthetic/cosmetic improvements

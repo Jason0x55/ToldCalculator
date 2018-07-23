@@ -12,6 +12,6 @@
 12. Allow IntelliJ to load and import and download any necessary files.  
 
 * If you get an error that 'SDK location not found. Define location with sdk.dir in the local.properties file or with an ANDROID_HOME environment variable'
-* Copy the ‘local.properties’ file from another android project to the root director of the ToldCalculator project. Close the project and reopen it and you should be able to run it
-* If you don't see a Run configuration - Select Run → Edit configurations. Press the green plus sign on the left and selected Android app. Give the configuration a name. On the General tab select app under the Module dropdown list. Press ok and you should be able to run the app.  
+* Copy the ‘local.properties’ file from another android project to the root director of the ToldCalculator project. Close the project and reopen it and you should be able to run it.
+* If you still don't see a Run configuration - Select Run -> Edit configurations. Press the green plus sign on the left of the Run Configurations dialog and select Android app. Give the configuration a name. Then on the General tab select app under the Module dropdown list. Press ok and you should be able to run the app.  
 [Back](../../README.md)

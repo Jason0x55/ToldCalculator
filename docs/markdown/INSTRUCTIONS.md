@@ -1,8 +1,8 @@
 Once the app has loaded you will be presented with the landing page. This is were you select a aircraft profile* and enter the airports four letter ICAO identifier. Some examples being : KABQ, KLAX, KDAL.
 Press the next button and you will be brought to the weight page.
 
-*Currently only one profile is available.
-**Please note, if this is the first time running the app it will take some time for the database to be loaded with the required airport and runway information.
+*Currently only one profile is available.  
+**Please note, if this is the first time running the app it will take some time for the database to be loaded with the required airport and runway information. Once the database is loaded a profile will be available.
 
 The weight page allows you to enter the fuel, passengers, and baggage weight. All weights are assumed to be in pounds. The basic empty weight is loaded from the aircraft profile but can be changed if needed.
 Press next to be brought to the Takeoff Data page.

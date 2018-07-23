@@ -24,5 +24,10 @@ Apache License, Version 2.0
 
 #### Apache Commons CSV 1.5
 Apache License, Version 2.0  
+[Link](https://www.apache.org/licenses/)
+
+#### Stetho
+BSD License
+[Link](https://github.com/facebook/stetho/blob/master/LICENSE)  
 
 [Back](../../README.md)
