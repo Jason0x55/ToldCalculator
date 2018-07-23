@@ -9,9 +9,10 @@
 9. Select 'Import project from external model', select 'Gradle' and click next.
 10. Check 'Use auto-import' and 'Create directories for empty content roots automatically' and select finish.
 11. Select yes to overwrite the project file.
-12. Allow IntelliJ to load and import and download any necessary files.  
+12. Allow IntelliJ to load and import/download any necessary files.  
 
-* If you get an error that 'SDK location not found. Define location with sdk.dir in the local.properties file or with an ANDROID_HOME environment variable'
+* Note when you try to build if you get an error that 'SDK location not found. Define location with sdk.dir in the local.properties file or with an ANDROID_HOME environment variable'
 * Copy the ‘local.properties’ file from another android project to the root director of the ToldCalculator project. Close the project and reopen it and you should be able to run it.
+* You could also create a 'local.properties' file in the root of the ToldCalculator project and add the line without quotes 'sdk.dir=/path/to/android/sdk/' and change the path to your local android sdk.
 * If you still don't see a Run configuration - Select Run -> Edit configurations. Press the green plus sign on the left of the Run Configurations dialog and select Android app. Give the configuration a name. Then on the General tab select app under the Module dropdown list. Press ok and you should be able to run the app.  
 [Back](../../README.md)

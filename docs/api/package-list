@@ -1,0 +1,9 @@
+com.toldcalculator.android.tc
+com.toldcalculator.android.tc.controller
+com.toldcalculator.android.tc.controller.helpers
+com.toldcalculator.android.tc.model
+com.toldcalculator.android.tc.model.dao
+com.toldcalculator.android.tc.model.db
+com.toldcalculator.android.tc.model.entity
+com.toldcalculator.android.tc.model.pojo
+com.toldcalculator.android.tc.service
