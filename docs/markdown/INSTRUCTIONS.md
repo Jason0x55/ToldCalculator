@@ -1,4 +1,4 @@
-Once the app has loaded you will be presented with the landing page. This is were you select a aircraft profile* and enter the airports four letter ICAO identifier. Some examples being : KABQ, KLAX, KDAL.
+Once the app has loaded you will be presented with the landing page. This is were you select a aircraft profile* and enter the airport's four letter ICAO identifier. Some examples being : KABQ, KLAX, KDAL.
 Press the next button and you will be brought to the weight page.
 
 *Currently only one profile is available.  
