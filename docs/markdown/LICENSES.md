@@ -19,7 +19,7 @@ Apache License, Version 2.0
 [Link](http://square.github.io/retrofit/#license)  
 
 #### Simple XML  
-Apache License, Version 2.0 
+Apache License, Version 2.0  
 [Link](https://github.com/ngallagher/simplexml/blob/master/LICENSE.txt)  
 
 #### Apache Commons CSV 1.5
@@ -27,7 +27,7 @@ Apache License, Version 2.0
 [Link](https://www.apache.org/licenses/)
 
 #### Stetho
-BSD License
+BSD License  
 [Link](https://github.com/facebook/stetho/blob/master/LICENSE)  
 
 [Back](../../README.md)
