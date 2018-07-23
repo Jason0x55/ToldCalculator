@@ -14,6 +14,6 @@ On the navigation drawer you have three options :
 * Weather → brings you to a page of saved METAR reports.
 * Saved TOLD data → brings you to page of the saved performance data.
 
-On the action bar the menu there is a settings option that brings the user to a page to set the default airport that will be loaded on the landing page and in the future the default aircraft profile.
+On the action bar the menu there is a settings option that brings the user to a page to set the default airport that will be loaded on the landing page and in the future the default aircraft profile.  
 
 [Back](../../README.md)

@@ -16,13 +16,13 @@ limitations under the License.
 
 #### Retrofit
 Apache License, Version 2.0  
-http://square.github.io/retrofit/#license  
+[Link](http://square.github.io/retrofit/#license)  
 
 #### Simple XML  
 Apache License, Version 2.0 
-https://github.com/ngallagher/simplexml/blob/master/LICENSE.txt  
+[Link](https://github.com/ngallagher/simplexml/blob/master/LICENSE.txt)  
 
 #### Apache Commons CSV 1.5
-Apache License, Version 2.0
+Apache License, Version 2.0  
 
 [Back](../../README.md)

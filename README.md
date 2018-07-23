@@ -1,4 +1,4 @@
-## ToldCalculator
+## Told Calculator
 
 #### Motivation for creating this app
 My motivation for creating this app stems from when I was a medevac pilot.  The time from receiving a call to being airborne is critical and I often thought of ways to shorten that time. I could easily find mobile apps for filing flight plans and viewing weather but performance apps proved more challenging to find.  
@@ -6,13 +6,13 @@ My motivation for creating this app stems from when I was a medevac pilot.  The 
 #### Current state
 I would consider this a bare bones functional prototype that a skilled user could test. The app currently has the basic functionality that I originally envisioned. In most cases it is able to gather weather/airport data and calculate performance numbers. Some unimplemented features include:  
 
-* Allowing the user to manually enter weather information if service in unavailable  
+* Allowing the user to manually enter weather information if service in unavailable.  
 * Better error handling to prevent the app from crashing when data is invalid/unexpected.  
 * The weather page needs  more functionality to really be useful.  
 
 #### Testing
 Android Emulator - Nexus 5X API 27  
-Orientation locked to portrait
+Orientation locked to portrait mode.  
 
 #### 3rd party libraries
 * [Retrofit 2.4.0](http://square.github.io/retrofit/)  
