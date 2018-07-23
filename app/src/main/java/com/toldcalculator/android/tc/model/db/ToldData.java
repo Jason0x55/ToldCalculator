@@ -122,6 +122,7 @@ public abstract class ToldData extends RoomDatabase {
     private static final String TAKEOFF_DATA_DIST_KEY = "DIST";
     private static final String TAKEOFF_DATA_VR_KEY = "VR";
     private static final String TAKEOFF_DATA_V2_KEY = "V2";
+    public static final int HIGHEST_ALTITUDE = 10000;
 
     @Override
     protected void onPostExecute(Void aVoid) {
@@ -141,8 +142,8 @@ public abstract class ToldData extends RoomDatabase {
       long aircraftId = db.getAircraftDao().insert(aircraft);
       //Airport
       Airport airport = new Airport();
-      airport.setName("Jason Airpark");
-      airport.setIcaoId("KRAF");
+      airport.setName("Default Airport");
+      airport.setIcaoId("KDEF");
       airport.setElevation(4444);
       long airportId = db.getAirportDao().insert(airport);
       //Runway
@@ -162,7 +163,7 @@ public abstract class ToldData extends RoomDatabase {
       db.getRunwayDao().insert(runway);
       //User
       User user = new User();
-      user.setName("Jason");
+      user.setName("Default");
       user.setAircraftId(aircraftId);
       user.setAirportId(airportId);
       db.getUserDao().insert(user);
@@ -266,7 +267,7 @@ public abstract class ToldData extends RoomDatabase {
         takeoffPowerN1.setAircraftId(aircraftId);
         int temp = Integer.parseInt(takePowerRecord.get(TAKEOFF_DATA_TEMP_KEY));
         takeoffPowerN1.setTemperature(temp);
-        for (int i  = 0; i <= 10000; i += 1000) {
+        for (int i  = 0; i <= HIGHEST_ALTITUDE; i += 1000) {
           takeoffPowerN1.setAltitude(i);
           takeoffPowerN1.setTakeoffPowerN1(Float.parseFloat("0" + takePowerRecord.get(String.valueOf(i))));
           db.getTakeoffPowerN1Dao().insert(takeoffPowerN1);
