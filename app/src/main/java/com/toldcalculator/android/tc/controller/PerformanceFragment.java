@@ -299,9 +299,13 @@ public class PerformanceFragment extends Fragment {
         char parallelIdentifier = ' ';
         String runway = airportAndRunways.getRunway().get(i).getRunwayId();
         // No runway identifier. Maybe handle this differently.
+        if (runway.length() < 1 || !Character.isDigit(runway.charAt(0))) {
+          runways[i] = runway;
+          continue;
+        }
         if (runway.length() < 2) {
           runways[i] = runway;
-          break;
+          continue;
         }
         int runwayIdent = Integer.parseInt(runway.substring(0, 2) + "0");
         // TODO Constants...
