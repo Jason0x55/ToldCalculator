@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.controller.NewFlightFragment;
 import com.toldcalculator.android.tc.controller.SavedDataFragment;
 import com.toldcalculator.android.tc.controller.SettingsFragment;
@@ -40,8 +39,8 @@ public class MainActivity extends AppCompatActivity
 
     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
-    airportIdent = sharedPreferences.getString(BundleConstants.AIRPORT_IDENT_KEY, null);
-    aircraftName = sharedPreferences.getString(BundleConstants.AIRCRAFT_NAME_KEY, null);
+    airportIdent = sharedPreferences.getString(getString(R.string.airport_ident_key), null);
+    aircraftName = sharedPreferences.getString(getString(R.string.aircraft_name_key), null);
     if (airportIdent == null) {
       airportIdent = DEFAULT_AIRPORT;
     }

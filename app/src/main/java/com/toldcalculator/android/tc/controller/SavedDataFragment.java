@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.toldcalculator.android.tc.R;
-import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.SavedTakeoffData;
 import java.util.ArrayList;
@@ -67,10 +66,10 @@ public class SavedDataFragment extends Fragment {
     @Override
     public void onClick(View v) {
       Bundle bundle = new Bundle();
-      bundle.putLong(BundleConstants.SAVED_ID_KEY, savedTakeoffData.getId());
-      bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, savedTakeoffData.getAirportId());
-      bundle.putInt(BundleConstants.AIRCRAFT_WEIGHT_KEY, savedTakeoffData.getTakeoffWeight());
-      bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, savedTakeoffData.getAircraftName());
+      bundle.putLong(getString(R.string.saved_id_key), savedTakeoffData.getId());
+      bundle.putString(getString(R.string.airport_ident_key), savedTakeoffData.getAirportId());
+      bundle.putInt(getString(R.string.aircraft_weight_key), savedTakeoffData.getTakeoffWeight());
+      bundle.putString(getString(R.string.aircraft_name_key), savedTakeoffData.getAircraftName());
       PerformanceFragment performanceFragment = new PerformanceFragment();
       performanceFragment.setArguments(bundle);
       FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

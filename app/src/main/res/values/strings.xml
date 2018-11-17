@@ -32,4 +32,9 @@
   <string name="new_flight">New Flight</string>
   <string name="weather">Weather</string>
   <string name="saved_told_data">Saved TOLD Data</string>
+  <string name="user_id_key">USER_NAME</string>
+  <string name="airport_ident_key">ICAO_IDENT</string>
+  <string name="aircraft_name_key">AIRCRAFT_NAME</string>
+  <string name="aircraft_weight_key">AIRCRAFT_WT</string>
+  <string name="saved_id_key">SAVED_ID</string>
 </resources>

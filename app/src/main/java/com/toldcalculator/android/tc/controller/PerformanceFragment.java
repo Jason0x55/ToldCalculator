@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.toldcalculator.android.tc.R;
-import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.controller.helpers.PerformanceCalculations;
 import com.toldcalculator.android.tc.model.Metar;
 import com.toldcalculator.android.tc.model.MetarResponse;
@@ -77,14 +76,14 @@ public class PerformanceFragment extends Fragment {
 
     Bundle bundle = this.getArguments();
     if (bundle != null) {
-      savedAirportId = bundle.getLong(BundleConstants.SAVED_ID_KEY, DEFAULT_VALUE);
+      savedAirportId = bundle.getLong(getString(R.string.saved_id_key), DEFAULT_VALUE);
       if (savedAirportId != DEFAULT_VALUE) {
         loadSavedData = true;
       }
-      airportIdent = bundle.getString(BundleConstants.AIRPORT_IDENT_KEY);
-      aircraftWeight = bundle.getInt(BundleConstants.AIRCRAFT_WEIGHT_KEY);
-      aircraftId = bundle.getString(BundleConstants.AIRCRAFT_NAME_KEY);
-      userId = bundle.getLong(BundleConstants.USER_ID_KEY);
+      airportIdent = bundle.getString(getString(R.string.airport_ident_key));
+      aircraftWeight = bundle.getInt(getString(R.string.aircraft_weight_key));
+      aircraftId = bundle.getString(getString(R.string.aircraft_name_key));
+      userId = bundle.getLong(getString(R.string.user_id_key));
     }
     database = ToldData.getInstance(getActivity());
 

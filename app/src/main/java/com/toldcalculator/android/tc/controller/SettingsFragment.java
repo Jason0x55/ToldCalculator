@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.toldcalculator.android.tc.R;
-import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 
 /**
  * This {@link Fragment} subclass is used to allow the user to set some settings using shared
@@ -45,8 +44,8 @@ public class SettingsFragment extends Fragment {
     sharedPreferences = getContext().getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
     editor = sharedPreferences.edit();
 
-    String airportIdent = sharedPreferences.getString(BundleConstants.AIRPORT_IDENT_KEY, null);
-    String aircraftName = sharedPreferences.getString(BundleConstants.AIRCRAFT_NAME_KEY, null);
+    String airportIdent = sharedPreferences.getString(getString(R.string.airport_ident_key), null);
+    String aircraftName = sharedPreferences.getString(getString(R.string.aircraft_name_key), null);
 
     defaultAirport.setText(airportIdent);
 
@@ -60,7 +59,7 @@ public class SettingsFragment extends Fragment {
     saveDefaultsButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        editor.putString(BundleConstants.AIRPORT_IDENT_KEY, defaultAirport.getText().toString());
+        editor.putString(getString(R.string.airport_ident_key), defaultAirport.getText().toString());
         editor.commit();
       }
     });

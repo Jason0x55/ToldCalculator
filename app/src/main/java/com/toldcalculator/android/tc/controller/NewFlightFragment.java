@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.toldcalculator.android.tc.R;
-import com.toldcalculator.android.tc.controller.helpers.BundleConstants;
 import com.toldcalculator.android.tc.model.db.ToldData;
 import com.toldcalculator.android.tc.model.entity.Aircraft;
 import com.toldcalculator.android.tc.model.pojo.UserInfo;
@@ -61,7 +60,7 @@ public class NewFlightFragment extends Fragment {
     nextButton = view.findViewById(R.id.next_button);
     SharedPreferences sharedPreferences = getContext().getApplicationContext()
         .getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-    String airportIdent = sharedPreferences.getString(BundleConstants.AIRPORT_IDENT_KEY, null);
+    String airportIdent = sharedPreferences.getString(getString(R.string.airport_ident_key), null);
     if (airportIdent == null) {
       airportIdent = DEFAULT_AIRPORT;
     }
@@ -88,9 +87,9 @@ public class NewFlightFragment extends Fragment {
           imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
           Bundle bundle = new Bundle();
-          bundle.putString(BundleConstants.AIRPORT_IDENT_KEY, airportIdent);
-          bundle.putString(BundleConstants.AIRCRAFT_NAME_KEY, (String) aircraftSpinner.getSelectedItem());
-          bundle.putLong(BundleConstants.USER_ID_KEY, userId);
+          bundle.putString(getString(R.string.airport_ident_key), airportIdent);
+          bundle.putString(getString(R.string.aircraft_name_key), (String) aircraftSpinner.getSelectedItem());
+          bundle.putLong(getString(R.string.user_id_key), userId);
 
           WeightFragment weightFragment = new WeightFragment();
           weightFragment.setArguments(bundle);
